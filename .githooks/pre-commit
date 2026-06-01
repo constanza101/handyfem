@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+# HandyFEM — pre-commit hook
+# Bloquea el commit si detecta secretos en los archivos que se van a subir.
+# Capa de detección que respalda al .gitignore (que es la capa de prevención).
+#
+# Activación (una vez, tras `git init`):
+#   git config core.hooksPath .githooks
+#
+set -euo pipefail
+
+# Archivos staged: solo añadidos (A), copiados (C) o modificados (M).
+files=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$files" ] && exit 0
+
+# Patrones de secretos reales (ERE — compatible con grep -E en macOS y Linux).
+# - ATATT...   → Atlassian API token (Jira)
+# - AKIA...    → AWS access key id
+# - ghp_/gho_  → GitHub tokens
+# - xox...     → Slack tokens
+# - sk-...     → claves estilo OpenAI/Stripe
+# - PRIVATE KEY→ claves privadas PEM
+patterns='ATATT[A-Za-z0-9_=-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[baprs]-[A-Za-z0-9-]{10,}|sk-[A-Za-z0-9]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----'
+
+found=0
+
+while IFS= read -r f; do
+  [ -n "$f" ] || continue
+  # Contenido tal como quedará en el commit (versión staged del archivo).
+  content=$(git show ":$f" 2>/dev/null || true)
+  [ -n "$content" ] || continue
+
+  # 1) Patrones de tokens conocidos.
+  if printf '%s' "$content" | grep -nEq "$patterns"; then
+    echo "❌ Posible secreto en: $f"
+    printf '%s' "$content" | grep -nE "$patterns" | sed 's/^/     /'
+    found=1
+  fi
+
+  # 2) Campo apiToken con un valor real (distinto del placeholder).
+  hits=$(printf '%s' "$content" \
+    | grep -nE 'apiToken[[:space:]]*[:=][[:space:]]*["'\''][^"'\'' ]{8,}' \
+    | grep -v 'TU_API_TOKEN_AQUI' || true)
+  if [ -n "$hits" ]; then
+    echo "❌ apiToken con valor real en: $f"
+    printf '%s\n' "$hits" | sed 's/^/     /'
+    found=1
+  fi
+done <<< "$files"
+
+if [ "$found" -ne 0 ]; then
+  cat <<'MSG'
+
+🛑 Commit bloqueado: se detectaron posibles secretos en los archivos staged.
+
+Qué hacer:
+  • Quita el secreto del archivo, o
+  • Añade el archivo a .gitignore y haz `git rm --cached <archivo>`.
+
+Si es un falso positivo y estás segura, puedes saltar el hook con:
+  git commit --no-verify
+(úsalo solo si de verdad no hay ningún secreto)
+MSG
+  exit 1
+fi
+
+exit 0

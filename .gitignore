@@ -1,0 +1,15 @@
+# ─────────────────────────────────────────────
+# Secretos — NUNCA commitear
+# ─────────────────────────────────────────────
+# Scripts de Jira: contienen el apiToken de Atlassian
+docs/handyfem-jira-*.js
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# ─────────────────────────────────────────────
+# Sistema operativo
+# ─────────────────────────────────────────────
+.DS_Store
