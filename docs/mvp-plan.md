@@ -1,375 +1,375 @@
 # HandyFEM — MVP Plan & Security Notes
 
-App for tradeswomen (mujeres en oficios — electricistas, fontaneras, carpinteras, soldadoras, mecánicas, técnicas HVAC, construcción, reformas, pintura, instalaciones, mantenimiento).
+App for tradeswomen (women in the skilled trades — electricians, plumbers, carpenters, welders, mechanics, HVAC technicians, construction, renovations, painting, installations, maintenance).
 
-**Status:** Specs completas — en desarrollo activo
+**Status:** Specs complete — in active development
 **Last updated:** 2026-05-29
 
 ---
 
-## 0. Decisiones tomadas — kickoff completado
+## 0. Decisions made — kickoff completed
 
-Las preguntas pendientes de la fase de idea están resueltas:
+The open questions from the idea phase are resolved:
 
-| Pregunta | Decisión |
+| Question | Decision |
 |----------|----------|
-| ¿Qué es HandyFEM? | Marketplace / directorio — clientas encuentran profesionales, contacto directo |
-| ¿Para quién? | Dos lados: tradeswomen (oferta) + clientas que las contratan (demanda) |
-| ¿Geografía inicial? | Barcelona y alrededores → España → LATAM |
-| ¿Monetización? | MVP sin monetización. v2: freemium con visibilidad destacada + formación |
-| ¿Web o móvil? | PWA mobile-first (web responsive que se instala como app) |
-| ¿Idioma? | Castellano en MVP. Multi-idioma en v2 |
-| ¿Roles? | Una cuenta, rol base clienta, activa perfil profesional desde dashboard (Opción C) |
+| What is HandyFEM? | Marketplace / directory — clients find professionals, direct contact |
+| Who is it for? | Two sides: tradeswomen (supply) + clients who hire them (demand) |
+| Initial geography? | Barcelona and surroundings → Spain → LATAM |
+| Monetization? | No monetization in MVP. v2: freemium with featured visibility + training |
+| Web or mobile? | Mobile-first PWA (responsive web that installs as an app) |
+| Language? | Spanish in MVP. Multi-language in v2 |
+| Roles? | One account, base role is client, activates a professional profile from the dashboard (Option C) |
 
 ---
 
-## 1. Filosofía y diferenciación
+## 1. Philosophy and differentiation
 
-Una app para mujeres en oficios **no es una app neutral**. La barra de seguridad y privacidad tiene que ser visiblemente más alta que cualquier marketplace genérico, porque:
+An app for women in the trades **is not a neutral app**. The security and privacy bar has to be visibly higher than any generic marketplace, because:
 
-- Las tradeswomen son una minoría histórica en sus sectores → ya enfrentan acoso laboral real.
-- Una app pública que combine **identidad + oficio + zona + foto** es atractiva para acosadores si no se diseña con cuidado.
-- El diferenciador del producto NO es "Yelp pero rosa" — es **"el espacio digital donde una tradeswoman se siente segura para mostrarse y trabajar"**.
+- Tradeswomen are a historic minority in their sectors → they already face real workplace harassment.
+- A public app that combines **identity + trade + area + photo** is attractive to harassers if it isn't designed carefully.
+- The product's differentiator is NOT "Yelp but pink" — it's **"the digital space where a tradeswoman feels safe to show herself and work"**.
 
-Si la arquitectura no refleja esto, el producto no tiene razón de ser.
+If the architecture doesn't reflect this, the product has no reason to exist.
 
 ---
 
-## 2. OWASP Top 10 aplicado a HandyFEM
+## 2. OWASP Top 10 applied to HandyFEM
 
 ### A01 — Broken Access Control
-- Toda lectura/escritura de datos personales valida **en el backend** que el usuario logueado es el dueño / tiene permiso
-- Nunca confiar en checks del frontend solamente — un atacante salta el frontend
-- IDs de recursos en URLs son UUIDs aleatorios, no autoincrementales (evita ataques de enumeración)
-- Supabase RLS (Row Level Security) habilitado en todas las tablas — nunca una tabla sin política
+- Every read/write of personal data validates **on the backend** that the logged-in user is the owner / has permission
+- Never trust frontend checks alone — an attacker bypasses the frontend
+- Resource IDs in URLs are random UUIDs, not auto-incrementing (prevents enumeration attacks)
+- Supabase RLS (Row Level Security) enabled on every table — never a table without a policy
 
 ### A02 — Cryptographic Failures
-- HTTPS obligatorio en todas las rutas (Vercel lo da automático)
-- Passwords: Supabase Auth usa bcrypt internamente — no rollear auth propia
-- Tokens de sesión: cookies `httpOnly` + `Secure` + `SameSite=Strict` via Supabase + Next.js middleware
-- Datos sensibles en DB (si aplica): encriptados at-rest — Supabase lo gestiona a nivel de infraestructura
+- HTTPS mandatory on all routes (Vercel provides it automatically)
+- Passwords: Supabase Auth uses bcrypt internally — don't roll your own auth
+- Session tokens: `httpOnly` + `Secure` + `SameSite=Strict` cookies via Supabase + Next.js middleware
+- Sensitive data in the DB (if any): encrypted at rest — Supabase handles this at the infrastructure level
 
 ### A03 — Injection
-- Supabase usa prepared statements internamente — nunca concatenar input en queries manuales
-- React escapa automáticamente — nunca usar `dangerouslySetInnerHTML` con input externo
-- Configurar `Content-Security-Policy` header en `next.config.js`
-- Validación de esquema con **zod** en todas las API routes y server actions
+- Supabase uses prepared statements internally — never concatenate input into manual queries
+- React escapes automatically — never use `dangerouslySetInnerHTML` with external input
+- Set a `Content-Security-Policy` header in `next.config.js`
+- Schema validation with **zod** in all API routes and server actions
 
 ### A04 — Insecure Design
-- Sistema de **reviews**: solo después de servicio verificado (status "Completado" en el chat), derecho a réplica de la profesional, moderación habilitada en v2
-- Sistema de **mensajería**: diseñado asumiendo que habrá acoso — reports one-click, escalation rápida
-- **Threat modeling** antes de codear features sensibles (mensajería, reviews, fotos)
+- **Reviews** system: only after a verified service (status "Completed" in the chat), right of reply for the professional, moderation enabled in v2
+- **Messaging** system: designed assuming harassment will happen — one-click reports, fast escalation
+- **Threat modeling** before coding sensitive features (messaging, reviews, photos)
 
 ### A05 — Security Misconfiguration
-- Nada de `console.log` con datos sensibles en producción
-- Stack traces nunca visibles al usuario — error boundaries genéricos en UI
-- Default deny en CORS, en Supabase Storage buckets, en API routes
-- Variables de entorno NUNCA commiteadas — `.env.local` en `.gitignore` desde el día 1
-- Supabase buckets de fotos: privados por defecto, URLs firmadas con expiración
+- No `console.log` with sensitive data in production
+- Stack traces never visible to the user — generic error boundaries in the UI
+- Default deny on CORS, on Supabase Storage buckets, on API routes
+- Environment variables NEVER committed — `.env.local` in `.gitignore` from day one
+- Supabase photo buckets: private by default, signed URLs with expiration
 
 ### A06 — Vulnerable Components
-- `npm audit` en CI antes de cada deploy (GitHub Actions)
-- Dependabot habilitado en GitHub
-- Auditar antes de añadir cualquier dependencia: ¿necesaria? ¿mantenida? ¿qué permisos pide?
+- `npm audit` in CI before every deploy (GitHub Actions)
+- Dependabot enabled on GitHub
+- Audit before adding any dependency: needed? maintained? what permissions does it request?
 
 ### A07 — Identification and Authentication Failures
-- **NO rollear auth propia** — Supabase Auth
-- **2FA obligatorio para profesionales** al activar perfil (no opcional)
-- Rate limiting en login: 5 intentos, después captcha — Supabase lo gestiona + middleware adicional
-- Sesiones máximas 30 días con refresh token
-- Google OAuth para reducir fricción de registro
+- **Don't roll your own auth** — Supabase Auth
+- **2FA mandatory for professionals** when activating their profile (not optional)
+- Rate limiting on login: 5 attempts, then captcha — Supabase handles it + additional middleware
+- Max sessions 30 days with refresh token
+- Google OAuth to reduce signup friction
 
 ### A08 — Software and Data Integrity Failures
-- Subida de archivos: validar tipo MIME en el servidor, no en el cliente. Renombrar archivos al guardar en Supabase Storage
-- Límite de tamaño: 5MB por foto
-- Formatos permitidos: JPG, PNG, WebP únicamente
-- CI/CD: no permitir merge de PRs sin review (branch protection en GitHub)
-- Validación de schema con **zod** antes de cualquier escritura en DB
+- File uploads: validate MIME type on the server, not the client. Rename files when storing in Supabase Storage
+- Size limit: 5MB per photo
+- Allowed formats: JPG, PNG, WebP only
+- CI/CD: don't allow merging PRs without review (branch protection on GitHub)
+- Schema validation with **zod** before any DB write
 
 ### A09 — Security Logging and Monitoring Failures
-- Loguear: logins exitosos/fallidos, cambios de password, reports/blocks, activación de perfil profesional
-- NO loguear: passwords, tokens, contenido de mensajes privados
-- Herramienta: **Better Stack** o **Logtail** (tier gratuito suficiente para MVP)
-- Sentry para error tracking desde el día 1
-- Alertas para: pico de logins fallidos, pico de reports a una misma usuaria
+- Log: successful/failed logins, password changes, reports/blocks, professional profile activation
+- Do NOT log: passwords, tokens, private message content
+- Tool: **Better Stack** or **Logtail** (free tier sufficient for MVP)
+- Sentry for error tracking from day one
+- Alerts for: spikes in failed logins, spikes in reports against the same user
 
 ### A10 — Server-Side Request Forgery (SSRF)
-- Si la app fetches URLs externas (link previews, importar fotos): whitelist de dominios permitidos
-- Bloquear IPs privadas (10.x, 192.168.x, 127.0.0.1)
-- No proxy automático de URLs entregadas por el usuario
+- If the app fetches external URLs (link previews, importing photos): allowlist of permitted domains
+- Block private IPs (10.x, 192.168.x, 127.0.0.1)
+- No automatic proxying of user-supplied URLs
 
 ---
 
-## 3. Privacidad por diseño
+## 3. Privacy by design
 
-### Datos de ubicación
-- **Nunca exponer dirección exacta** de una tradeswoman al público
-- Mostrar: zona / ciudad / radio aproximado
-- Internamente guardar ciudades donde trabaja (array), nunca coordenadas exactas en MVP
-- v2: permitir a la usuaria mover el "centro" de su zona (estilo Strava privacy zones)
+### Location data
+- **Never expose the exact address** of a tradeswoman to the public
+- Show: area / city / approximate radius
+- Internally store the cities where she works (array), never exact coordinates in the MVP
+- v2: let the user move the "center" of her area (Strava privacy-zones style)
 
-### Datos de contacto
-- **Nunca mostrar email/teléfono real** al público
-- Canal principal: mensajería interna de HandyFEM
-- v2: número enmascarado con Twilio Proxy si se añade contacto telefónico
+### Contact data
+- **Never show real email/phone** to the public
+- Primary channel: HandyFEM internal messaging
+- v2: masked number with Twilio Proxy if phone contact is added
 
-### Identidad — qué se muestra al público
-| Dato | Público | Privado |
-|------|---------|---------|
-| Nombre | ✅ (o pseudónimo) | — |
-| Foto de perfil | ✅ (opcional) | — |
-| Especialidad | ✅ | — |
-| Ciudad/zona | ✅ (aproximada) | — |
+### Identity — what is shown to the public
+| Data | Public | Private |
+|------|--------|---------|
+| Name | ✅ (or pseudonym) | — |
+| Profile photo | ✅ (optional) | — |
+| Specialty | ✅ | — |
+| City/area | ✅ (approximate) | — |
 | Portfolio | ✅ | — |
-| Valoraciones | ✅ | — |
-| Email | ❌ | Solo sistema |
-| Teléfono | ❌ | Solo sistema |
-| DNI/docs | ❌ | Solo moderación |
-| Dirección real | ❌ | Nunca se guarda |
-| Fecha nacimiento | ❌ | Opcional, privado |
+| Ratings | ✅ | — |
+| Email | ❌ | System only |
+| Phone | ❌ | System only |
+| ID/docs | ❌ | Moderation only |
+| Real address | ❌ | Never stored |
+| Date of birth | ❌ | Optional, private |
 
-### GDPR / LOPDGDD (España)
-- Política de privacidad detallada y en castellano claro — no legalese
-- Consent flow por cada uso de datos (no un solo "acepto todo")
-- **Right to be forgotten implementado en código**: usuario pide borrado → script real que elimina datos (no solo flag `deleted=true`)
-- Notification de breach al AEPD en 72h — tener proceso documentado
-- Registro de actividades de tratamiento (Art. 30 GDPR)
-- Cookie banner GDPR-friendly — usar Cloudflare Web Analytics o Plausible (privacy-first, sin consent banner)
+### GDPR / LOPDGDD (Spain)
+- Detailed privacy policy in clear Spanish — no legalese
+- Consent flow per data use (not a single "I accept everything")
+- **Right to be forgotten implemented in code**: user requests deletion → a real script that erases data (not just a `deleted=true` flag)
+- Breach notification to the AEPD within 72h — have a documented process
+- Record of processing activities (Art. 30 GDPR)
+- GDPR-friendly cookie banner — use Cloudflare Web Analytics or Plausible (privacy-first, no consent banner)
 
 ### Block / Report
-- **Block**: bidireccional, instantáneo, sin que el bloqueado lo sepa
-- **Report**: one-click, categorizado (acoso, contenido inapropiado, fraude, suplantación)
-- Siempre llega a moderación — en MVP: email a la fundadora. En v2: panel de admin
-- Response time SLA: <24h en MVP
-- Escalation a autoridades si hay amenazas creíbles — tener protocolo escrito
+- **Block**: bidirectional, instant, without the blocked party knowing
+- **Report**: one-click, categorized (harassment, inappropriate content, fraud, impersonation)
+- Always reaches moderation — in MVP: email to the founder. In v2: an admin panel
+- Response time SLA: <24h in MVP
+- Escalation to authorities if there are credible threats — have a written protocol
 
 ---
 
-## 4. Stack — confirmado
+## 4. Stack — confirmed
 
-| Capa | Decisión | Razón |
+| Layer | Decision | Reason |
 |------|----------|-------|
-| Framework | Next.js 14 (App Router) | SSR para SEO del directorio, API routes, Vercel deploy |
-| Backend / DB | Supabase | Auth + PostgreSQL + Realtime + Storage en uno |
-| Estilos | Tailwind CSS | Estándar del mercado, rápido |
-| Componentes | shadcn/ui | Accesible, sin estilos impuestos, código propio |
-| Iconos | Tabler Icons | Libre, completo, consistente |
-| Hosting | Vercel | Deploy automático desde GitHub, HTTPS automático |
-| Email transaccional | Resend + React Email | Gratuito hasta 3.000/mes, emails on-brand |
-| Error tracking | Sentry | Gratis en tier hobby |
-| Logs | Better Stack | Tier gratuito suficiente para MVP |
-| Analytics | Plausible o Cloudflare Web Analytics | Privacy-first, sin consent banner |
-| Validación | zod | Type-safe, integra con React Hook Form |
+| Framework | Next.js 16 (App Router) | SSR for directory SEO, API routes, Vercel deploy |
+| Backend / DB | Supabase | Auth + PostgreSQL + Realtime + Storage in one |
+| Styling | Tailwind CSS | Market standard, fast |
+| Components | shadcn/ui | Accessible, no imposed styles, you own the code |
+| Icons | Tabler Icons | Free, complete, consistent |
+| Hosting | Vercel | Automatic deploy from GitHub, automatic HTTPS |
+| Transactional email | Resend + React Email | Free up to 3,000/month, on-brand emails |
+| Error tracking | Sentry | Free on the hobby tier |
+| Logs | Better Stack | Free tier sufficient for MVP |
+| Analytics | Plausible or Cloudflare Web Analytics | Privacy-first, no consent banner |
+| Validation | zod | Type-safe, integrates with React Hook Form |
 
-**Principios aplicados:**
-- No rollear auth propia — Supabase Auth
-- Vendors con DPA disponible para GDPR
-- Empezar simple, migrar si crece
+**Principles applied:**
+- Don't roll your own auth — Supabase Auth
+- Vendors with a DPA available for GDPR
+- Start simple, migrate if it grows
 
-**Para v2 (no en MVP):**
-- Twilio Proxy para enmascaramiento de teléfono
-- Stripe Connect para pagos
-- ClamAV o servicio gestionado para escaneo de archivos subidos
+**For v2 (not in MVP):**
+- Twilio Proxy for phone masking
+- Stripe Connect for payments
+- ClamAV or a managed service for scanning uploaded files
 
 ---
 
-## 5. MVP scope — confirmado
+## 5. MVP scope — confirmed
 
-### ✅ Entra en MVP v1
+### ✅ In MVP v1
 
-| Feature | Notas |
+| Feature | Notes |
 |---------|-------|
-| Landing page | SSR, SEO, Open Graph general |
-| Sign up / Log in | Email + Google OAuth, verificación de email, 2FA para profesionales |
-| Directorio público | Búsqueda por especialidad + ciudad, filtros, SSR para SEO |
-| Perfil profesional público | URL amigable, Open Graph personalizado por perfil, Schema.org |
-| Dashboard unificado | Role toggle clienta/profesional |
-| Onboarding profesional | 4 pasos, portfolio, ciudades de trabajo |
-| Chat básico | Realtime con Supabase, status de servicio |
-| Block / Report básico | One-click, llega a email de moderación |
-| PWA installability | manifest.json, iconos, splash screen, `next-pwa` |
-| Privacy policy + ToS | En castellano, GDPR-compliant |
-| Emails transaccionales | Verificación, bienvenida, notificación de mensaje nuevo |
+| Landing page | SSR, SEO, general Open Graph |
+| Sign up / Log in | Email + Google OAuth, email verification, 2FA for professionals |
+| Public directory | Search by specialty + city, filters, SSR for SEO |
+| Public professional profile | Friendly URL, custom Open Graph per profile, Schema.org |
+| Unified dashboard | Client/professional role toggle |
+| Professional onboarding | 4 steps, portfolio, cities of work |
+| Basic chat | Realtime with Supabase, service status |
+| Basic Block / Report | One-click, reaches the moderation email |
+| PWA installability | manifest.json, icons, splash screen, `next-pwa` |
+| Privacy policy + ToS | In Spanish, GDPR-compliant |
+| Transactional emails | Verification, welcome, new-message notification |
 
-### ❌ No entra en MVP (v2)
+### ❌ Not in MVP (v2)
 
-| Feature | Razón |
+| Feature | Reason |
 |---------|-------|
-| Admin panel de moderación | Complejidad alta, en MVP modera la fundadora |
-| Pagos in-app | Requiere Stripe Connect + compliance fiscal |
-| Geolocalización / mapa | Privacidad compleja, v1.5 con mapa de resultados |
-| Botón de emergencia | Feature crítica de seguridad — hacerla bien o no hacerla |
-| Notificaciones push | PWA + Supabase Realtime es suficiente para MVP |
-| Multi-idioma | Castellano primero, validar demanda antes |
-| App nativa iOS/Android | Web responsive primero |
-| Videollamadas | No es el canal principal |
-| Comunidad / foros | Después de tener masa crítica de usuarias |
-| Chat grupal | Complejidad de moderación alta |
-| KYC avanzado (documentos) | Verificación básica en MVP, KYC en v2 |
-| Número enmascarado | Twilio Proxy en v2 |
+| Moderation admin panel | High complexity, in MVP the founder moderates |
+| In-app payments | Requires Stripe Connect + tax compliance |
+| Geolocation / map | Complex privacy, v1.5 with a results map |
+| Emergency button | Critical safety feature — do it right or don't do it |
+| Push notifications | PWA + Supabase Realtime is enough for MVP |
+| Multi-language | Spanish first, validate demand first |
+| Native iOS/Android app | Responsive web first |
+| Video calls | Not the primary channel |
+| Community / forums | After reaching a critical mass of users |
+| Group chat | High moderation complexity |
+| Advanced KYC (documents) | Basic verification in MVP, KYC in v2 |
+| Masked number | Twilio Proxy in v2 |
 
 ---
 
-## 6. Features adicionales de alto impacto (v1.5)
+## 6. High-impact additional features (v1.5)
 
-Identificadas durante la planificación — no en MVP pero muy cerca:
+Identified during planning — not in MVP but very close:
 
-- **Open Graph personalizado por perfil** — cada profesional comparte su URL con preview de foto + nombre + especialidad. Cada profesional es embajadora sin esfuerzo
-- **URL amigable por perfil** — `handyfem.com/maria-lopez-electricista-barcelona` — indexable, compartible, presencia digital propia
-- **Schema.org en perfiles** — rich snippets en Google con nombre + valoración + ciudad
-- **Onboarding guiado post-registro** — 3 pasos la primera vez que entras, reduce abandono
-- **Vista de mapa en directorio** — toggle lista / mapa con Mapbox
-- **Toggle de vista en directorio** — lista / grid según preferencia
+- **Custom Open Graph per profile** — each professional shares her URL with a preview of photo + name + specialty. Every professional is an effortless ambassador
+- **Friendly URL per profile** — `handyfem.com/maria-lopez-electricista-barcelona` — indexable, shareable, her own digital presence
+- **Schema.org on profiles** — rich snippets in Google with name + rating + city
+- **Guided post-signup onboarding** — 3 steps the first time you log in, reduces drop-off
+- **Map view in the directory** — list / map toggle with Mapbox
+- **View toggle in the directory** — list / grid by preference
 
 ---
 
-## 7. Documentación del proyecto
+## 7. Project documentation
 
-| Archivo | Contenido |
+| File | Content |
 |---------|-----------|
-| `docs/handyfem-specs.md` | Specs completas DS + 7 pantallas MVP |
-| `docs/mvp-plan.md` | Este archivo — seguridad, privacidad, decisiones |
-| `docs/handyfem-claude-code-prompt.md` | Prompt para Claude Code |
+| `docs/handyfem-specs.md` | Full specs: design system + 7 MVP screens |
+| `docs/mvp-plan.md` | This file — security, privacy, decisions |
+| `docs/handyfem-claude-code-prompt.md` | Prompt for Claude Code |
 
 ---
 
-## 8. Setup checklist — antes de escribir código
+## 8. Setup checklist — before writing code
 
-- [ ] Crear repo GitHub con branch protection en `main`
-- [ ] `.gitignore` con `.env.local` desde el día 1
-- [ ] GitHub Actions: `npm audit` + tests en cada PR
-- [ ] Dependabot habilitado
-- [ ] Sentry configurado
-- [ ] Supabase: RLS habilitado en todas las tablas desde el inicio
-- [ ] Supabase Storage: buckets privados por defecto
-- [ ] Vercel: preview branches habilitadas
-- [ ] Dominio configurado con HTTPS automático
-- [ ] `next-pwa` configurado para PWA installability
-- [ ] Resend configurado para emails transaccionales
+- [ ] Create a GitHub repo with branch protection on `main`
+- [ ] `.gitignore` with `.env.local` from day one
+- [ ] GitHub Actions: `npm audit` + tests on every PR
+- [ ] Dependabot enabled
+- [ ] Sentry configured
+- [ ] Supabase: RLS enabled on all tables from the start
+- [ ] Supabase Storage: private buckets by default
+- [ ] Vercel: preview branches enabled
+- [ ] Domain configured with automatic HTTPS
+- [ ] `next-pwa` configured for PWA installability
+- [ ] Resend configured for transactional emails
 
 ---
 
-## 9. Referencias
+## 9. References
 
 - [OWASP Top 10 (2021)](https://owasp.org/Top10/)
 - [PortSwigger Web Security Academy](https://portswigger.net/web-security)
-- [GDPR / AEPD recursos en castellano](https://www.aepd.es/)
+- [GDPR / AEPD resources in Spanish](https://www.aepd.es/)
 - [Supabase RLS docs](https://supabase.com/docs/guides/auth/row-level-security)
 - [next-pwa](https://github.com/shadowwalker/next-pwa)
 - [Resend + React Email](https://resend.com/docs/send-with-nextjs)
 - [Sentry Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
-- Apps de referencia: Brigad (Francia) — KYC y matching, Vinted — mensajería + número enmascarado, Wallapop — block + reporting flows
+- Reference apps: Brigad (France) — KYC and matching, Vinted — messaging + masked number, Wallapop — block + reporting flows
 
 ---
 
-## 10. Identidad, género e inclusión
+## 10. Identity, gender, and inclusion
 
-### Decisión de diseño — sin género como campo obligatorio
+### Design decision — no gender as a required field
 
-HandyFEM no pide género en el registro ni en el perfil. La plataforma atrae a quien tiene que atraer por su nombre, tono y propósito — no por una casilla.
+HandyFEM does not ask for gender at signup or in the profile. The platform attracts who it needs to attract through its name, tone, and purpose — not through a checkbox.
 
-La verificación se hace sobre el **oficio y la experiencia**, no sobre la identidad de género. Esto resuelve el problema de personas trans sin convertirlo en un tema — simplemente no es un tema.
+Verification is done on **trade and experience**, not on gender identity. This resolves the issue for trans people without turning it into a topic — it simply isn't a topic.
 
-### Campos de identidad en el perfil
+### Identity fields in the profile
 
-| Campo | Obligatorio | Notas |
+| Field | Required | Notes |
 |-------|-------------|-------|
-| Nombre profesional | ✅ | El nombre que usa en su trabajo — no tiene que ser el legal |
-| Pronombres | ❌ opcional | ella/él/elle y texto libre |
-| Foto de perfil | ❌ opcional | Nunca obligatoria |
-| Especialidad | ✅ | El oficio, no la persona |
+| Professional name | ✅ | The name she uses in her work — doesn't have to be her legal name |
+| Pronouns | ❌ optional | she/he/they and free text |
+| Profile photo | ❌ optional | Never required |
+| Specialty | ✅ | The trade, not the person |
 
-### Marco legal
+### Legal framework
 
-No excluimos formalmente a nadie. El nombre, el tono y el propósito de HandyFEM determinan quién se apunta — igual que AllWomen Tech, que es una empresa para mujeres sin prohibir la entrada a hombres. Antes del lanzamiento público hay que revisar con asesoría legal cómo articular esto en los ToS.
-
----
-
-## 11. Seguridad real vs seguridad prometida
-
-### Lo que HandyFEM NO promete en el MVP
-
-HandyFEM **no garantiza la seguridad física** de las profesionales. No hay botón de emergencia, no hay geolocalización en tiempo real, no hay protocolo de respuesta ante incidentes físicos.
-
-Prometlo que no existe es más peligroso que no tenerlo.
-
-### Lo que HandyFEM SÍ ofrece desde el MVP
-
-**Herramientas de decisión informada:**
-- Historial de la clienta visible para la profesional antes de aceptar un trabajo — cuántos servicios ha contratado, valoraciones de profesionales anteriores
-- Perfiles verificados — la clienta es quien dice ser
-- Sistema de block/report one-click
-
-**Comunidad como mecanismo de seguridad:**
-- Las profesionales pueden avisarse entre sí sobre clientas problemáticas
-- Red de apoyo horizontal — no depende de la plataforma, depende de las personas
-- Espacio para compartir experiencias sin exposición pública
-
-### Geolocalización — decisión explícita
-
-**No se implementa geolocalización en tiempo real en el MVP.** Razón: si algo falla — un bug, una brecha, una feature mal implementada — puede exponer la ubicación exacta de una mujer a alguien que no debería tenerla. El riesgo no es hipotético.
-
-Lo que sí se implementa de forma segura:
-- Ciudades donde trabaja — declaradas por ella, sin coordenadas
-- Zona aproximada en el perfil público — nunca dirección exacta
-
-Geolocalización en tiempo real, modo acompañada y botón de alerta van en v2, cuando la plataforma tenga madurez y comunidad suficiente para sostenerlos bien.
+We don't formally exclude anyone. HandyFEM's name, tone, and purpose determine who signs up — just like AllWomen Tech, a company for women that doesn't ban men from entering. Before the public launch, review with legal counsel how to articulate this in the ToS.
 
 ---
 
-## 12. Go-to-market — estrategia de lanzamiento
+## 11. Real safety vs promised safety
 
-### El problema del marketplace de dos lados
+### What HandyFEM does NOT promise in the MVP
 
-Sin profesionales, las clientas no encuentran lo que buscan y se van. Sin clientas, las profesionales no reciben contactos y se van. Hay que resolver el lado de la oferta primero.
+HandyFEM **does not guarantee the physical safety** of professionals. There is no emergency button, no real-time geolocation, no incident-response protocol for physical events.
 
-### Estrategia de oferta — conseguir las primeras profesionales
+Promising what doesn't exist is more dangerous than not having it.
 
-**Canal principal: FPs y escuelas de oficios**
-- Las FPs son donde están las mujeres formándose en oficios ahora mismo
-- Si HandyFEM llega antes de que terminen el ciclo formativo, las acompañamos desde el inicio
-- Acción concreta: identificar FPs en Barcelona con ciclos de electricidad, fontanería, construcción, y presentar HandyFEM como salida laboral digital
+### What HandyFEM DOES offer from the MVP
 
-**Canal secundario: comunidades ya existentes**
-- Grupos de WhatsApp, Telegram, Instagram de mujeres en oficios en España
-- No empezar desde cero — integrarse en redes que ya existen
-- Comunidades de AllWomen, asociaciones de mujeres autónomas, cooperativas locales
+**Informed-decision tools:**
+- The client's history visible to the professional before accepting a job — how many services she has hired, ratings from previous professionals
+- Verified profiles — the client is who she says she is
+- One-click block/report system
 
-**Canal B2B (a explorar en paralelo):**
-- Empresas de construcción, estudios de arquitectura, cooperativas de mantenimiento que quieren contratar mujeres
-- El argumento de venta es directo: "Aquí encontráis candidatas verificadas"
-- Ciclo de decisión más predecible que el mercado de autónomas
-- Posible antes de tener app — un directorio simple en Notion o Airtable valida la demanda
+**Community as a safety mechanism:**
+- Professionals can warn each other about problematic clients
+- Horizontal support network — it doesn't depend on the platform, it depends on people
+- A space to share experiences without public exposure
 
-### Las primeras 10 profesionales
+### Geolocation — explicit decision
 
-La pregunta más importante antes del lanzamiento: **¿quiénes son las primeras 10 profesionales que van a confiar en HandyFEM?**
+**Real-time geolocation is not implemented in the MVP.** Reason: if something fails — a bug, a breach, a poorly implemented feature — it could expose the exact location of a woman to someone who shouldn't have it. The risk is not hypothetical.
 
-No las primeras 100. Las primeras 10. Identificarlas, hablar con ellas, entender sus miedos y sus necesidades. Son las que validan la plataforma, dejan las primeras valoraciones y recomiendan a otras.
+What is implemented safely:
+- Cities where she works — declared by her, without coordinates
+- Approximate area on the public profile — never the exact address
 
-### Comunicación — tono y posicionamiento
-
-No hacer hincapié en la seguridad como feature principal. No prometer lo que no se puede garantizar.
-
-El mensaje es:
-- **Para profesionales:** "Visibilidad digital que antes no tenías. Una red que te cuida."
-- **Para clientas:** "Encuentra a la profesional que necesitas. Con confianza."
+Real-time geolocation, "accompanied" mode, and an alert button go in v2, when the platform has enough maturity and community to support them well.
 
 ---
 
-## 13. Riesgos identificados y mitigaciones
+## 12. Go-to-market — launch strategy
 
-| Riesgo | Probabilidad | Impacto | Mitigación |
+### The two-sided marketplace problem
+
+Without professionals, clients don't find what they're looking for and leave. Without clients, professionals don't receive contacts and leave. You have to solve the supply side first.
+
+### Supply strategy — getting the first professionals
+
+**Primary channel: vocational schools (FPs) and trade schools**
+- Vocational schools are where women are training in trades right now
+- If HandyFEM reaches them before they finish their program, we accompany them from the start
+- Concrete action: identify vocational schools in Barcelona with electricity, plumbing, and construction programs, and present HandyFEM as a digital career path
+
+**Secondary channel: existing communities**
+- WhatsApp, Telegram, Instagram groups of women in the trades in Spain
+- Don't start from scratch — integrate into networks that already exist
+- AllWomen communities, associations of self-employed women, local cooperatives
+
+**B2B channel (to explore in parallel):**
+- Construction companies, architecture studios, maintenance cooperatives that want to hire women
+- The pitch is direct: "Here you'll find verified candidates"
+- More predictable decision cycle than the freelance market
+- Possible before having an app — a simple Notion or Airtable directory validates demand
+
+### The first 10 professionals
+
+The most important question before launch: **who are the first 10 professionals who will trust HandyFEM?**
+
+Not the first 100. The first 10. Identify them, talk to them, understand their fears and their needs. They are the ones who validate the platform, leave the first ratings, and recommend others.
+
+### Communication — tone and positioning
+
+Don't lead with safety as the main feature. Don't promise what can't be guaranteed.
+
+The message is:
+- **For professionals:** "Digital visibility you didn't have before. A network that looks after you."
+- **For clients:** "Find the professional you need. With confidence."
+
+---
+
+## 13. Identified risks and mitigations
+
+| Risk | Probability | Impact | Mitigation |
 |--------|-------------|---------|------------|
-| Pocas profesionales al lanzar | Alta | Alto | Reclutamiento manual previo al launch, canal FPs |
-| Una profesional sufre una mala experiencia | Media | Muy alto | Block/report desde día 1, comunidad de apoyo, no prometer seguridad que no existe |
-| Burnout de la fundadora | Alta | Alto | MVP pequeño, scope acotado, documentar todo para poder delegar |
-| Marco legal del género | Media | Medio | Asesoría legal antes del lanzamiento público, ToS bien redactados |
-| Plataforma grande copia el modelo | Baja | Medio | La ventaja no es tecnológica — es cultural y comunitaria, difícil de copiar |
-| Poco tráfico orgánico al inicio | Alta | Medio | SEO desde el día 1 (SSR + Schema.org + URLs amigables), contenido en blog/redes |
+| Too few professionals at launch | High | High | Manual recruitment before launch, vocational-school channel |
+| A professional has a bad experience | Medium | Very high | Block/report from day one, support community, don't promise safety that doesn't exist |
+| Founder burnout | High | High | Small MVP, tight scope, document everything to be able to delegate |
+| Legal framework around gender | Medium | Medium | Legal counsel before public launch, well-drafted ToS |
+| A large platform copies the model | Low | Medium | The advantage isn't technological — it's cultural and community-based, hard to copy |
+| Low organic traffic at the start | High | Medium | SEO from day one (SSR + Schema.org + friendly URLs), blog/social content |
 
 ---
 
-## 14. Notas en curso
+## 14. Ongoing notes
 
-*(Espacio para apuntes futuros)*
+*(Space for future notes)*

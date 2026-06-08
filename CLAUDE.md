@@ -1,61 +1,82 @@
-# HandyFEM — Instrucciones para Claude Code
+# HandyFEM — Instructions for Claude Code
 
-App para mujeres en oficios (tradeswomen). Fase: planificación / kickoff.
-Documentación en [docs/](docs/).
+An app for women in the skilled trades (tradeswomen). Phase: early development —
+the project is scaffolded and we're building the design system.
+Documentation lives in [docs/](docs/).
 
-## Cómo trabajar en este proyecto
+## Language
 
-### Tareas hacibles por línea de comandos
-Cuando la usuaria pida algo que se puede resolver por terminal (mover/renombrar
-archivos, `git status`, listar, etc.):
+- **Document everything in English** — all docs, code comments, commit messages,
+  file contents, and file names. English is the default for the entire project.
+- **Reply to me in English**, even when I write in Spanish (or a mix). I may write
+  in Spanish, English, or both at once; that never changes your output language.
 
-1. **Hazlo tú la primera vez** — sin fricción para ella.
-2. **Adjunta el comando equivalente al final de la respuesta**, para que en las
-   siguientes ocasiones lo ejecute ella sin gastar tokens de IA.
+## How to work on this project
 
-La usuaria es consciente del coste de tokens: repetir operaciones mecánicas a
-través del agente desperdicia tokens (se reenvía todo el contexto cada turno),
-mientras que un comando copiable que corre en su terminal cuesta cero.
+### Tasks doable from the command line
+When I ask for something that can be solved in the terminal (moving/renaming
+files, `git status`, listing, etc.):
 
-Las tareas que requieren criterio (revisar código, depurar, decidir
-arquitectura) son distintas: ahí el valor está en el razonamiento, así que
-hazlas directamente.
+1. **Do it yourself the first time** — no friction for me.
+2. **Append the equivalent command at the end of your reply**, so next time I can
+   run it myself without spending AI tokens.
 
-## Secretos
-- Los scripts de Jira (`docs/handyfem-jira-*.js`) leen las credenciales de
-  variables de entorno (`JIRA_EMAIL`, `JIRA_API_TOKEN`) — nunca llevan el token
-  en el código.
-- Las credenciales reales van en `.env.local` (en `.gitignore`, nunca commitear).
-  La plantilla pública es `.env.example`.
-- Ejecutar los scripts desde la raíz del proyecto cargando el `.env.local` de
-  forma nativa (Node 20.6+):
+I'm cost-conscious about tokens: repeating mechanical operations through the
+agent wastes tokens (the full context is re-sent every turn), whereas a
+copy-paste command I run in my own terminal costs nothing.
+
+Tasks that require judgment (reviewing code, debugging, architectural decisions)
+are different — there the value is in the reasoning, so just do them directly.
+
+## Secrets
+- The Jira scripts (`docs/handyfem-jira-*.js`) read credentials from environment
+  variables (`JIRA_EMAIL`, `JIRA_API_TOKEN`) — the token is never written in the code.
+- Real credentials live in `.env.local` (git-ignored, never commit). The public
+  template is `.env.example`.
+- Run the scripts from the project root, loading `.env.local` natively (Node 20.6+):
   `node --env-file=.env.local docs/handyfem-jira-sprints.js`
-- Defensa en capas activa: `.gitignore` (prevención) + hook `.githooks/pre-commit`
-  (detección al commitear). Pendiente: escaneo de secretos en CI antes de deploy.
-- OJO: si se re-descarga un script de Jira, vuelve con el token hardcodeado →
-  hay que re-aplicar la lectura desde `process.env`.
+- Defense in depth is active: `.gitignore` (prevention) + the `.githooks/pre-commit`
+  hook (detection at commit time). Pending: secret scanning in CI before deploy.
+- Heads-up: if a Jira script is re-downloaded, it comes back with the token
+  hardcoded → the `process.env` read has to be re-applied.
 
+## Security — ALWAYS follow these rules
 
-## Seguridad — SIEMPRE seguir estas reglas
+- NEVER write tokens, passwords, API keys, or secrets in the code.
+- NEVER modify or read `.env.local`, `.env`, or any environment-variable file.
+- If you need a sensitive value (token, key, private URL), give me the exact
+  instructions so I add it manually.
+- All secrets go in `.env.local` — never in files that could be committed.
+- If you spot a hardcoded secret in existing code, warn me before touching it.
+- Never print or reproduce a secret in chat or terminal output — ask me, or give
+  me instructions instead.
 
-- NUNCA escribas tokens, passwords, API keys ni secretos en el código
-- NUNCA modifiques ni leas archivos .env.local, .env o cualquier archivo de variables de entorno
-- Si necesitas un dato sensible (token, key, URL privada), dame las instrucciones exactas para que yo lo añada manualmente
-- Todos los secretos van en .env.local — nunca en archivos que puedan ser commiteados
-- Si ves un secreto hardcodeado en el código existente, avísame antes de tocarlo
+## Project context
 
-## Contexto del proyecto
+HandyFEM is a mobile-first PWA marketplace for women in the skilled trades.
+Stack: Next.js 16 + React 19 + Tailwind v4 + shadcn/ui + Supabase + Vercel.
+Full specs: docs/handyfem-specs.md
+Project plan: docs/mvp-plan.md
+Product decisions: docs/product-decisions.md
 
-HandyFEM es una PWA marketplace para mujeres en oficios técnicos.
-Stack: Next.js + Supabase + Tailwind + shadcn/ui + Vercel
-Specs completas en: docs/handyfem-specs.md
-Plan de proyecto en: docs/mvp-plan.md
+⚠️ **Next.js 16 has breaking changes** vs earlier versions (APIs, conventions,
+structure) — newer than typical training knowledge. Before writing Next code,
+consult the docs for THIS version, bundled in the project at
+`node_modules/next/dist/docs/` (01-app, 02-pages, 03-architecture).
+Tailwind v4: config lives in CSS (`@theme` in app/globals.css), not in tailwind.config.
 
-## Convenciones
+## Conventions
 
-- Mobile first — breakpoint único en 768px
-- Tokens de color en globals.css — nunca hardcodear hex en componentes
-- Validación con zod en todas las API routes
-- Accesibilidad: min-height 44px en elementos interactivos, aria-labels, focus rings
-- Siempre @media (hover: hover) para efectos hover
-- Siempre prefers-reduced-motion en animaciones
+- **Styling with Tailwind v4 (utility-first) — confirmed decision.** In HandyFEM,
+  components are styled with Tailwind utility classes directly in the markup
+  (including responsive spacing: `pb-8 md:pb-12`, etc.), backed by shadcn/ui.
+  We do NOT use the Borrissol pattern (scoped CSS + a custom design system in
+  `theme.css`): they're different projects with deliberately different approaches.
+  Here, Tailwind is the choice for UI iteration speed and for shadcn/ui. Tokens
+  (colors, etc.) live in `@theme` inside `app/globals.css`.
+- Mobile first — single breakpoint at 768px.
+- Color tokens in globals.css — never hardcode hex values in components.
+- Validate with zod in every API route.
+- Accessibility: 44px min-height on interactive elements, aria-labels, focus rings.
+- Always `@media (hover: hover)` for hover effects.
+- Always respect `prefers-reduced-motion` in animations.
