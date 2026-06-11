@@ -1,218 +1,215 @@
 # HandyFEM — Product Specs MVP
 
-## Información general
+## General Information
 
-- **Proyecto:** HandyFEM
-- **Tipo:** PWA mobile-first
+- **Project:** HandyFEM
+- **Type:** PWA mobile-first
 - **Stack:** Next.js + Supabase + Tailwind CSS + shadcn/ui
 - **Deploy:** Vercel
-- **Idioma:** Español
-- **Estado:** MVP v1
+- **Language:** Spanish (app UI)
+- **Status:** MVP v1
 
 ---
 
-## Identidad visual
+## Visual Identity
 
-| Token | Valor |
+| Token | Value |
 |-------|-------|
 | Primary (teal) | `#4A7C7D` |
 | Primary light | `#699794` |
 | Accent (violet) | `#776AAA` |
 | Accent dark | `#60569C` |
 | Accent light | `#8D7BB8` |
-| Lavanda | `#D0C2E5` |
+| Lavender | `#D0C2E5` |
 | Amber | `#FCC970` |
-| Cream | `#F4EBD7` |
-| Cream dark | `#F1EDE4` |
-| Background | `#F8F5F0` |
 
 ---
 
-## Roles de usuaria
+## User Roles
 
-- **Rol base:** clienta (se asigna al registrarse)
-- **Rol profesional:** se activa desde el dashboard (Opción C)
-- **Una sola cuenta** puede tener ambos roles
-- **Admin Panel:** fuera del MVP (v2)
+- **Base role:** client (assigned at registration)
+- **Professional role:** activated from the dashboard (Option C)
+- **A single account** can hold both roles
+- **Admin Panel:** out of scope for MVP (v2)
 
 ---
 
-## Pantallas del MVP
+## MVP Screens
 
 1. Landing page
 2. Sign up / Log in
-3. Directorio + filtros
-4. Perfil profesional público
-5. Dashboard con role toggle
-6. Onboarding profesional
-7. Chat básico
+3. Directory + filters
+4. Public professional profile
+5. Dashboard with role toggle
+6. Professional onboarding
+7. Basic chat
 
 ---
 
-## Spec 01 — Landing page
+## Spec 01 — Landing Page
 
-### Objetivo
-Convertir visitantes en usuarias registradas. El CTA principal es el registro.
+### Objective
+Convert visitors into registered users. The primary CTA is registration.
 
-### Usuaria objetivo primaria
-Clienta que busca una profesional de confianza.
+### Primary target user
+A client looking for a trusted professional.
 
-### Usuaria objetivo secundaria
-Profesional que quiere visibilidad y trabajo.
+### Secondary target user
+A professional seeking visibility and work.
 
 ---
 
-### Secciones
+### Sections
 
 #### 1. Navbar
 
-| Elemento | Detalle |
-|----------|---------|
-| Logo | Icono tejado + "Handy" (teal) + "FEM" (violet) |
-| Links | Ocultos en mobile, visible en desktop: "Cómo funciona", "Directorio" |
-| CTA izquierda | "Entrar" — botón secundario → `/login` |
-| CTA derecha | "Registrarse" — botón primario → `/signup` |
-| Comportamiento | Sticky en scroll. Fondo cream con sombra sutil al hacer scroll. |
+| Element | Detail |
+|---------|--------|
+| Logo | Roof icon + "Handy" (teal) + "FEM" (violet) |
+| Links | Hidden on mobile, visible on desktop: "How it works", "Directory" |
+| Left CTA | "Log in" — secondary button → `/login` |
+| Right CTA | "Sign up" — primary button → `/signup` |
+| Behavior | Sticky on scroll. Cream background with subtle shadow when scrolling. |
 
 ---
 
 #### 2. Hero
 
-| Elemento | Detalle |
-|----------|---------|
-| Titular | "La red de mujeres profesionales de oficios." |
-| Subtítulo | "Encuentra electricistas, fontaneras, carpinteras y más. Verificadas, con portfolio real y valoraciones de otras clientas." |
-| CTA primario | "Buscar profesional" → `/directorio` |
-| CTA secundario | "Soy profesional" → `/signup?rol=profesional` |
-| Imagen | Foto hero de mujer profesional en oficios (mobile: vertical, desktop: horizontal) |
-| Fondo | Cream `#F4EBD7` |
+| Element | Detail |
+|---------|--------|
+| Headline | "The network of women trade professionals." |
+| Subtitle | "Find electricians, plumbers, carpenters and more. Verified, with a real portfolio and reviews from other clients." |
+| Primary CTA | "Find a professional" → `/directory` |
+| Secondary CTA | "I'm a professional" → `/signup?rol=profesional` |
+| Image | Hero photo of a woman trade professional (mobile: vertical, desktop: horizontal) |
+| Background | Cream `#F4EBD7` |
 
-**Estados:**
-- Mobile: titular grande, subtítulo, CTAs apilados verticalmente, imagen debajo
-- Desktop: texto a la izquierda, imagen a la derecha
+**States:**
+- Mobile: large headline, subtitle, CTAs stacked vertically, image below
+- Desktop: text on the left, image on the right
 
 ---
 
-#### 3. Cómo funciona
+#### 3. How It Works
 
-| Elemento | Detalle |
-|----------|---------|
-| Título sección | "¿Cómo funciona?" |
-| Subtítulo | Dos tabs o toggle: "Soy clienta" / "Soy profesional" |
-| Tab clienta | 3 pasos: 1. Busca por especialidad y ciudad → 2. Revisa perfiles y valoraciones → 3. Contacta directamente |
-| Tab profesional | 3 pasos: 1. Crea tu perfil con portfolio → 2. Espera la verificación → 3. Recibe contactos de clientas |
-| Iconos | Tabler icons, color teal |
-| Fondo | Blanco `#fff` |
+| Element | Detail |
+|---------|--------|
+| Section title | "How does it work?" |
+| Subtitle | Two tabs or toggle: "I'm a client" / "I'm a professional" |
+| Client tab | 3 steps: 1. Search by specialty and city → 2. Review profiles and ratings → 3. Contact directly |
+| Professional tab | 3 steps: 1. Create your profile with portfolio → 2. Wait for verification → 3. Receive client inquiries |
+| Icons | Tabler icons, teal color |
+| Background | White `#fff` |
 
 ---
 
 #### 4. Features
 
-| Elemento | Detalle |
-|----------|---------|
-| Título sección | "¿Por qué HandyFEM?" |
-| Features | 4 cards en grid 2x2: |
-| Feature 1 | Icono escudo — "Perfiles verificados" — "Todas las profesionales pasan por un proceso de verificación." |
-| Feature 2 | Icono estrella — "Valoraciones reales" — "Reseñas de clientas que han contratado el servicio." |
-| Feature 3 | Icono personas — "Solo mujeres profesionales" — "Una red pensada desde y para mujeres." |
-| Feature 4 | Icono mensaje — "Contacto directo" — "Sin intermediarios. Habla directamente con la profesional." |
-| Fondo | Background `#F8F5F0` |
+| Element | Detail |
+|---------|--------|
+| Section title | "Why HandyFEM?" |
+| Features | 4 cards in a 2×2 grid: |
+| Feature 1 | Shield icon — "Verified profiles" — "All professionals go through a verification process." |
+| Feature 2 | Star icon — "Real reviews" — "Ratings from clients who have hired the service." |
+| Feature 3 | People icon — "Women professionals only" — "A network built by and for women." |
+| Feature 4 | Message icon — "Direct contact" — "No intermediaries. Talk directly to the professional." |
+| Background | Background `#F8F5F0` |
 
 ---
 
-#### 5. Testimonios
+#### 5. Testimonials
 
-| Elemento | Detalle |
-|----------|---------|
-| Título sección | "Lo que dicen de HandyFEM" |
-| Número | 3 testimonios |
-| Contenido | Nombre, avatar con iniciales, especialidad o ciudad, texto de testimonio, valoración en estrellas |
-| Datos | Ficticios para el MVP |
-| Fondo | Cream `#F4EBD7` |
+| Element | Detail |
+|---------|--------|
+| Section title | "What people say about HandyFEM" |
+| Count | 3 testimonials |
+| Content | Name, avatar with initials, specialty or city, testimonial text, star rating |
+| Data | Fictitious for MVP |
+| Background | Cream `#F4EBD7` |
 
 ---
 
-#### 6. CTA final
+#### 6. Final CTA
 
-| Elemento | Detalle |
-|----------|---------|
-| Titular | "Únete a HandyFEM" |
-| Subtítulo | "Tanto si buscas una profesional como si quieres ofrecer tus servicios." |
-| CTA primario | "Crear cuenta gratis" → `/signup` |
-| Fondo | Teal `#4A7C7D`, texto cream |
+| Element | Detail |
+|---------|--------|
+| Headline | "Join HandyFEM" |
+| Subtitle | "Whether you're looking for a professional or want to offer your services." |
+| Primary CTA | "Create a free account" → `/signup` |
+| Background | Teal `#4A7C7D`, cream text |
 
 ---
 
 #### 7. Footer
 
-| Elemento | Detalle |
-|----------|---------|
-| Logo | Versión pequeña |
-| Links | Cómo funciona · Directorio · Sobre nosotras · Contacto |
-| Legal | Política de privacidad · Términos de uso |
+| Element | Detail |
+|---------|--------|
+| Logo | Small version |
+| Links | How it works · Directory · About us · Contact |
+| Legal | Privacy policy · Terms of use |
 | Copyright | © 2026 HandyFEM |
-| Fondo | `#2C2C2A`, texto `#D3D1C7` |
+| Background | `#2C2C2A`, text `#D3D1C7` |
 
 ---
 
-### Estados globales de la página
+### Global Page States
 
-| Estado | Comportamiento |
-|--------|---------------|
-| Usuaria no logueada | Navbar muestra "Entrar" + "Registrarse" |
-| Usuaria logueada | Navbar muestra avatar + "Mi dashboard" en vez de los CTAs de auth |
-| Carga inicial | Skeleton loader en hero image |
-
----
-
-### Notas técnicas
-
-- Página renderizada en servidor (SSR) para SEO
-- Meta tags: título, descripción, og:image para redes sociales
-- La imagen del hero se sirve con `next/image` para optimización automática
-- Los tabs de "Cómo funciona" son client components
-- Totalmente responsive: mobile (390px) → tablet (768px) → desktop (1280px)
+| State | Behavior |
+|-------|----------|
+| Logged-out user | Navbar shows "Log in" + "Sign up" |
+| Logged-in user | Navbar shows avatar + "My dashboard" instead of auth CTAs |
+| Initial load | Skeleton loader in hero image |
 
 ---
 
-*Documento en construcción — se añadirán specs de las pantallas restantes.*
+### Technical Notes
+
+- Page rendered server-side (SSR) for SEO
+- Meta tags: title, description, og:image for social networks
+- Hero image served with `next/image` for automatic optimisation
+- "How it works" tabs are client components
+- Fully responsive: mobile (390px) → tablet (768px) → desktop (1280px)
 
 ---
 
-## Spec 01b — Detalles de interacción y motion
-
-### Filosofía
-Máximo 4 efectos, todos sutiles. La interacción refuerza la experiencia, no compite con el contenido.
+*Document in progress — specs for remaining screens will be added.*
 
 ---
 
-### Navbar pill flotante
+## Spec 01b — Interaction & Motion Details
 
-Basado en el sistema de Borrissol.com, adaptado a HandyFEM.
+### Philosophy
+Maximum 4 effects, all subtle. Interaction reinforces the experience rather than competing with content.
 
-#### Estructura visual
-- Forma: pill flotante centrada (`border-radius: 9999px`)
-- Posición: `position: fixed`, `top: 16px`, centrada horizontalmente
-- Fondo: `backdrop-filter: blur(12px)` + fondo cream semitransparente
-- Borde: `0.5px solid` lavanda `#D0C2E5`
-- Sombra en scroll: `--shadow-nav-scroll`
+---
+
+### Floating Pill Navbar
+
+Based on the Borrissol.com system, adapted for HandyFEM.
+
+#### Visual structure
+- Shape: centred floating pill (`border-radius: 9999px`)
+- Position: `position: fixed`, `top: 16px`, horizontally centred
+- Background: `backdrop-filter: blur(12px)` + semi-transparent cream background
+- Border: `0.5px solid` lavender `#D0C2E5`
+- Shadow on scroll: `--shadow-nav-scroll`
 
 #### Breakpoints
-| Ancho | Layout |
+| Width | Layout |
 |-------|--------|
-| ≥ 768px | Desktop: logo + links + CTAs visibles |
-| ≤ 767px | Mobile: logo + hamburguesa, panel desplegable |
+| ≥ 768px | Desktop: logo + links + CTAs visible |
+| ≤ 767px | Mobile: logo + hamburger, expandable panel |
 
-Sin modo tablet separado — decisión intencional para simplificar mantenimiento.
+No separate tablet breakpoint — intentional decision to simplify maintenance.
 
 #### Scroll shrink
-- 0–80px scrolleados: tamaño 100%, sin sombra
-- 80–420px: achica progresivamente hasta 88%, sombra suave
-- +420px: fijo al 88% con sombra
-- Implementación: `animation-timeline: scroll()` (degradación elegante en Firefox — queda estático al 100%, funcional)
+- 0–80px scrolled: 100% size, no shadow
+- 80–420px: progressively shrinks to 88%, soft shadow
+- +420px: fixed at 88% with shadow
+- Implementation: `animation-timeline: scroll()` (graceful degradation in Firefox — stays static at 100%, functional)
 
-#### Tokens HandyFEM
-| Token | Valor |
+#### HandyFEM Tokens
+| Token | Value |
 |-------|-------|
 | `--color-primary` | `#4A7C7D` |
 | `--color-accent` | `#776AAA` |
@@ -232,329 +229,329 @@ Sin modo tablet separado — decisión intencional para simplificar mantenimient
 | `--font-weight-btn` | `500` |
 | `--letter-spacing-btn` | `0.05em` |
 
-#### Contenido desktop
-- Izquierda: logo (icono tejado + "Handy" teal + "FEM" violet)
-- Centro: links — Directorio · Cómo funciona · Nosotras
-- Derecha: "Entrar" (botón secundario) + "Registrarse" (botón primario pill)
+#### Desktop content
+- Left: logo (roof icon + "Handy" teal + "FEM" violet)
+- Centre: links — Directory · How it works · About us
+- Right: "Log in" (secondary button) + "Sign up" (primary pill button)
 
-#### Contenido mobile
-- Izquierda: logo
-- Derecha: hamburguesa (`min-height: 44px`)
-- Panel desplegable: links apilados + CTAs
+#### Mobile content
+- Left: logo
+- Right: hamburger (`min-height: 44px`)
+- Expandable panel: stacked links + CTAs
 
-#### Comportamiento logueada
-- Avatar circular con iniciales + nombre + "Mi dashboard"
-- Sin "Entrar" ni "Registrarse"
+#### Logged-in behavior
+- Circular avatar with initials + name + "My dashboard"
+- No "Log in" or "Sign up"
 
-#### Accesibilidad
-- `min-height: 44px` en todos los elementos interactivos
-- `aria-label`, `aria-expanded`, `aria-controls`, `aria-haspopup` en hamburguesa
-- `role="dialog"` en menú mobile
-- Cierre con tecla Escape
-- `flex-shrink: 0` en logo, CTAs, hamburguesa
-- `white-space: nowrap` en links
-- Logo con `aria-label`
+#### Accessibility
+- `min-height: 44px` on all interactive elements
+- `aria-label`, `aria-expanded`, `aria-controls`, `aria-haspopup` on hamburger
+- `role="dialog"` on mobile menu
+- Close with Escape key
+- `flex-shrink: 0` on logo, CTAs, hamburger
+- `white-space: nowrap` on links
+- Logo with `aria-label`
 
-#### Soporte y degradación
-| Feature | Soporte | Sin soporte |
-|---------|---------|-------------|
-| `animation-timeline: scroll()` | Chrome/Edge 115+, Safari 26+ | Sin shrink, funcional |
-| `backdrop-filter` | Todos los modernos | Fondo sólido cream, aceptable |
-| `color-mix()` | Todos los modernos 2023+ | Color sólido sin transparencia |
-| `:has()` | Todos los modernos 2023+ | Sin overlay al abrir menú |
-
----
-
-### Efecto 2 — Hero fade + slide up
-
-- Titular, subtítulo y CTAs entran con `opacity: 0 → 1` + `translateY(16px → 0)`
-- Stagger: titular primero, subtítulo 100ms después, CTAs 200ms después
-- Duración: 500ms, `ease-out`
-- Solo se ejecuta una vez al cargar la página
-- Implementación: CSS `@keyframes` + clase que se aplica al montar el componente
+#### Support & degradation
+| Feature | Support | Without support |
+|---------|---------|-----------------|
+| `animation-timeline: scroll()` | Chrome/Edge 115+, Safari 26+ | No shrink, functional |
+| `backdrop-filter` | All modern browsers | Solid cream background, acceptable |
+| `color-mix()` | All modern 2023+ | Solid colour without transparency |
+| `:has()` | All modern 2023+ | No overlay when menu opens |
 
 ---
 
-### Efecto 3 — Hover en cards del directorio
+### Effect 2 — Hero Fade + Slide Up
 
-- `transform: translateY(-2px)` al hacer hover
-- Sombra suave: `0 8px 24px rgba(74,124,125,0.10)`
-- Transición: `--t-normal` (300ms ease)
-- En mobile: sin hover (se activa solo en dispositivos con puntero)
-- Implementación: `@media (hover: hover)` para no aplicar en touch
-
-Badge "Verificada":
-- Punto verde `#4A7C7D` con animación `pulse` en loop
-- `box-shadow` pulsante cada 2s
+- Headline, subtitle and CTAs enter with `opacity: 0 → 1` + `translateY(16px → 0)`
+- Stagger: headline first, subtitle 100ms later, CTAs 200ms later
+- Duration: 500ms, `ease-out`
+- Fires only once on page load
+- Implementation: CSS `@keyframes` + class applied on component mount
 
 ---
 
-### Efecto 4 — Scroll-triggered fade en secciones
+### Effect 3 — Card Hover in Directory
 
-- Secciones: "Cómo funciona", "Features", "Testimonios", CTA final
-- Cada sección entra con `opacity: 0 → 1` + `translateY(24px → 0)` al entrar en viewport
-- Threshold: 20% visible para disparar la animación
-- Duración: 600ms, `ease-out`
-- Implementación: `IntersectionObserver` en un hook reutilizable `useScrollReveal`
-- Degradación: si JS no carga, las secciones son visibles por defecto (`opacity: 1` como fallback en CSS)
+- `transform: translateY(-2px)` on hover
+- Soft shadow: `0 8px 24px rgba(74,124,125,0.10)`
+- Transition: `--t-normal` (300ms ease)
+- Mobile: no hover (activated only on pointer devices)
+- Implementation: `@media (hover: hover)` to avoid applying on touch
 
----
-
-### Lo que NO tiene HandyFEM (decisión intencional)
-
-- Sin parallax
-- Sin cursores personalizados
-- Sin loaders de página pesados
-- Sin animaciones de más de 600ms
-- Sin efectos que interfieran con `prefers-reduced-motion`
-
-Nota: todos los efectos deben respetar `@media (prefers-reduced-motion: reduce)` — si la usuaria lo tiene activado, las animaciones se desactivan completamente.
+Verified badge:
+- Green dot `#4A7C7D` with looping `pulse` animation
+- Pulsing `box-shadow` every 2s
 
 ---
 
-*Documento en construcción — siguiente: Spec 02 Sign up / Log in*
+### Effect 4 — Scroll-Triggered Section Fade
+
+- Sections: "How it works", "Features", "Testimonials", Final CTA
+- Each section enters with `opacity: 0 → 1` + `translateY(24px → 0)` when entering the viewport
+- Threshold: 20% visible to trigger the animation
+- Duration: 600ms, `ease-out`
+- Implementation: `IntersectionObserver` in a reusable `useScrollReveal` hook
+- Degradation: if JS doesn't load, sections are visible by default (`opacity: 1` as CSS fallback)
 
 ---
 
-## Spec DS-01 — Botones
+### What HandyFEM Does NOT Have (intentional decisions)
 
-### Filosofía
-Un solo botón primario visible por pantalla. Los demás son secundarios, ghost o destructivos según el contexto. Nunca dos botones primarios juntos.
+- No parallax
+- No custom cursors
+- No heavy page loaders
+- No animations longer than 600ms
+- No effects that interfere with `prefers-reduced-motion`
+
+Note: all effects must respect `@media (prefers-reduced-motion: reduce)` — if the user has it enabled, animations are completely disabled.
 
 ---
 
-### Variantes
+*Document in progress — next: Spec 02 Sign up / Log in*
 
-#### Primario
-- Fondo: `#4A7C7D` (teal)
-- Texto: `#F4EBD7` (cream)
-- Hover: `#3A6B6C` (teal oscurecido 10%)
-- Active: `scale(0.98)` + teal más oscuro
+---
+
+## Spec DS-01 — Buttons
+
+### Philosophy
+A single primary button visible per screen. All others are secondary, ghost, or destructive depending on context. Never two primary buttons together.
+
+---
+
+### Variants
+
+#### Primary
+- Background: `#4A7C7D` (teal)
+- Text: `#F4EBD7` (cream)
+- Hover: `#3A6B6C` (teal darkened 10%)
+- Active: `scale(0.98)` + darker teal
 - Disabled: `opacity: 0.4`, `cursor: not-allowed`
-- Uso: acción principal de la pantalla — "Buscar profesional", "Registrarse", "Contactar", "Guardar cambios"
+- Use: main screen action — "Find a professional", "Sign up", "Contact", "Save changes"
 
-#### Secundario
-- Fondo: transparente
-- Borde: `1.5px solid #776AAA` (violet)
-- Texto: `#60569C` (violet oscuro)
-- Hover: fondo `#D0C2E520` (lavanda muy suave)
+#### Secondary
+- Background: transparent
+- Border: `1.5px solid #776AAA` (violet)
+- Text: `#60569C` (dark violet)
+- Hover: background `#D0C2E520` (very soft lavender)
 - Active: `scale(0.98)`
 - Disabled: `opacity: 0.4`, `cursor: not-allowed`
-- Uso: acción alternativa — "Entrar", "Ver perfil", "Cancelar"
+- Use: alternative action — "Log in", "View profile", "Cancel"
 
 #### Ghost
-- Fondo: transparente
-- Borde: ninguno
-- Texto: `#4A7C7D` (teal)
-- Hover: fondo `#4A7C7D10`
+- Background: transparent
+- Border: none
+- Text: `#4A7C7D` (teal)
+- Hover: background `#4A7C7D10`
 - Active: `scale(0.98)`
 - Disabled: `opacity: 0.4`, `cursor: not-allowed`
-- Uso: acciones terciarias, contextos con fondo de color — "Ver más", "Volver"
+- Use: tertiary actions, coloured background contexts — "See more", "Back"
 
-#### Destructivo
-- Fondo: transparente
-- Borde: `1.5px solid #E24B4A`
-- Texto: `#A32D2D`
-- Hover: fondo `#FCEBEB`
+#### Destructive
+- Background: transparent
+- Border: `1.5px solid #E24B4A`
+- Text: `#A32D2D`
+- Hover: background `#FCEBEB`
 - Active: `scale(0.98)`
 - Disabled: `opacity: 0.4`, `cursor: not-allowed`
-- Uso: acciones irreversibles — "Eliminar cuenta", "Desactivar perfil"
-- Nota: siempre va acompañado de un dialog de confirmación antes de ejecutar la acción
+- Use: irreversible actions — "Delete account", "Deactivate profile"
+- Note: always accompanied by a confirmation dialog before executing the action
 
 ---
 
-### Tamaños
+### Sizes
 
-| Tamaño | Height | Padding horizontal | Font size | Uso |
-|--------|--------|--------------------|-----------|-----|
-| Large | 48px | 28px | 1rem | CTAs hero, secciones principales |
-| Medium | 40px | 20px | 0.9rem | Cards, formularios, dashboard |
-| Small | 32px | 14px | 0.8rem | Filtros, chips, acciones inline |
+| Size | Height | Horizontal padding | Font size | Use |
+|------|--------|--------------------|-----------|-----|
+| Large | 48px | 28px | 1rem | Hero CTAs, main sections |
+| Medium | 40px | 20px | 0.9rem | Cards, forms, dashboard |
+| Small | 32px | 14px | 0.8rem | Filters, chips, inline actions |
 
 ---
 
-### Propiedades comunes a todas las variantes
+### Common Properties (all variants)
 
-| Propiedad | Valor |
-|-----------|-------|
+| Property | Value |
+|----------|-------|
 | `border-radius` | `8px` (rounded) |
 | `font-weight` | `500` |
 | `letter-spacing` | `0.02em` |
 | `white-space` | `nowrap` |
 | `transition` | `all 150ms ease` |
-| `min-height` | `44px` (Large y Medium) · `32px` (Small, solo desktop) |
+| `min-height` | `44px` (Large and Medium) · `32px` (Small, desktop only) |
 | `min-width` | `44px` |
 | `display` | `inline-flex` |
 | `align-items` | `center` |
-| `gap` | `8px` (para iconos) |
+| `gap` | `8px` (for icons) |
 
 ---
 
-### Estados
+### States
 
-| Estado | Comportamiento |
-|--------|---------------|
-| Default | Estilo base descrito arriba |
-| Hover | Color más oscuro / fondo suave. Solo `@media (hover: hover)` |
-| Active | `scale(0.98)` — feedback táctil inmediato |
-| Focus | `box-shadow: 0 0 0 3px #D0C2E5` — ring de lavanda para accesibilidad teclado |
-| Disabled | `opacity: 0.4`, `cursor: not-allowed`, no interactivo |
-| Loading | Spinner inline izquierda + texto cambia a "Cargando..." + disabled |
-
----
-
-### Con icono
-
-- Icono siempre a la izquierda del texto
-- Tamaño icono: 16px (Small) · 18px (Medium) · 20px (Large)
-- Librería: Tabler Icons (outline)
-- Gap entre icono y texto: `8px`
-- Botón solo icono: width = height (cuadrado), `aria-label` obligatorio
+| State | Behavior |
+|-------|----------|
+| Default | Base style as described above |
+| Hover | Darker colour / soft background. `@media (hover: hover)` only |
+| Active | `scale(0.98)` — immediate tactile feedback |
+| Focus | `box-shadow: 0 0 0 3px #D0C2E5` — lavender ring for keyboard accessibility |
+| Disabled | `opacity: 0.4`, `cursor: not-allowed`, non-interactive |
+| Loading | Inline spinner on the left + text changes to "Loading..." + disabled |
 
 ---
 
-### Ancho
+### With Icon
 
-| Contexto | Ancho |
-|----------|-------|
+- Icon always to the left of the text
+- Icon size: 16px (Small) · 18px (Medium) · 20px (Large)
+- Library: Tabler Icons (outline)
+- Gap between icon and text: `8px`
+- Icon-only button: width = height (square), `aria-label` required
+
+---
+
+### Width
+
+| Context | Width |
+|---------|-------|
 | Inline (navbar, cards) | `fit-content` |
-| Formularios mobile | `width: 100%` |
-| CTAs hero mobile | `width: 100%` |
-| CTAs hero desktop | `fit-content` |
+| Mobile forms | `width: 100%` |
+| Hero CTAs mobile | `width: 100%` |
+| Hero CTAs desktop | `fit-content` |
 
 ---
 
-### Accesibilidad
+### Accessibility
 
-- `min-height: 44px` en Large y Medium — estándar Apple/Material para touch
-- Focus ring visible: `box-shadow: 0 0 0 3px #D0C2E5`
-- Contraste mínimo AA: verificado en primario (cream sobre teal) y destructivo
-- `aria-disabled="true"` en estado disabled (no `disabled` nativo si necesita tooltip)
-- `aria-busy="true"` en estado loading
-- Botones con solo icono: `aria-label` descriptivo obligatorio
+- `min-height: 44px` on Large and Medium — Apple/Material touch standard
+- Visible focus ring: `box-shadow: 0 0 0 3px #D0C2E5`
+- Minimum AA contrast: verified on primary (cream on teal) and destructive
+- `aria-disabled="true"` in disabled state (not native `disabled` if a tooltip is needed)
+- `aria-busy="true"` in loading state
+- Icon-only buttons: descriptive `aria-label` required
 
 ---
 
-### Implementación con shadcn/ui
+### Implementation with shadcn/ui
 
-Base: componente `Button` de shadcn/ui con variantes personalizadas en `buttonVariants` (cva).
+Base: `Button` component from shadcn/ui with custom variants in `buttonVariants` (cva).
 
 ```
 components/
   ui/
-    button.tsx   ← shadcn base + variantes HandyFEM
+    button.tsx   ← shadcn base + HandyFEM variants
 ```
 
-Variantes cva:
+cva variants:
 - `variant`: primary · secondary · ghost · destructive
 - `size`: lg · md · sm
 
 ---
 
-### Notas de uso
+### Usage Notes
 
-- Nunca dos botones primarios juntos en la misma vista
-- El botón destructivo siempre va precedido de un `AlertDialog` de confirmación
-- En mobile, los CTAs principales ocupan ancho completo
-- El estado loading bloquea el doble submit — crítico en formularios de registro y contacto
-- `prefers-reduced-motion`: elimina `scale(0.98)` y transiciones, mantiene cambios de color
-
----
-
-*Siguiente componente: DS-02 Inputs / Formularios*
+- Never two primary buttons together in the same view
+- The destructive button always precedes an `AlertDialog` for confirmation
+- On mobile, primary CTAs take full width
+- Loading state blocks double submit — critical on registration and contact forms
+- `prefers-reduced-motion`: removes `scale(0.98)` and transitions, retains colour changes
 
 ---
 
-## Spec DS-02 — Inputs / Formularios
-
-### Filosofía
-Label siempre visible arriba del input. Placeholder como hint secundario, nunca como sustituto del label. Feedback de error inmediato al perder el foco (onBlur), no al submit.
+*Next component: DS-02 Inputs / Forms*
 
 ---
 
-### Anatomía de un campo
+## Spec DS-02 — Inputs / Forms
+
+### Philosophy
+Label always visible above the input. Placeholder as a secondary hint, never as a label substitute. Immediate error feedback on blur (onBlur), not on submit.
+
+---
+
+### Field anatomy
 
 ```
-Label                    ← siempre visible, 13px, color muted
+Label                    ← always visible, 13px, muted colour
 ┌─────────────────────┐
-│ Placeholder / valor │  ← input, 40px height
+│ Placeholder / value │  ← input, 40px height
 └─────────────────────┘
-Mensaje de error         ← solo visible en estado error, 12px, rojo
+Error message            ← only visible in error state, 12px, red
 ```
 
 ---
 
-### Tipos
+### Types
 
 #### Text
-- Uso: nombre, apellido, ciudad, especialidad libre
+- Use: name, surname, city, free-form specialty
 - Height: 40px
 - Border-radius: 8px
 - Padding: 0 14px
 
 #### Email
-- Uso: registro, login
-- `type="email"` — validación nativa del navegador + validación custom
-- Icono envelope a la derecha (decorativo, `aria-hidden`)
+- Use: registration, login
+- `type="email"` — native browser validation + custom validation
+- Envelope icon on the right (decorative, `aria-hidden`)
 
 #### Password
-- Uso: registro, login
-- Toggle show/hide con icono ojo — `aria-label="Mostrar contraseña"` / `aria-label="Ocultar contraseña"`
-- Nunca mostrar la contraseña en texto plano por más de 3 segundos sin interacción
+- Use: registration, login
+- Show/hide toggle with eye icon — `aria-label="Show password"` / `aria-label="Hide password"`
+- Never display the password in plain text for more than 3 seconds without interaction
 
 #### Textarea
-- Uso: descripción de perfil profesional, mensaje de onboarding
-- Height mínima: 120px
-- Resize: vertical únicamente (`resize: vertical`)
-- Contador de caracteres en la esquina inferior derecha cuando hay límite
+- Use: professional profile description, onboarding message
+- Minimum height: 120px
+- Resize: vertical only (`resize: vertical`)
+- Character counter in the bottom-right corner when there is a limit
 
 #### Select
-- Uso: especialidad, provincia
-- Icono chevron-down a la derecha
-- En mobile: abre el selector nativo del sistema operativo
-- En desktop: dropdown custom con shadcn/ui Select
+- Use: specialty, province
+- Chevron-down icon on the right
+- Mobile: opens the OS native selector
+- Desktop: custom dropdown with shadcn/ui Select
 
 #### Checkbox
-- Uso: aceptar términos y condiciones
-- Tamaño: 20x20px
-- Check color: teal `#4A7C7D`
-- Label clickable (label envuelve el input)
-- `min-height: 44px` para el área táctil completa
+- Use: accept terms and conditions
+- Size: 20×20px
+- Check colour: teal `#4A7C7D`
+- Clickable label (label wraps the input)
+- `min-height: 44px` for the full touch area
 
 #### File upload
-- Uso: foto de perfil, fotos de portfolio
-- Aspecto: zona de drag & drop + botón "Subir foto"
-- Formatos aceptados: JPG, PNG, WebP
-- Tamaño máximo: 5MB por archivo
-- Preview inmediata de la imagen seleccionada
-- En mobile: abre la cámara o galería del sistema
+- Use: profile photo, portfolio photos
+- Appearance: drag & drop zone + "Upload photo" button
+- Accepted formats: JPG, PNG, WebP
+- Maximum size: 5MB per file
+- Immediate preview of the selected image
+- Mobile: opens the system camera or gallery
 
 ---
 
-### Estados
+### States
 
-| Estado | Border | Label color | Fondo |
-|--------|--------|-------------|-------|
+| State | Border | Label colour | Background |
+|-------|--------|--------------|------------|
 | Default | `1.5px solid #D0C2E5` | `#699794` | `#fff` |
 | Focus | `1.5px solid #776AAA` | `#60569C` | `#fff` |
 | Filled | `1.5px solid #D0C2E5` | `#699794` | `#fff` |
 | Error | `1.5px solid #E24B4A` | `#A32D2D` | `#FCEBEB` |
 | Disabled | `1.5px solid #D0C2E5` | `#B4B2A9` | `#F8F5F0` · `cursor: not-allowed` |
-| Success | `1.5px solid #4A7C7D` | `#4A7C7D` | `#fff` · icono check derecha |
+| Success | `1.5px solid #4A7C7D` | `#4A7C7D` | `#fff` · check icon on right |
 
 ---
 
-### Propiedades comunes
+### Common Properties
 
-| Propiedad | Valor |
-|-----------|-------|
+| Property | Value |
+|----------|-------|
 | `border-radius` | `8px` |
 | `font-size` | `0.9rem` |
 | `font-weight` | `400` |
-| `color` (valor) | `#2C2C2A` |
+| `color` (value) | `#2C2C2A` |
 | `color` (placeholder) | `#B4B2A9` |
 | `transition` | `border-color 150ms ease, background 150ms ease` |
-| `width` | `100%` siempre |
+| `width` | `100%` always |
 | `min-height` | `44px` (text, email, password, select) |
 | Label `font-size` | `13px` |
 | Label `font-weight` | `500` |
@@ -570,164 +567,163 @@ Mensaje de error         ← solo visible en estado error, 12px, rojo
 ```css
 box-shadow: 0 0 0 3px #D0C2E550;
 ```
-Lavanda semitransparente — consistente con el focus ring de los botones.
+Semi-transparent lavender — consistent with the button focus ring.
 
 ---
 
-### Validación
+### Validation
 
-| Campo | Regla |
-|-------|-------|
-| Email | Formato válido · obligatorio |
-| Password | Mínimo 8 caracteres · al menos 1 número |
-| Nombre | Mínimo 2 caracteres · solo letras |
-| Descripción profesional | Mínimo 50 caracteres · máximo 500 |
-| Foto | JPG/PNG/WebP · máximo 5MB |
+| Field | Rule |
+|-------|------|
+| Email | Valid format · required |
+| Password | Minimum 8 characters · at least 1 number |
+| Name | Minimum 2 characters · letters only |
+| Professional description | Minimum 50 characters · maximum 500 |
+| Photo | JPG/PNG/WebP · maximum 5MB |
 
-- Validación en cliente: `onBlur` (al salir del campo)
-- Validación en servidor: Supabase + lógica en API route de Next.js
-- Nunca mostrar errores en tiempo real mientras escribe — solo al salir del campo
-
----
-
-### Agrupación en formularios
-
-- Gap entre campos: `16px`
-- Gap entre grupos de campos: `24px`
-- Botón submit siempre al final, ancho completo en mobile
-- Campos obligatorios: asterisco `*` en el label — `aria-required="true"` en el input
-- Nunca más de 6 campos visibles a la vez — si hay más, dividir en pasos
+- Client-side validation: `onBlur` (on leaving the field)
+- Server-side validation: Supabase + logic in Next.js API route
+- Never show errors in real time while typing — only after leaving the field
 
 ---
 
-### Accesibilidad
+### Form grouping
 
-- Cada input tiene su `id` único vinculado al `htmlFor` del label
-- `aria-required="true"` en campos obligatorios
-- `aria-invalid="true"` en estado error
-- `aria-describedby` apunta al mensaje de error cuando existe
-- El mensaje de error tiene `role="alert"` para lectores de pantalla
-- El toggle de password: `aria-pressed` para indicar estado
-- File upload: `aria-label` descriptivo en la zona de drop
+- Gap between fields: `16px`
+- Gap between field groups: `24px`
+- Submit button always at the bottom, full width on mobile
+- Required fields: asterisk `*` in the label — `aria-required="true"` on the input
+- Never more than 6 fields visible at once — if more, split into steps
 
 ---
 
-### Implementación con shadcn/ui
+### Accessibility
+
+- Each input has a unique `id` linked to the label's `htmlFor`
+- `aria-required="true"` on required fields
+- `aria-invalid="true"` in error state
+- `aria-describedby` points to the error message when present
+- Error message has `role="alert"` for screen readers
+- Password toggle: `aria-pressed` to indicate state
+- File upload: descriptive `aria-label` on the drop zone
+
+---
+
+### Implementation with shadcn/ui
 
 ```
 components/
   ui/
-    input.tsx      ← shadcn base + estilos HandyFEM
-    textarea.tsx   ← shadcn base + estilos HandyFEM
-    select.tsx     ← shadcn base + estilos HandyFEM
-    checkbox.tsx   ← shadcn base + estilos HandyFEM
+    input.tsx      ← shadcn base + HandyFEM styles
+    textarea.tsx   ← shadcn base + HandyFEM styles
+    select.tsx     ← shadcn base + HandyFEM styles
+    checkbox.tsx   ← shadcn base + HandyFEM styles
   forms/
     field.tsx      ← wrapper: label + input + error message
-    file-upload.tsx ← componente custom drag & drop
+    file-upload.tsx ← custom drag & drop component
 ```
 
 ---
 
-### Notas de uso
+### Usage Notes
 
-- Usar siempre el wrapper `<Field>` — nunca un input suelto sin label
-- El estado loading del formulario completo: todos los inputs `disabled` + botón submit en loading
-- En mobile, el teclado virtual puede tapar el input activo — usar `scrollIntoView` al hacer focus
-- `prefers-reduced-motion`: elimina transiciones, mantiene cambios de color y border
-
----
-
-*Siguiente componente: DS-03 Cards de profesional*
+- Always use the `<Field>` wrapper — never a standalone input without a label
+- Full-form loading state: all inputs `disabled` + submit button in loading state
+- On mobile, the virtual keyboard may cover the active input — use `scrollIntoView` on focus
+- `prefers-reduced-motion`: removes transitions, retains colour and border changes
 
 ---
 
-## Notas de producto — decisiones pendientes de implementar
+*Next component: DS-03 Professional cards*
 
-### Búsqueda por ubicación
+---
 
-| Versión | Feature |
+## Product Notes — Pending Implementation Decisions
+
+### Location Search
+
+| Version | Feature |
 |---------|---------|
-| MVP | Campo texto "Ciudad o código postal" → filtro por ciudad declarada en perfil |
-| v1.5 | Mapa visual de resultados + toggle lista/mapa (Mapbox o Google Maps) |
-| v2 | "Cerca de mí" con geolocalización real del dispositivo |
+| MVP | Text field "City or postcode" → filter by city declared in profile |
+| v1.5 | Visual map of results + list/map toggle (Mapbox or Google Maps) |
+| v2 | "Near me" with real device geolocation |
 
-**Radio de trabajo (MVP):** al crear su perfil, la profesional indica una o varias ciudades donde trabaja. La búsqueda filtra por cualquiera de esas ciudades. Sin GPS, sin mapa, pero útil desde el día 1.
+**Work radius (MVP):** when creating their profile, the professional specifies one or more cities where they work. The search filters by any of those cities. No GPS, no map, but useful from day one.
 
-→ Añadir al onboarding profesional: campo "¿En qué ciudades ofreces tus servicios?" (select múltiple con ciudades principales de España)
-→ Añadir a la spec del directorio: filtro por ciudad busca en el array de ciudades de trabajo de cada profesional
+→ Add to professional onboarding: field "Which cities do you offer your services in?" (multi-select with main Spanish cities)
+→ Add to directory spec: city filter searches in each professional's work city array
 
 ---
 
-### Layout del directorio
+### Directory Layout
 
-| Versión | Feature |
+| Version | Feature |
 |---------|---------|
-| MVP | Cards horizontales en mobile (foto izquierda, info derecha) · Grid 2 columnas en desktop |
-| v1.5 | Toggle lista / mapa |
-| v2 | Geolocalización "cerca de mí" |
+| MVP | Horizontal cards on mobile (photo left, info right) · 2-column grid on desktop |
+| v1.5 | List / map toggle |
+| v2 | "Near me" geolocation |
 
 ---
 
-### Toggle de vista en directorio
-- No incluir en MVP — coste de diseño y mantenimiento no justificado sin usuarias reales
-- Añadir en v1.5 si las usuarias lo piden
-
-
----
-
-## Spec DS-03 — Cards de profesional
-
-### Filosofía
-La card es el elemento más importante del directorio. Tiene que generar confianza en 3 segundos. Foto, nombre, especialidad, valoración y badge de verificada son los elementos mínimos para lograrlo.
+### Directory View Toggle
+- Not included in MVP — design and maintenance cost not justified without real users
+- Add in v1.5 if users request it
 
 ---
 
-### Variantes
+## Spec DS-03 — Professional Cards
 
-#### Card horizontal (mobile)
-- Layout: foto a la izquierda · info a la derecha
-- Foto: 80x80px, `border-radius: 8px`, `object-fit: cover`
-- Ancho: 100%
-- Height: auto (mínimo 96px)
-
-#### Card vertical (desktop grid)
-- Layout: foto arriba · info abajo
-- Foto: ancho completo, height 180px, `border-radius: 8px 8px 0 0`, `object-fit: cover`
-- Ancho: 100% del grid column
+### Philosophy
+The card is the most important element in the directory. It needs to build trust in 3 seconds. Photo, name, specialty, rating and verified badge are the minimum elements to achieve this.
 
 ---
 
-### Contenido
+### Variants
 
-| Elemento | Detalle |
-|----------|---------|
-| Foto | Avatar de la profesional. Fallback: iniciales en círculo lavanda |
-| Nombre | `font-size: 15px` · `font-weight: 500` · color dark |
-| Especialidad | `font-size: 13px` · color muted teal · icono wrench izquierda |
-| Ubicación | `font-size: 12px` · color muted · icono map-pin izquierda |
-| Valoración | Estrella ámbar + número `font-weight: 500` + nº reseñas muted |
-| Badge verificada | Pill pequeña teal · punto pulsante · "Verificada" |
+#### Horizontal card (mobile)
+- Layout: photo on the left · info on the right
+- Photo: 80×80px, `border-radius: 8px`, `object-fit: cover`
+- Width: 100%
+- Height: auto (minimum 96px)
 
----
-
-### Estados de la card
-
-| Estado | Comportamiento |
-|--------|---------------|
-| Default | Borde lavanda `1.5px solid #D0C2E5` · fondo blanco |
-| Hover (desktop) | `translateY(-2px)` · sombra teal suave · `@media (hover: hover)` |
-| Sin foto | Iniciales en círculo `#D0C2E5` con texto `#60569C` |
-| Sin valoraciones | "Sin valoraciones aún" en gris muted |
-| Perfil incompleto | No aparece en el directorio |
+#### Vertical card (desktop grid)
+- Layout: photo on top · info below
+- Photo: full width, height 180px, `border-radius: 8px 8px 0 0`, `object-fit: cover`
+- Width: 100% of grid column
 
 ---
 
-### Propiedades
+### Content
 
-| Propiedad | Valor |
-|-----------|-------|
+| Element | Detail |
+|---------|--------|
+| Photo | Professional's avatar. Fallback: initials in a lavender circle |
+| Name | `font-size: 15px` · `font-weight: 500` · dark colour |
+| Specialty | `font-size: 13px` · muted teal colour · wrench icon on left |
+| Location | `font-size: 12px` · muted colour · map-pin icon on left |
+| Rating | Amber star + `font-weight: 500` number + muted review count |
+| Verified badge | Small teal pill · pulsing dot · "Verified" |
+
+---
+
+### Card States
+
+| State | Behavior |
+|-------|----------|
+| Default | Lavender border `1.5px solid #D0C2E5` · white background |
+| Hover (desktop) | `translateY(-2px)` · soft teal shadow · `@media (hover: hover)` |
+| No photo | Initials in circle `#D0C2E5` with text `#60569C` |
+| No ratings | "No ratings yet" in muted grey |
+| Incomplete profile | Does not appear in the directory |
+
+---
+
+### Properties
+
+| Property | Value |
+|----------|-------|
 | `border-radius` | `12px` |
-| `border` | `1.5px solid #E0DDD6` (gris neutro) |
+| `border` | `1.5px solid #E0DDD6` (neutral grey) |
 | `background` | `#fff` |
 | `padding` | `12px` (horizontal) · `16px` (vertical desktop) |
 | `transition` | `transform 300ms ease, box-shadow 300ms ease` |
@@ -737,34 +733,34 @@ La card es el elemento más importante del directorio. Tiene que generar confian
 
 ---
 
-### Badge verificada
+### Verified Badge
 
-- Fondo: `#E1F5EE` (teal muy claro)
-- Texto: `#0F6E56` · `font-size: 11px` · `font-weight: 500`
-- Punto pulsante: `6px` · `background: #4A7C7D` · animación `pulse` 2s loop
+- Background: `#E1F5EE` (very light teal)
+- Text: `#0F6E56` · `font-size: 11px` · `font-weight: 500`
+- Pulsing dot: `6px` · `background: #4A7C7D` · `pulse` animation 2s loop
 - `border-radius: 9999px`
 - Padding: `3px 8px`
 
 ---
 
-### Accesibilidad
+### Accessibility
 
-- La card entera es clickable → `role="article"` + `tabIndex={0}`
-- `aria-label="Ver perfil de {nombre}, {especialidad}"` en el wrapper
-- Foto con `alt="{nombre}, {especialidad}"`
-- Badge verificada con `aria-label="Perfil verificado"`
-- Valoración con `aria-label="{n} estrellas, {n} reseñas"`
+- The entire card is clickable → `role="article"` + `tabIndex={0}`
+- `aria-label="View profile of {name}, {specialty}"` on the wrapper
+- Photo with `alt="{name}, {specialty}"`
+- Verified badge with `aria-label="Verified profile"`
+- Rating with `aria-label="{n} stars, {n} reviews"`
 - Focus ring: `box-shadow: 0 0 0 3px #D0C2E550`
 
 ---
 
-### Implementación
+### Implementation
 
 ```
 components/
   professionals/
-    professional-card.tsx       ← card completa
-    professional-card-mobile.tsx ← variante horizontal
+    professional-card.tsx       ← full card
+    professional-card-mobile.tsx ← horizontal variant
 ```
 
 Props:
@@ -779,205 +775,204 @@ Props:
 
 ---
 
-*Siguiente componente: DS-04 Badge / Chips*
+*Next component: DS-04 Badges / Chips*
 
 ---
 
 ## Spec DS-04 — Badges / Chips
 
-### Filosofía
-Pill para estados únicos e importantes. Rounded para categorías y etiquetas informativas que aparecen en grupos. La forma comunica jerarquía sin necesidad de color extra.
+### Philosophy
+Pill for unique, important states. Rounded for categories and informational labels that appear in groups. Shape communicates hierarchy without needing extra colour.
 
 ---
 
-### Tipos y variantes
+### Types and Variants
 
-#### Estados — pill (border-radius: 9999px)
+#### States — pill (border-radius: 9999px)
 
-| Badge | Fondo | Texto | Uso |
-|-------|-------|-------|-----|
-| Verificada | `#E1F5EE` | `#0F6E56` | Perfil verificado por HandyFEM |
-| Pendiente | `#FAEEDA` | `#854F0B` | Perfil enviado, esperando verificación |
-| Nuevo | `#EEEDFE` | `#3C3489` | Chat nuevo sin respuesta |
-| En progreso | `#E1F5EE` | `#0F6E56` | Servicio en curso |
-| Completado | `#D3D1C7` | `#444441` | Servicio finalizado |
+| Badge | Background | Text | Use |
+|-------|-----------|------|-----|
+| Verified | `#E1F5EE` | `#0F6E56` | Profile verified by HandyFEM |
+| Pending | `#FAEEDA` | `#854F0B` | Profile submitted, awaiting verification |
+| New | `#EEEDFE` | `#3C3489` | New chat without a reply |
+| In progress | `#E1F5EE` | `#0F6E56` | Service underway |
+| Completed | `#D3D1C7` | `#444441` | Service finished |
 
-#### Categorías — rounded (border-radius: 6px)
+#### Categories — rounded (border-radius: 6px)
 
-| Badge | Fondo | Texto | Uso |
-|-------|-------|-------|-----|
-| Especialidad | `#D0C2E530` | `#60569C` | Electricidad, Fontanería, Carpintería... |
-| Ciudad | `#4A7C7D15` | `#3A5E5F` | Barcelona, Madrid, Valencia... |
-| Filtro activo | `#4A7C7D` | `#F4EBD7` | Filtro seleccionado en el directorio |
-| Filtro inactivo | `#F8F5F0` | `#699794` | Filtro disponible sin seleccionar |
+| Badge | Background | Text | Use |
+|-------|-----------|------|-----|
+| Specialty | `#D0C2E530` | `#60569C` | Electrical, Plumbing, Carpentry… |
+| City | `#4A7C7D15` | `#3A5E5F` | Barcelona, Madrid, Valencia… |
+| Active filter | `#4A7C7D` | `#F4EBD7` | Selected filter in the directory |
+| Inactive filter | `#F8F5F0` | `#699794` | Available unselected filter |
 
 ---
 
-### Propiedades comunes
+### Common Properties
 
-| Propiedad | Valor |
-|-----------|-------|
+| Property | Value |
+|----------|-------|
 | `font-size` | `11px` |
 | `font-weight` | `500` |
 | `padding` | `3px 10px` (pill) · `3px 8px` (rounded) |
 | `display` | `inline-flex` |
 | `align-items` | `center` |
-| `gap` | `5px` (para icono o punto) |
+| `gap` | `5px` (for icon or dot) |
 | `white-space` | `nowrap` |
 | `line-height` | `1` |
 
 ---
 
-### Badge verificada — detalle
+### Verified Badge — Detail
 
-- Punto pulsante: `6px` · `background: #4A7C7D` · animación `pulse` 2s loop
-- `aria-label="Perfil verificado por HandyFEM"`
+- Pulsing dot: `6px` · `background: #4A7C7D` · `pulse` animation 2s loop
+- `aria-label="Profile verified by HandyFEM"`
 
 ---
 
-### Chips de filtro — comportamiento
+### Filter Chips — Behavior
 
-- Click en filtro inactivo → se activa (fondo teal, texto cream)
-- Click en filtro activo → se desactiva (vuelve a estado inactivo)
-- Filtros activos muestran icono `ti-x` a la derecha para limpiar
-- Múltiples filtros pueden estar activos simultáneamente
+- Click on inactive filter → activates (teal background, cream text)
+- Click on active filter → deactivates (returns to inactive state)
+- Active filters show a `ti-x` icon on the right to clear
+- Multiple filters can be active simultaneously
 - `role="checkbox"` · `aria-checked="true/false"`
 
 ---
 
-### Accesibilidad
+### Accessibility
 
-- Badges informativos: `aria-label` descriptivo cuando el color es el único diferenciador
-- Chips de filtro: `role="checkbox"` + `aria-checked`
-- Punto pulsante de verificada: `aria-hidden="true"` — decorativo
-- Contraste mínimo AA verificado en todos los estados
+- Informational badges: descriptive `aria-label` when colour is the only differentiator
+- Filter chips: `role="checkbox"` + `aria-checked`
+- Verified pulsing dot: `aria-hidden="true"` — decorative
+- Minimum AA contrast verified on all states
 
 ---
 
-### Implementación
+### Implementation
 
 ```
 components/
   ui/
-    badge.tsx    ← variantes: verified · pending · new · active · complete
-    chip.tsx     ← variantes: specialty · city · filter-active · filter-inactive
+    badge.tsx    ← variants: verified · pending · new · active · complete
+    chip.tsx     ← variants: specialty · city · filter-active · filter-inactive
 ```
 
-Props badge:
+Badge props:
 - `variant`: verified · pending · new · in-progress · completed
-- `children`: texto del badge
+- `children`: badge text
 
-Props chip:
+Chip props:
 - `variant`: specialty · city · filter
-- `active?: boolean` (solo para filtros)
-- `onRemove?: () => void` (muestra icono X cuando está activo)
-- `children`: texto del chip
+- `active?: boolean` (filters only)
+- `onRemove?: () => void` (shows X icon when active)
+- `children`: chip text
 
 ---
 
-*Siguiente componente: DS-05 Avatar*
+*Next component: DS-05 Avatar*
 
 ---
 
-## Pendientes de polish — ajustes finos para el código
+## Pending Polish — Fine-Tuning Items
 
-- [ ] DS-04 Chips filtro activo — icono X demasiado pequeño y mal ubicado. Ajustar tamaño (13-14px) y alineación vertical en el código.
-
+- [ ] DS-04 Active filter chip — X icon too small and misaligned. Adjust size (13–14px) and vertical alignment in the code.
 
 ---
 
 ## Spec DS-05 — Avatar
 
-### Filosofía
-El avatar identifica a la usuaria en toda la app. Siempre circular. Con foto si existe, con iniciales si no. Nunca un icono genérico de persona — las iniciales son más personales y coherentes con la identidad de HandyFEM.
+### Philosophy
+The avatar identifies the user throughout the app. Always circular. Photo if available, initials if not. Never a generic person icon — initials are more personal and consistent with HandyFEM's identity.
 
 ---
 
-### Tamaños
+### Sizes
 
-| Tamaño | Dimensión | Uso |
-|--------|-----------|-----|
-| XS | 24px | Comentarios, listas densas |
-| SM | 32px | Navbar, mentions inline |
-| MD | 40px | Cards de profesional, chat list |
-| LG | 64px | Perfil público, dashboard |
-| XL | 96px | Cabecera de perfil |
+| Size | Dimension | Use |
+|------|-----------|-----|
+| XS | 24px | Comments, dense lists |
+| SM | 32px | Navbar, inline mentions |
+| MD | 40px | Professional cards, chat list |
+| LG | 64px | Public profile, dashboard |
+| XL | 96px | Profile header |
 
 ---
 
-### Variantes
+### Variants
 
-#### Con foto
+#### With photo
 - `object-fit: cover`
 - `border-radius: 50%`
-- Fallback automático a iniciales si la imagen falla al cargar
+- Automatic fallback to initials if the image fails to load
 
-#### Con iniciales
-- Fondo: color asignado por nombre (consistente — siempre el mismo color para la misma usuaria)
-- Texto: 2 iniciales — nombre + apellido
+#### With initials
+- Background: colour assigned by name (consistent — always the same colour for the same user)
+- Text: 2 initials — first name + surname
 - `font-weight: 500`
-- Paleta de fondos rotativos:
+- Rotating background palette:
 
-| Color | Fondo | Texto |
-|-------|-------|-------|
-| Lavanda | `#D0C2E5` | `#60569C` |
-| Teal claro | `#B3D4D6` | `#3A5E5F` |
-| Amber claro | `#FCC97040` | `#854F0B` |
-| Cream oscuro | `#D3D1C7` | `#444441` |
+| Colour | Background | Text |
+|--------|-----------|------|
+| Lavender | `#D0C2E5` | `#60569C` |
+| Light teal | `#B3D4D6` | `#3A5E5F` |
+| Light amber | `#FCC97040` | `#854F0B` |
+| Dark cream | `#D3D1C7` | `#444441` |
 
-#### Con indicador de estado
-- Punto en esquina inferior derecha
-- Online: `#4A7C7D` · Ocupada: `#FCC970` · Offline: `#D3D1C7`
-- Tamaño del punto: 10px (MD+) · 8px (SM)
-- Borde blanco `2px` alrededor del punto para separarlo del avatar
+#### With status indicator
+- Dot in the bottom-right corner
+- Online: `#4A7C7D` · Busy: `#FCC970` · Offline: `#D3D1C7`
+- Dot size: 10px (MD+) · 8px (SM)
+- White `2px` border around the dot to separate it from the avatar
 
 ---
 
-### Propiedades comunes
+### Common Properties
 
-| Propiedad | Valor |
-|-----------|-------|
+| Property | Value |
+|----------|-------|
 | `border-radius` | `50%` |
 | `flex-shrink` | `0` |
 | `overflow` | `hidden` |
-| `position` | `relative` (para el indicador de estado) |
+| `position` | `relative` (for the status indicator) |
 | `user-select` | `none` |
 
 ---
 
-### Grupo de avatares (stack)
+### Avatar Group (stack)
 
-Para mostrar múltiples participantes — por ejemplo en una vista futura de grupos.
-- Overlap: `-8px` margin-left desde el segundo avatar
-- Borde: `2px solid #fff` en cada avatar para separación visual
-- Máximo visible: 3 avatares + contador "+N" si hay más
-
----
-
-### Accesibilidad
-
-- `alt="{nombre completo}"` si tiene foto
-- `aria-label="{nombre completo}"` si tiene iniciales
-- El indicador de estado: `aria-label="En línea"` / `"Ocupada"` / `"Desconectada"`
+For showing multiple participants — for example in a future group view.
+- Overlap: `-8px` margin-left from the second avatar
+- Border: `2px solid #fff` on each avatar for visual separation
+- Maximum visible: 3 avatars + "+N" counter if there are more
 
 ---
 
-### Implementación
+### Accessibility
+
+- `alt="{full name}"` if it has a photo
+- `aria-label="{full name}"` if it has initials
+- Status indicator: `aria-label="Online"` / `"Busy"` / `"Offline"`
+
+---
+
+### Implementation
 
 ```
 components/
   ui/
-    avatar.tsx    ← tamaños: xs · sm · md · lg · xl
-                    variantes: photo · initials · with-status
+    avatar.tsx    ← sizes: xs · sm · md · lg · xl
+                    variants: photo · initials · with-status
 ```
 
 Props:
 - `size`: xs · sm · md · lg · xl
-- `src?: string` — URL de la foto
-- `name: string` — para iniciales y alt
+- `src?: string` — photo URL
+- `name: string` — for initials and alt
 - `status?: 'online' | 'busy' | 'offline'`
 
-Lógica de color por iniciales:
+Colour logic by initials:
 ```ts
 const colors = ['lavanda', 'teal', 'amber', 'gray']
 const colorIndex = name.charCodeAt(0) % colors.length
@@ -985,83 +980,83 @@ const colorIndex = name.charCodeAt(0) % colors.length
 
 ---
 
-*Siguiente: Spec DS-06 — Resumen y tokens globales*
+*Next: Spec DS-06 — Summary and global tokens*
 
-- [ ] DS-05 Avatar — indicador de estado no sobresale del círculo mayor. Ajustar `bottom: -2px; right: -2px` para que el punto quede fuera del borde del avatar.
-- [ ] DS-01 Navbar — revisar color de fondo en el preview, debe ser cream `#F4EBD7` no amarillo apagado. Verificar token `--color-cream` en el código.
-- [ ] DS-03 Cards — borde demasiado grueso. Reducir de `1.5px` a `0.5px solid #E0DDD6`.
+- [ ] DS-05 Avatar — status indicator does not extend beyond the main circle. Adjust `bottom: -2px; right: -2px` so the dot sits outside the avatar border.
+- [ ] DS-01 Navbar — check background colour in the preview, it should be cream `#F4EBD7` not dull yellow. Verify `--color-cream` token in the code.
+- [ ] DS-03 Cards — border too thick. Reduce from `1.5px` to `0.5px solid #E0DDD6`.
 
-- [ ] Global — cambio de fondo. El cream (`#F4EBD7`) se elimina como color de fondo de pantallas. Sustituir por:
-  - Fondo principal: `#ffffff`
-  - Fondo secundario (surfaces, navbar, secciones alternas): `#F5F5F5`
-  - El cream se reserva únicamente para elementos de acento muy puntuales si se necesita calidez (ej. CTA final de landing)
-
----
-
-## Spec DS-06 — Tokens globales
-
-### Filosofía
-Un solo lugar de verdad para todos los valores del DS. Cualquier cambio de color, tipografía o espaciado se hace aquí y se propaga a toda la app automáticamente.
+- [ ] Global — background change. Cream (`#F4EBD7`) is removed as a screen background colour. Replace with:
+  - Main background: `#ffffff`
+  - Secondary background (surfaces, navbar, alternate sections): `#F5F5F5`
+  - Cream is reserved only for very occasional accent elements where warmth is needed (e.g. landing final CTA)
 
 ---
 
-### Colores
+## Spec DS-06 — Global Tokens
 
-#### Fondos
-| Token | Valor | Uso |
-|-------|-------|-----|
-| `--color-bg-primary` | `#ffffff` | Fondo principal de pantallas y cards |
-| `--color-bg-secondary` | `#F5F5F5` | Secciones alternas, search bar, navbar interior |
-| `--color-bg-cream` | `#F4EBD7` | Uso muy puntual — CTA final landing, acento cálido |
-
-#### Primario — teal
-| Token | Valor | Uso |
-|-------|-------|-----|
-| `--color-primary` | `#4A7C7D` | Botón primario, step numbers, iconos principales |
-| `--color-primary-light` | `#699794` | Texto muted, specialty label |
-| `--color-primary-pale` | `#B3D4D6` | Avatar teal, fondos muy suaves |
-| `--color-primary-hover` | `#3A6B6C` | Hover de botón primario |
-
-#### Acento — violet
-| Token | Valor | Uso |
-|-------|-------|-----|
-| `--color-accent` | `#776AAA` | Botón secundario borde, links, FEM del logo |
-| `--color-accent-dark` | `#60569C` | Texto sobre lavanda, hover accent |
-| `--color-accent-light` | `#8D7BB8` | Variante clara |
-| `--color-lavanda` | `#D0C2E5` | Fondos de badge, avatar lavanda, focus ring |
-| `--color-lavanda-pale` | `#EEEDFE` | Badge "Nuevo" fondo |
-
-#### Texto
-| Token | Valor | Uso |
-|-------|-------|-----|
-| `--color-text-primary` | `#2C2C2A` | Texto principal, nombres, títulos |
-| `--color-text-muted` | `#699794` | Subtítulos, especialidad, labels |
-| `--color-text-subtle` | `#B4B2A9` | Placeholder, ubicación, texto terciario |
-
-#### Bordes
-| Token | Valor | Uso |
-|-------|-------|-----|
-| `--color-border` | `#E0DDD6` | Borde neutro de cards, inputs default |
-| `--color-border-focus` | `#776AAA` | Borde de input en focus |
-| `--color-border-error` | `#E24B4A` | Borde de input en error |
-| `--color-border-success` | `#4A7C7D` | Borde de input en success |
-
-#### Semánticos
-| Token | Valor | Uso |
-|-------|-------|-----|
-| `--color-success-bg` | `#E1F5EE` | Badge verificada, en progreso |
-| `--color-success-text` | `#0F6E56` | Texto sobre success bg |
-| `--color-warning-bg` | `#FAEEDA` | Badge pendiente |
-| `--color-warning-text` | `#854F0B` | Texto sobre warning bg |
-| `--color-error-bg` | `#FCEBEB` | Input error fondo |
-| `--color-error-text` | `#A32D2D` | Texto de error |
-| `--color-amber` | `#FCC970` | Estrellas de valoración únicamente |
+### Philosophy
+A single source of truth for all DS values. Any colour, typography or spacing change is made here and propagates throughout the entire app automatically.
 
 ---
 
-### Tipografía
+### Colours
 
-| Token | Valor |
+#### Backgrounds
+| Token | Value | Use |
+|-------|-------|-----|
+| `--color-bg-primary` | `#ffffff` | Main background for screens and cards |
+| `--color-bg-secondary` | `#F5F5F5` | Alternate sections, search bar, navbar interior |
+| `--color-bg-cream` | `#F4EBD7` | Very occasional use — landing final CTA, warm accent |
+
+#### Primary — teal
+| Token | Value | Use |
+|-------|-------|-----|
+| `--color-primary` | `#4A7C7D` | Primary button, step numbers, main icons |
+| `--color-primary-light` | `#699794` | Muted text, specialty label |
+| `--color-primary-pale` | `#B3D4D6` | Teal avatar, very soft backgrounds |
+| `--color-primary-hover` | `#3A6B6C` | Primary button hover |
+
+#### Accent — violet
+| Token | Value | Use |
+|-------|-------|-----|
+| `--color-accent` | `#776AAA` | Secondary button border, links, FEM in logo |
+| `--color-accent-dark` | `#60569C` | Text on lavender, accent hover |
+| `--color-accent-light` | `#8D7BB8` | Light variant |
+| `--color-lavanda` | `#D0C2E5` | Badge backgrounds, lavender avatar, focus ring |
+| `--color-lavanda-pale` | `#EEEDFE` | "New" badge background |
+
+#### Text
+| Token | Value | Use |
+|-------|-------|-----|
+| `--color-text-primary` | `#2C2C2A` | Main text, names, titles |
+| `--color-text-muted` | `#699794` | Subtitles, specialty, labels |
+| `--color-text-subtle` | `#B4B2A9` | Placeholder, location, tertiary text |
+
+#### Borders
+| Token | Value | Use |
+|-------|-------|-----|
+| `--color-border` | `#E0DDD6` | Neutral card and default input border |
+| `--color-border-focus` | `#776AAA` | Input border on focus |
+| `--color-border-error` | `#E24B4A` | Input border on error |
+| `--color-border-success` | `#4A7C7D` | Input border on success |
+
+#### Semantic
+| Token | Value | Use |
+|-------|-------|-----|
+| `--color-success-bg` | `#E1F5EE` | Verified badge, in-progress |
+| `--color-success-text` | `#0F6E56` | Text on success background |
+| `--color-warning-bg` | `#FAEEDA` | Pending badge |
+| `--color-warning-text` | `#854F0B` | Text on warning background |
+| `--color-error-bg` | `#FCEBEB` | Input error background |
+| `--color-error-text` | `#A32D2D` | Error text |
+| `--color-amber` | `#FCC970` | Rating stars only |
+
+---
+
+### Typography
+
+| Token | Value |
 |-------|-------|
 | `--font-sans` | `Inter, system-ui, sans-serif` |
 | `--font-size-xs` | `11px` |
@@ -1082,77 +1077,77 @@ Un solo lugar de verdad para todos los valores del DS. Cualquier cambio de color
 
 ---
 
-### Espaciado
+### Spacing
 
-Sistema base 4px. Todos los valores son múltiplos de 4.
+4px base system. All values are multiples of 4.
 
-| Token | Valor | Uso |
+| Token | Value | Use |
 |-------|-------|-----|
-| `--space-1` | `4px` | Gap mínimo entre elementos inline |
-| `--space-2` | `8px` | Gap entre icono y texto |
-| `--space-3` | `12px` | Padding interno de cards mobile |
-| `--space-4` | `16px` | Gap entre campos de formulario |
-| `--space-5` | `20px` | Padding horizontal de cards desktop |
-| `--space-6` | `24px` | Gap entre grupos de campos |
-| `--space-8` | `32px` | Padding de secciones |
-| `--space-12` | `48px` | Separación entre secciones grandes |
+| `--space-1` | `4px` | Minimum gap between inline elements |
+| `--space-2` | `8px` | Gap between icon and text |
+| `--space-3` | `12px` | Internal padding of mobile cards |
+| `--space-4` | `16px` | Gap between form fields |
+| `--space-5` | `20px` | Horizontal padding of desktop cards |
+| `--space-6` | `24px` | Gap between field groups |
+| `--space-8` | `32px` | Section padding |
+| `--space-12` | `48px` | Separation between large sections |
 
 ---
 
-### Border radius
+### Border Radius
 
-| Token | Valor | Uso |
+| Token | Value | Use |
 |-------|-------|-----|
-| `--radius-sm` | `6px` | Badges categoría, chips |
-| `--radius-md` | `8px` | Botones, inputs, fotos de avatar en cards |
-| `--radius-lg` | `12px` | Cards, modales, panels |
-| `--radius-xl` | `16px` | Secciones, contenedores grandes |
-| `--radius-pill` | `9999px` | Navbar, badges estado, chips filtro activo |
+| `--radius-sm` | `6px` | Category badges, chips |
+| `--radius-md` | `8px` | Buttons, inputs, avatar photos in cards |
+| `--radius-lg` | `12px` | Cards, modals, panels |
+| `--radius-xl` | `16px` | Sections, large containers |
+| `--radius-pill` | `9999px` | Navbar, status badges, active filter chips |
 
 ---
 
-### Sombras
+### Shadows
 
-| Token | Valor | Uso |
+| Token | Value | Use |
 |-------|-------|-----|
-| `--shadow-card` | `0 2px 12px rgba(0,0,0,0.06)` | Cards en reposo |
-| `--shadow-card-hover` | `0 8px 24px rgba(74,124,125,0.08)` | Cards en hover |
-| `--shadow-nav` | `0 2px 12px rgba(0,0,0,0.06)` | Navbar en reposo |
-| `--shadow-nav-scroll` | `0 4px 24px rgba(74,124,125,0.12)` | Navbar al hacer scroll |
-| `--shadow-focus` | `0 0 0 3px #D0C2E550` | Focus ring inputs y botones |
+| `--shadow-card` | `0 2px 12px rgba(0,0,0,0.06)` | Cards at rest |
+| `--shadow-card-hover` | `0 8px 24px rgba(74,124,125,0.08)` | Cards on hover |
+| `--shadow-nav` | `0 2px 12px rgba(0,0,0,0.06)` | Navbar at rest |
+| `--shadow-nav-scroll` | `0 4px 24px rgba(74,124,125,0.12)` | Navbar on scroll |
+| `--shadow-focus` | `0 0 0 3px #D0C2E550` | Input and button focus ring |
 
 ---
 
-### Transiciones
+### Transitions
 
-| Token | Valor | Uso |
+| Token | Value | Use |
 |-------|-------|-----|
-| `--t-fast` | `150ms ease` | Hover de botones, cambios de color |
-| `--t-normal` | `300ms ease` | Hover de cards, transiciones de panel |
-| `--t-slow` | `600ms ease-out` | Animaciones de entrada scroll-triggered |
+| `--t-fast` | `150ms ease` | Button hover, colour changes |
+| `--t-normal` | `300ms ease` | Card hover, panel transitions |
+| `--t-slow` | `600ms ease-out` | Scroll-triggered entry animations |
 
 ---
 
 ### Breakpoints
 
-| Token | Valor | Descripción |
+| Token | Value | Description |
 |-------|-------|-------------|
-| `--bp-mobile` | `< 768px` | Mobile — layout de una columna |
-| `--bp-desktop` | `≥ 768px` | Desktop — grid, navbar completa |
+| `--bp-mobile` | `< 768px` | Mobile — single-column layout |
+| `--bp-desktop` | `≥ 768px` | Desktop — grid, full navbar |
 
-Sin breakpoint tablet — decisión intencional igual que en Borrissol.
+No tablet breakpoint — intentional decision, same as Borrissol.
 
 ---
 
-### Touch targets
+### Touch Targets
 
-| Token | Valor |
+| Token | Value |
 |-------|-------|
-| `--min-touch` | `44px` | Mínimo en todos los elementos interactivos |
+| `--min-touch` | `44px` | Minimum on all interactive elements |
 
 ---
 
-### Implementación en Next.js + Tailwind
+### Implementation in Next.js + Tailwind
 
 ```css
 /* globals.css */
@@ -1161,7 +1156,7 @@ Sin breakpoint tablet — decisión intencional igual que en Borrissol.
   --color-bg-secondary: #F5F5F5;
   --color-primary: #4A7C7D;
   --color-accent: #776AAA;
-  /* ... resto de tokens */
+  /* ... rest of tokens */
 }
 ```
 
@@ -1184,148 +1179,147 @@ theme: {
 
 ---
 
-## Design System — completado ✓
+## Design System — Completed ✓
 
-### Componentes definidos
-- DS-01 Botones
-- DS-02 Inputs / Formularios  
-- DS-03 Cards de profesional
+### Components defined
+- DS-01 Buttons
+- DS-02 Inputs / Forms
+- DS-03 Professional cards
 - DS-04 Badges / Chips
 - DS-05 Avatar
-- DS-06 Tokens globales
+- DS-06 Global tokens
 
-### Siguiente fase
-Specs de pantallas del MVP:
+### Next phase
+MVP screen specs:
 - Spec 01 Landing page ✓
 - Spec 02 Sign up / Log in
-- Spec 03 Directorio + filtros
-- Spec 04 Perfil profesional público
-- Spec 05 Dashboard con role toggle
-- Spec 06 Onboarding profesional
-- Spec 07 Chat básico
-
+- Spec 03 Directory + filters
+- Spec 04 Public professional profile
+- Spec 05 Dashboard with role toggle
+- Spec 06 Professional onboarding
+- Spec 07 Basic chat
 
 ---
 
-## Spec 02 — Sign up / Log in
+## Spec 02 — Sign Up / Log In
 
-### Objetivo
-Registrar o autenticar a la usuaria con la menor fricción posible. El registro crea una cuenta con rol base clienta. Google OAuth reduce el tiempo de onboarding a un solo click.
+### Objective
+Register or authenticate the user with minimum friction. Registration creates an account with the base client role. Google OAuth reduces onboarding time to a single click.
 
 ---
 
 ### URLs
-- `/login` — pantalla de login
-- `/signup` — pantalla de registro
-- `/signup?rol=profesional` — registro con intención profesional (viene del CTA "Soy profesional" de la landing)
+- `/login` — login screen
+- `/signup` — registration screen
+- `/signup?rol=profesional` — registration with professional intent (coming from the "I'm a professional" landing CTA)
 
 ---
 
 ### Layout
 
-- Fondo: `--color-bg-secondary` (`#F5F5F5`)
-- Tarjeta central: `--color-bg-primary` (`#ffffff`) · `border-radius: 16px` · `border: 0.5px solid #E0DDD6`
-- Ancho máximo tarjeta: `440px`
-- Centrada horizontal y verticalmente en desktop
-- En mobile: ocupa el ancho completo sin tarjeta — formulario directo sobre fondo
+- Background: `--color-bg-secondary` (`#F5F5F5`)
+- Central card: `--color-bg-primary` (`#ffffff`) · `border-radius: 16px` · `border: 0.5px solid #E0DDD6`
+- Card maximum width: `440px`
+- Horizontally and vertically centred on desktop
+- Mobile: full width with no card — form directly on the background
 
 ---
 
-### Pantalla /login
+### /login Screen
 
-#### Contenido
-| Elemento | Detalle |
-|----------|---------|
-| Logo | HandyFEM centrado arriba |
-| Título | "Bienvenida de nuevo" |
-| Subtítulo | "Entra en tu cuenta de HandyFEM" |
-| Botón Google | "Continuar con Google" · icono Google · ancho completo |
-| Divisor | línea + "o" centrado |
-| Campo email | label "Email" · `type="email"` · `autocomplete="email"` |
-| Campo password | label "Contraseña" · toggle show/hide · `autocomplete="current-password"` |
-| Link | "¿Olvidaste tu contraseña?" → `/reset-password` |
-| Botón submit | "Entrar" · primario · ancho completo · estado loading |
-| Link inferior | "¿No tienes cuenta? Regístrate" → `/signup` |
+#### Content
+| Element | Detail |
+|---------|--------|
+| Logo | HandyFEM centred at the top |
+| Title | "Welcome back" |
+| Subtitle | "Log in to your HandyFEM account" |
+| Google button | "Continue with Google" · Google icon · full width |
+| Divider | line + centred "or" |
+| Email field | label "Email" · `type="email"` · `autocomplete="email"` |
+| Password field | label "Password" · show/hide toggle · `autocomplete="current-password"` |
+| Link | "Forgot your password?" → `/reset-password` |
+| Submit button | "Log in" · primary · full width · loading state |
+| Bottom link | "Don't have an account? Sign up" → `/signup` |
 
-#### Estados
-| Estado | Comportamiento |
-|--------|---------------|
-| Default | Formulario vacío |
-| Loading | Botón en loading · inputs disabled |
-| Error credenciales | Mensaje inline "Email o contraseña incorrectos" bajo el botón |
-| Error Google | Toast "No se pudo conectar con Google. Inténtalo de nuevo" |
-| Éxito | Redirect a `/dashboard` |
-
----
-
-### Pantalla /signup
-
-#### Contenido
-| Elemento | Detalle |
-|----------|---------|
-| Logo | HandyFEM centrado arriba |
-| Título | "Crea tu cuenta" |
-| Subtítulo | "Únete a la red de mujeres profesionales" |
-| Botón Google | "Continuar con Google" · ancho completo |
-| Divisor | línea + "o" centrado |
-| Campo nombre | label "Nombre" · `type="text"` · `autocomplete="given-name"` |
-| Campo apellido | label "Apellido" · `type="text"` · `autocomplete="family-name"` |
-| Campo email | label "Email" · `type="email"` · `autocomplete="email"` |
-| Campo password | label "Contraseña" · toggle show/hide · hint "Mínimo 8 caracteres y 1 número" |
-| Checkbox | "Acepto los términos y condiciones y la política de privacidad" · obligatorio |
-| Botón submit | "Crear cuenta" · primario · ancho completo · estado loading |
-| Link inferior | "¿Ya tienes cuenta? Entra aquí" → `/login` |
-
-#### Si viene de `/signup?rol=profesional`
-- Mismos campos
-- Subtítulo cambia a "Empieza a ofrecer tus servicios en HandyFEM"
-- Después del registro redirect a `/onboarding` en vez de `/dashboard`
-
-#### Estados
-| Estado | Comportamiento |
-|--------|---------------|
-| Default | Formulario vacío |
-| Validación | `onBlur` por campo — nunca en tiempo real |
-| Loading | Botón en loading · inputs disabled |
-| Error email existe | "Ya existe una cuenta con este email. ¿Quieres entrar?" con link a `/login` |
-| Éxito | Pantalla de verificación de email |
+#### States
+| State | Behavior |
+|-------|----------|
+| Default | Empty form |
+| Loading | Button in loading · inputs disabled |
+| Credentials error | Inline message "Incorrect email or password" below the button |
+| Google error | Toast "Could not connect to Google. Please try again" |
+| Success | Redirect to `/dashboard` |
 
 ---
 
-### Pantalla de verificación de email
+### /signup Screen
 
-Aparece después del registro con email + password (no con Google).
+#### Content
+| Element | Detail |
+|---------|--------|
+| Logo | HandyFEM centred at the top |
+| Title | "Create your account" |
+| Subtitle | "Join the network of women professionals" |
+| Google button | "Continue with Google" · full width |
+| Divider | line + centred "or" |
+| Name field | label "First name" · `type="text"` · `autocomplete="given-name"` |
+| Surname field | label "Surname" · `type="text"` · `autocomplete="family-name"` |
+| Email field | label "Email" · `type="email"` · `autocomplete="email"` |
+| Password field | label "Password" · show/hide toggle · hint "Minimum 8 characters and 1 number" |
+| Checkbox | "I accept the terms and conditions and privacy policy" · required |
+| Submit button | "Create account" · primary · full width · loading state |
+| Bottom link | "Already have an account? Log in" → `/login` |
 
-| Elemento | Detalle |
-|----------|---------|
-| Icono | Sobre / email grande · color teal |
-| Título | "Revisa tu email" |
-| Subtítulo | "Te hemos enviado un enlace a {email}. Haz click en él para verificar tu cuenta." |
-| Botón | "Reenviar email" · ghost · con cooldown de 60s |
-| Link | "Cambiar email" → vuelve a `/signup` |
+#### If coming from `/signup?rol=profesional`
+- Same fields
+- Subtitle changes to "Start offering your services on HandyFEM"
+- After registration, redirect to `/onboarding` instead of `/dashboard`
+
+#### States
+| State | Behavior |
+|-------|----------|
+| Default | Empty form |
+| Validation | `onBlur` per field — never in real time |
+| Loading | Button in loading · inputs disabled |
+| Email exists error | "An account with this email already exists. Would you like to log in?" with link to `/login` |
+| Success | Email verification screen |
 
 ---
 
-### Reset de contraseña
+### Email Verification Screen
+
+Appears after registration with email + password (not with Google).
+
+| Element | Detail |
+|---------|--------|
+| Icon | Large envelope / email · teal colour |
+| Title | "Check your email" |
+| Subtitle | "We've sent a link to {email}. Click on it to verify your account." |
+| Button | "Resend email" · ghost · with 60s cooldown |
+| Link | "Change email" → returns to `/signup` |
+
+---
+
+### Password Reset
 
 URL: `/reset-password`
 
-| Elemento | Detalle |
-|----------|---------|
-| Título | "Recupera tu contraseña" |
-| Campo email | label "Email" · `type="email"` |
-| Botón | "Enviar enlace" · primario · ancho completo |
-| Éxito | "Te hemos enviado un enlace. Revisa tu email." |
+| Element | Detail |
+|---------|--------|
+| Title | "Reset your password" |
+| Email field | label "Email" · `type="email"` |
+| Button | "Send link" · primary · full width |
+| Success | "We've sent you a link. Check your email." |
 
 ---
 
-### Implementación con Supabase
+### Implementation with Supabase
 
 ```ts
-// Login con email
+// Login with email
 const { error } = await supabase.auth.signInWithPassword({ email, password })
 
-// Registro con email
+// Registration with email
 const { error } = await supabase.auth.signUp({ email, password,
   options: { data: { nombre, apellido } }
 })
@@ -1339,154 +1333,154 @@ const { error } = await supabase.auth.resetPasswordForEmail(email)
 
 ---
 
-### Seguridad
+### Security
 
-- Nunca mostrar si el email existe en mensajes de error de login — usar siempre "Email o contraseña incorrectos" (evita enumeración de usuarios)
-- Rate limiting en intentos de login — Supabase lo gestiona por defecto
-- Password nunca se guarda en texto plano — Supabase lo gestiona
-- Tokens de sesión en cookies httpOnly — configurar en Supabase + Next.js middleware
-- Redirect después de login siempre a URL interna — nunca a URL externa (evita open redirect)
-
----
-
-### Accesibilidad
-
-- `autocomplete` en todos los campos de auth
-- `aria-live="polite"` en mensajes de error
-- Focus automático en el primer campo al cargar
-- Submit con Enter en cualquier campo del formulario
-- El botón de Google tiene `aria-label="Continuar con Google"`
+- Never reveal whether the email exists in login error messages — always use "Incorrect email or password" (prevents user enumeration)
+- Rate limiting on login attempts — Supabase handles this by default
+- Password never stored in plain text — Supabase handles this
+- Session tokens in httpOnly cookies — configure in Supabase + Next.js middleware
+- Redirect after login always to an internal URL — never to an external URL (prevents open redirect)
 
 ---
 
-*Siguiente: Spec 03 — Directorio + filtros*
+### Accessibility
 
-- [x] Spec 02 Sign up / Log in — visual aprobado ✓
+- `autocomplete` on all auth fields
+- `aria-live="polite"` on error messages
+- Automatic focus on the first field on load
+- Submit with Enter from any form field
+- Google button has `aria-label="Continue with Google"`
 
 ---
 
-## Spec 03 — Directorio + filtros
+*Next: Spec 03 — Directory + filters*
 
-### Objetivo
-Permitir a la clienta encontrar la profesional adecuada con la menor fricción posible. Los filtros reducen el ruido, las cards generan confianza, y el resultado es una decisión de contacto.
+- [x] Spec 02 Sign up / Log in — visual approved ✓
+
+---
+
+## Spec 03 — Directory + Filters
+
+### Objective
+Allow the client to find the right professional with minimum friction. Filters reduce noise, cards build trust, and the result is a decision to make contact.
 
 ---
 
 ### URL
 `/directorio`
 
-### Acceso
-- Pública — no requiere login para navegar
-- Login requerido solo al pulsar "Contactar"
+### Access
+- Public — no login required to browse
+- Login required only when pressing "Contact"
 
 ---
 
 ### Layout
 
-| Zona | Detalle |
-|------|---------|
-| Fondo | `#F5F5F5` |
-| Barra de búsqueda | Fondo `#fff` · sticky en scroll · `border-bottom: 0.5px solid #E0DDD6` |
-| Chips de filtro | Debajo de la barra · scroll horizontal en mobile |
-| Resultados | Lista vertical en mobile · grid 2 columnas en desktop |
-| Padding lateral | `16px` mobile · `24px` desktop |
+| Zone | Detail |
+|------|--------|
+| Background | `#F5F5F5` |
+| Search bar | White background · sticky on scroll · `border-bottom: 0.5px solid #E0DDD6` |
+| Filter chips | Below the bar · horizontal scroll on mobile |
+| Results | Vertical list on mobile · 2-column grid on desktop |
+| Side padding | `16px` mobile · `24px` desktop |
 
 ---
 
-### Barra de búsqueda
+### Search Bar
 
-| Elemento | Detalle |
-|----------|---------|
-| Input especialidad | Placeholder "¿Qué servicio necesitas?" · icono search izquierda |
-| Input ciudad | Placeholder "Ciudad o CP" · icono map-pin izquierda |
-| Botón buscar | "Buscar" · primario · `height: 40px` |
-| Comportamiento | Sticky al hacer scroll — queda pegada arriba |
-
----
-
-### Filtros
-
-| Filtro | Tipo | Valores |
-|--------|------|---------|
-| Especialidad | Multi-select chips | Electricidad · Fontanería · Carpintería · Pintura · Reformas · Instalaciones · Mantenimiento |
-| Ciudad | Text input | Libre — filtra por ciudades declaradas en perfil profesional |
-| Verificadas | Toggle chip | Activado por defecto |
-| 4+ estrellas | Toggle chip | Desactivado por defecto |
-
-**Comportamiento:**
-- Chips acumulables — varios activos simultáneamente
-- Chip activo: fondo teal · texto cream · icono X para eliminar
-- Chip inactivo: fondo `#F5F5F5` · borde `#E0DDD6`
-- "Limpiar filtros" — link ghost — visible solo cuando hay filtros activos
-- En mobile: chips en scroll horizontal sin wrap
+| Element | Detail |
+|---------|--------|
+| Specialty input | Placeholder "What service do you need?" · search icon on left |
+| City input | Placeholder "City or postcode" · map-pin icon on left |
+| Search button | "Search" · primary · `height: 40px` |
+| Behavior | Sticky on scroll — stays pinned at the top |
 
 ---
 
-### Resultados
+### Filters
 
-| Estado | Comportamiento |
-|--------|---------------|
-| Cargando | Skeleton cards — 3 placeholders animados |
-| Con resultados | Contador "N profesionales encontradas" + lista/grid de cards |
-| Sin resultados | Ilustración + "No encontramos profesionales con estos filtros" + "Limpiar filtros" |
-| Sin búsqueda | Muestra todas las profesionales verificadas ordenadas por valoración |
+| Filter | Type | Values |
+|--------|------|--------|
+| Specialty | Multi-select chips | Electrical · Plumbing · Carpentry · Painting · Renovations · Installations · Maintenance |
+| City | Text input | Free — filters by cities declared in professional profile |
+| Verified only | Toggle chip | Enabled by default |
+| 4+ stars | Toggle chip | Disabled by default |
 
-**Ordenación por defecto:** verificadas primero → mayor valoración → más reseñas
-
----
-
-### Card en el directorio
-
-Usa DS-03 con estas especificaciones:
-- Mobile: card horizontal (foto izquierda · info derecha)
-- Desktop: card vertical (foto arriba · info abajo) en grid 2 columnas
-- Click en card → navega a `/directorio/{id}` (perfil público)
-- Foto: `object-fit: cover` · fallback iniciales
+**Behavior:**
+- Chips are cumulative — several can be active simultaneously
+- Active chip: teal background · cream text · X icon to remove
+- Inactive chip: `#F5F5F5` background · `#E0DDD6` border
+- "Clear filters" — ghost link — visible only when filters are active
+- Mobile: chips in horizontal scroll with no wrap
 
 ---
 
-### Skeleton loader
+### Results
 
-Mientras cargan los resultados:
-- 3 cards con bloques grises animados (`animation: shimmer`)
-- Mismas dimensiones que las cards reales
+| State | Behavior |
+|-------|----------|
+| Loading | Skeleton cards — 3 animated placeholders |
+| With results | Counter "N professionals found" + card list/grid |
+| No results | Illustration + "No professionals found with these filters" + "Clear filters" |
+| No search | Shows all verified professionals ordered by rating |
+
+**Default order:** verified first → highest rating → most reviews
+
+---
+
+### Card in Directory
+
+Uses DS-03 with these specifications:
+- Mobile: horizontal card (photo left · info right)
+- Desktop: vertical card (photo top · info below) in 2-column grid
+- Click on card → navigates to `/directorio/{id}` (public profile)
+- Photo: `object-fit: cover` · initials fallback
+
+---
+
+### Skeleton Loader
+
+While results are loading:
+- 3 cards with animated grey blocks (`animation: shimmer`)
+- Same dimensions as real cards
 - `background: linear-gradient(90deg, #F5F5F5 25%, #E8E8E8 50%, #F5F5F5 75%)`
-- Duración: 1.5s loop
+- Duration: 1.5s loop
 
 ---
 
-### Paginación
+### Pagination
 
-- MVP: scroll infinito — carga 12 cards iniciales · 12 más al llegar al final
-- Implementación: `IntersectionObserver` en el último elemento visible
-- Loading indicator: spinner teal centrado al cargar más
+- MVP: infinite scroll — loads 12 cards initially · 12 more on reaching the end
+- Implementation: `IntersectionObserver` on the last visible element
+- Loading indicator: centred teal spinner when loading more
 
 ---
 
 ### SEO
 
-- Página renderizada en servidor (SSR) con Next.js
-- `<title>` dinámico según filtros activos: "Electricistas en Barcelona — HandyFEM"
-- `<meta description>` dinámico
-- URL con query params para compartir búsquedas: `/directorio?especialidad=electricidad&ciudad=barcelona`
-- Cada card es un `<article>` con datos estructurados (Schema.org Person)
+- Server-rendered page (SSR) with Next.js
+- Dynamic `<title>` based on active filters: "Electricians in Barcelona — HandyFEM"
+- Dynamic `<meta description>`
+- URL with query params for sharing searches: `/directorio?especialidad=electricidad&ciudad=barcelona`
+- Each card is an `<article>` with structured data (Schema.org Person)
 
 ---
 
-### Accesibilidad
+### Accessibility
 
-- `<main>` wrapping el contenido principal
-- `<search>` wrapping la barra de búsqueda y filtros
-- Chips filtro: `role="checkbox"` · `aria-checked`
-- Contador de resultados: `aria-live="polite"` — se anuncia al cambiar
-- Cards: `role="article"` · `tabIndex={0}` · navegables con teclado
-- Skeleton: `aria-busy="true"` en el contenedor durante la carga
+- `<main>` wrapping the main content
+- `<search>` wrapping the search bar and filters
+- Filter chips: `role="checkbox"` · `aria-checked`
+- Results counter: `aria-live="polite"` — announced when changed
+- Cards: `role="article"` · `tabIndex={0}` · keyboard navigable
+- Skeleton: `aria-busy="true"` on the container during load
 
 ---
 
-### Notas técnicas
+### Technical Notes
 
-- Query a Supabase con filtros combinados:
+- Supabase query with combined filters:
 ```ts
 let query = supabase
   .from('professionals')
@@ -1498,567 +1492,566 @@ if (ciudad) query = query.contains('cities', [ciudad])
 if (soloVerificadas) query = query.eq('is_verified', true)
 if (altaValoracion) query = query.gte('rating', 4)
 ```
-- Índices en Supabase: `specialties`, `cities`, `rating`, `is_verified`
-- Cache de resultados con `React Query` o `SWR` — evita refetch innecesario al volver de un perfil
+- Supabase indices: `specialties`, `cities`, `rating`, `is_verified`
+- Results cache with `React Query` or `SWR` — avoids unnecessary refetch when returning from a profile
 
 ---
 
-*Siguiente: Spec 04 — Perfil profesional público*
+*Next: Spec 04 — Public professional profile*
 
 ---
 
-## Spec 04 — Perfil profesional público
+## Spec 04 — Public Professional Profile
 
-### Objetivo
-Dar suficiente información a la clienta para que tome la decisión de contactar. Es la pantalla que convierte visitas en conversaciones. Tiene que generar confianza en 10 segundos.
+### Objective
+Give the client enough information to make the decision to get in touch. This is the screen that converts visits into conversations. It needs to build trust in 10 seconds.
 
 ---
 
 ### URL
 `/directorio/[id]`
 
-### Acceso
-- Pública — no requiere login para ver
-- Login requerido al pulsar "Contactar"
+### Access
+- Public — no login required to view
+- Login required when pressing "Contact"
 
 ---
 
-### Layout mobile (una columna)
+### Mobile Layout (single column)
 
 ```
-Foto de cabecera (hero image)
-Avatar + nombre + especialidad
-Badge verificada + valoración
-Ciudades de trabajo
-Descripción
-Especialidades (chips)
-Portfolio (grid de fotos)
-Valoraciones
-CTA flotante "Contactar"
+Header photo (hero image)
+Avatar + name + specialty
+Verified badge + rating
+Work cities
+Description
+Specialties (chips)
+Portfolio (photo grid)
+Reviews
+Floating CTA "Contact"
 ```
 
 ---
 
-### Secciones
+### Sections
 
-#### Cabecera
-| Elemento | Detalle |
-|----------|---------|
-| Foto hero | Ancho completo · height 200px · `object-fit: cover` · fallback fondo teal claro |
-| Avatar | 72px · superpuesto sobre la foto hero · `border: 3px solid #fff` |
-| Nombre | `font-size: 20px` · `font-weight: 500` · color dark |
-| Especialidad principal | `font-size: 14px` · color muted · icono wrench |
-| Badge verificada | Pill verde con punto pulsante |
-| Valoración | Estrellas ámbar + número + conteo de reseñas |
+#### Header
+| Element | Detail |
+|---------|--------|
+| Hero photo | Full width · height 200px · `object-fit: cover` · light teal fallback |
+| Avatar | 72px · overlaid on the hero photo · `border: 3px solid #fff` |
+| Name | `font-size: 20px` · `font-weight: 500` · dark colour |
+| Main specialty | `font-size: 14px` · muted colour · wrench icon |
+| Verified badge | Green pill with pulsing dot |
+| Rating | Amber stars + number + review count |
 
-#### Ciudades de trabajo
-| Elemento | Detalle |
-|----------|---------|
-| Título | "Trabaja en" |
-| Chips | Ciudad 1 · Ciudad 2 · ... (chips rounded teal claro) |
+#### Work Cities
+| Element | Detail |
+|---------|--------|
+| Title | "Works in" |
+| Chips | City 1 · City 2 · ... (light teal rounded chips) |
 
-#### Descripción
-| Elemento | Detalle |
-|----------|---------|
-| Título | "Sobre mí" |
-| Texto | Descripción libre · máximo 500 caracteres |
-| Comportamiento | Truncado a 3 líneas con "Ver más" si supera el límite visible |
+#### Description
+| Element | Detail |
+|---------|--------|
+| Title | "About me" |
+| Text | Free description · maximum 500 characters |
+| Behavior | Truncated to 3 lines with "See more" if it exceeds the visible limit |
 
-#### Especialidades
-| Elemento | Detalle |
-|----------|---------|
-| Título | "Especialidades" |
-| Chips | Lista de especialidades en chips rounded lavanda |
+#### Specialties
+| Element | Detail |
+|---------|--------|
+| Title | "Specialties" |
+| Chips | List of specialties in lavender rounded chips |
 
 #### Portfolio
-| Elemento | Detalle |
-|----------|---------|
-| Título | "Portfolio" |
-| Grid | 3 columnas · fotos cuadradas · `object-fit: cover` · `border-radius: 8px` |
-| Click | Abre la foto en pantalla completa (lightbox) |
-| Sin fotos | Mensaje "Aún no ha añadido fotos de portfolio" |
+| Element | Detail |
+|---------|--------|
+| Title | "Portfolio" |
+| Grid | 3 columns · square photos · `object-fit: cover` · `border-radius: 8px` |
+| Click | Opens photo full screen (lightbox) |
+| No photos | Message "No portfolio photos added yet" |
 
-#### Valoraciones
-| Elemento | Detalle |
-|----------|---------|
-| Título | "Valoraciones" · número total |
-| Resumen | Media de estrellas grande + barra de distribución 5→1 estrellas |
-| Lista | Máximo 5 valoraciones visibles · "Ver todas" si hay más |
-| Cada valoración | Avatar clienta + nombre + fecha + estrellas + texto |
-| Sin valoraciones | "Aún no tiene valoraciones. Sé la primera." |
-
----
-
-### CTA flotante
-
-| Elemento | Detalle |
-|----------|---------|
-| Posición | Fixed bottom · ancho completo · padding 12px 16px · fondo blanco · `border-top: 0.5px solid #E0DDD6` |
-| Botón | "Contactar a {nombre}" · primario · ancho completo |
-| Si no logueada | Pulsar abre modal de login / redirect a `/login?redirect=/directorio/[id]` |
-| Si logueada | Crea conversación en Supabase + redirect a `/chats/[conversationId]` |
+#### Reviews
+| Element | Detail |
+|---------|--------|
+| Title | "Reviews" · total count |
+| Summary | Large star average + 5→1 star distribution bar |
+| List | Maximum 5 reviews visible · "See all" if there are more |
+| Each review | Client avatar + name + date + stars + text |
+| No reviews | "No reviews yet. Be the first." |
 
 ---
 
-### Estados
+### Floating CTA
 
-| Estado | Comportamiento |
-|--------|---------------|
-| Cargando | Skeleton de toda la pantalla |
-| Perfil completo | Layout completo como descrito |
-| Sin foto hero | Fondo teal claro `#B3D4D6` como fallback |
-| Sin portfolio | Sección portfolio oculta |
-| Sin valoraciones | Mensaje de estado vacío |
-| Perfil no encontrado | Página 404 con "Esta profesional no existe" + link al directorio |
+| Element | Detail |
+|---------|--------|
+| Position | Fixed bottom · full width · padding 12px 16px · white background · `border-top: 0.5px solid #E0DDD6` |
+| Button | "Contact {name}" · primary · full width |
+| If not logged in | Pressing opens login modal / redirect to `/login?redirect=/directorio/[id]` |
+| If logged in | Creates conversation in Supabase + redirect to `/chats/[conversationId]` |
+
+---
+
+### States
+
+| State | Behavior |
+|-------|----------|
+| Loading | Full-screen skeleton |
+| Complete profile | Full layout as described |
+| No hero photo | Light teal background `#B3D4D6` as fallback |
+| No portfolio | Portfolio section hidden |
+| No reviews | Empty state message |
+| Profile not found | 404 page with "This professional doesn't exist" + link to directory |
 
 ---
 
 ### SEO
 
-- SSR con Next.js — página indexable por Google
-- `<title>`: "{nombre} — {especialidad} en {ciudad} · HandyFEM"
-- `<meta description>`: descripción truncada a 160 caracteres
-- `og:image`: foto de perfil de la profesional
-- Schema.org `Person` con nombre, especialidad, ciudad, valoración
+- SSR with Next.js — page indexable by Google
+- `<title>`: "{name} — {specialty} in {city} · HandyFEM"
+- `<meta description>`: description truncated to 160 characters
+- `og:image`: professional's profile photo
+- Schema.org `Person` with name, specialty, city, rating
 
 ---
 
-### Accesibilidad
+### Accessibility
 
-- `<main>` wrapping el contenido
-- Foto hero con `alt="{nombre}, {especialidad}"`
-- Portfolio: cada foto con `alt="Foto de portfolio de {nombre}"`
-- Lightbox: `role="dialog"` · cierre con Escape · focus trap
-- CTA flotante: `aria-label="Contactar a {nombre}"`
-- Valoraciones: `aria-label="{n} estrellas de 5"`
-
----
-
-### Notas técnicas
-
-- Datos cargados con `generateStaticParams` + `revalidate: 3600` — ISR de Next.js
-- Las valoraciones se cargan en cliente para tener siempre las más recientes
-- El lightbox del portfolio: librería `yet-another-react-lightbox` (accesible, ligera)
-- Redirect post-login: guardar URL en `sessionStorage` antes de redirigir a login
+- `<main>` wrapping the content
+- Hero photo with `alt="{name}, {specialty}"`
+- Portfolio: each photo with `alt="Portfolio photo by {name}"`
+- Lightbox: `role="dialog"` · close with Escape · focus trap
+- Floating CTA: `aria-label="Contact {name}"`
+- Reviews: `aria-label="{n} stars out of 5"`
 
 ---
 
-*Siguiente: Spec 05 — Dashboard con role toggle*
+### Technical Notes
+
+- Data loaded with `generateStaticParams` + `revalidate: 3600` — Next.js ISR
+- Reviews loaded client-side to always have the most recent ones
+- Portfolio lightbox: `yet-another-react-lightbox` library (accessible, lightweight)
+- Post-login redirect: store URL in `sessionStorage` before redirecting to login
 
 ---
 
-## Spec 05 — Dashboard con role toggle
+*Next: Spec 05 — Dashboard with role toggle*
 
-### Objetivo
-Punto de entrada principal después del login. Muestra contenido relevante según el rol activo. Una sola pantalla que se adapta sin confundir.
+---
+
+## Spec 05 — Dashboard with Role Toggle
+
+### Objective
+Main entry point after login. Shows relevant content based on the active role. A single screen that adapts without confusion.
 
 ---
 
 ### URL
 `/dashboard`
 
-### Acceso
-- Requiere login — redirect a `/login?redirect=/dashboard` si no autenticada
+### Access
+- Login required — redirect to `/login?redirect=/dashboard` if not authenticated
 
 ---
 
 ### Layout
 
-- Fondo: `#F5F5F5`
-- Header fijo: avatar + nombre + notificaciones
-- Role toggle: tab switcher "Clienta / Profesional"
-- Contenido: cambia según el rol activo
-- Nav inferior (mobile): Home · Directorio · Chats · Perfil
+- Background: `#F5F5F5`
+- Fixed header: avatar + name + notifications
+- Role toggle: tab switcher "Client / Professional"
+- Content: changes based on the active role
+- Bottom nav (mobile): Home · Directory · Chats · Profile
 
 ---
 
-### Header del dashboard
+### Dashboard Header
 
-| Elemento | Detalle |
-|----------|---------|
-| Avatar | SM 32px con iniciales o foto |
-| Saludo | "Hola, {nombre}" · `font-size: 16px` · `font-weight: 500` |
-| Icono notificaciones | `ti-bell` · badge numérico si hay pendientes |
-| Fondo | `#fff` · `border-bottom: 0.5px solid #E0DDD6` |
-
----
-
-### Role toggle
-
-| Elemento | Detalle |
-|----------|---------|
-| Tipo | Tab switcher de dos opciones |
-| Opción 1 | "Clienta" |
-| Opción 2 | "Profesional" |
-| Si solo clienta | Tab "Profesional" muestra CTA "Activar perfil profesional" |
-| Si ambos roles | Toggle funcional entre los dos modos |
-| Persistencia | Último rol activo guardado en `localStorage` |
-| Fondo | Pill gris · tab activo fondo blanco con sombra sutil |
+| Element | Detail |
+|---------|--------|
+| Avatar | SM 32px with initials or photo |
+| Greeting | "Hello, {name}" · `font-size: 16px` · `font-weight: 500` |
+| Notifications icon | `ti-bell` · numeric badge if there are pending items |
+| Background | `#fff` · `border-bottom: 0.5px solid #E0DDD6` |
 
 ---
 
-### Contenido — modo clienta
+### Role Toggle
 
-| Sección | Detalle |
-|---------|---------|
-| Búsqueda rápida | Campo de búsqueda → `/directorio` con query |
-| Chats recientes | Últimas 3 conversaciones con profesionales · link "Ver todos" → `/chats` |
-| Acceso rápido | Botón "Buscar profesional" → `/directorio` |
-
----
-
-### Contenido — modo profesional
-
-| Sección | Detalle |
-|---------|---------|
-| Estado del perfil | Card con estado: Activo · Pendiente · Inactivo |
-| Stats rápidas | Nº de contactos recibidos · valoración media · nº reseñas |
-| Chats recientes | Últimas 3 conversaciones con clientas · link "Ver todos" → `/chats` |
-| Accesos rápidos | "Editar perfil" → `/perfil/editar` · "Ver mi perfil público" → `/directorio/[id]` |
+| Element | Detail |
+|---------|--------|
+| Type | Two-option tab switcher |
+| Option 1 | "Client" |
+| Option 2 | "Professional" |
+| Client only | "Professional" tab shows CTA "Activate professional profile" |
+| Both roles | Functional toggle between the two modes |
+| Persistence | Last active role saved in `localStorage` |
+| Background | Grey pill · active tab white background with subtle shadow |
 
 ---
 
-### Estado — perfil profesional no activado
+### Content — Client Mode
 
-Cuando la usuaria está en modo profesional pero no ha activado su perfil:
-
-| Elemento | Detalle |
-|----------|---------|
-| Card destacada | Icono + "Aún no tienes perfil profesional" |
-| CTA | "Activar perfil profesional" → `/onboarding` |
-| Subtexto | "Empieza a recibir contactos de clientas" |
+| Section | Detail |
+|---------|--------|
+| Quick search | Search field → `/directorio` with query |
+| Recent chats | Last 3 conversations with professionals · "See all" link → `/chats` |
+| Quick access | "Find a professional" button → `/directorio` |
 
 ---
 
-### Nav inferior mobile
+### Content — Professional Mode
 
-| Tab | Icono | Destino |
-|-----|-------|---------|
+| Section | Detail |
+|---------|--------|
+| Profile status | Card with status: Active · Pending · Inactive |
+| Quick stats | No. of contacts received · average rating · no. of reviews |
+| Recent chats | Last 3 conversations with clients · "See all" link → `/chats` |
+| Quick access | "Edit profile" → `/perfil/editar` · "View my public profile" → `/directorio/[id]` |
+
+---
+
+### State — Professional Profile Not Activated
+
+When the user is in professional mode but hasn't activated their profile:
+
+| Element | Detail |
+|---------|--------|
+| Highlighted card | Icon + "You don't have a professional profile yet" |
+| CTA | "Activate professional profile" → `/onboarding` |
+| Subtext | "Start receiving client enquiries" |
+
+---
+
+### Mobile Bottom Nav
+
+| Tab | Icon | Destination |
+|-----|------|-------------|
 | Home | `ti-home` | `/dashboard` |
-| Directorio | `ti-search` | `/directorio` |
-| Chats | `ti-message` · badge si hay mensajes nuevos | `/chats` |
-| Perfil | `ti-user` | `/perfil` |
+| Directory | `ti-search` | `/directorio` |
+| Chats | `ti-message` · badge for new messages | `/chats` |
+| Profile | `ti-user` | `/perfil` |
 
-- Height: 60px · fondo blanco · `border-top: 0.5px solid #E0DDD6`
-- Tab activo: icono + label en teal · resto en gris muted
-- `min-height: 44px` en cada tab
-
----
-
-### Estados
-
-| Estado | Comportamiento |
-|--------|---------------|
-| Cargando | Skeleton del header + skeleton de secciones |
-| Solo clienta | Toggle muestra CTA de activación en tab profesional |
-| Ambos roles | Toggle funcional |
-| Sin chats | "Aún no tienes conversaciones. Busca una profesional." |
-| Sin perfil profesional | Card de activación destacada |
+- Height: 60px · white background · `border-top: 0.5px solid #E0DDD6`
+- Active tab: teal icon + label · rest in muted grey
+- `min-height: 44px` on each tab
 
 ---
 
-### Accesibilidad
+### States
 
-- Role toggle: `role="tablist"` · cada tab `role="tab"` · `aria-selected` · `aria-controls`
-- Contenido de cada tab: `role="tabpanel"` · `aria-labelledby`
-- Nav inferior: `role="navigation"` · `aria-label="Navegación principal"`
-- Badge de notificaciones: `aria-label="{n} notificaciones pendientes"`
-- Badge de chats: `aria-label="{n} mensajes sin leer"`
-
----
-
-### Notas técnicas
-
-- El rol activo se lee de Supabase al cargar — `profiles.roles[]`
-- `localStorage` solo para persistir el último tab activo entre sesiones
-- Las stats del modo profesional se calculan en Supabase con funciones RPC
-- El badge de notificaciones usa Supabase Realtime para actualizarse sin reload
+| State | Behavior |
+|-------|----------|
+| Loading | Header skeleton + section skeletons |
+| Client only | Toggle shows activation CTA on professional tab |
+| Both roles | Functional toggle |
+| No chats | "No conversations yet. Find a professional." |
+| No professional profile | Highlighted activation card |
 
 ---
 
-*Siguiente: Spec 06 — Onboarding profesional*
+### Accessibility
+
+- Role toggle: `role="tablist"` · each tab `role="tab"` · `aria-selected` · `aria-controls`
+- Each tab content: `role="tabpanel"` · `aria-labelledby`
+- Bottom nav: `role="navigation"` · `aria-label="Main navigation"`
+- Notifications badge: `aria-label="{n} pending notifications"`
+- Chats badge: `aria-label="{n} unread messages"`
 
 ---
 
-## Spec 06 — Onboarding profesional
+### Technical Notes
 
-### Objetivo
-Guiar a la usuaria para crear su perfil profesional de forma clara y sin fricción. Dividido en pasos para no abrumar. Al completarlo, el perfil queda activo en el directorio.
+- Active role read from Supabase on load — `profiles.roles[]`
+- `localStorage` only to persist the last active tab between sessions
+- Professional mode stats calculated in Supabase with RPC functions
+- Notification badge uses Supabase Realtime to update without reload
+
+---
+
+*Next: Spec 06 — Professional onboarding*
+
+---
+
+## Spec 06 — Professional Onboarding
+
+### Objective
+Guide the user through creating their professional profile clearly and without friction. Split into steps to avoid overwhelming. On completion, the profile becomes active in the directory.
 
 ---
 
 ### URL
 `/onboarding`
 
-### Acceso
-- Requiere login
-- Redirect aquí desde `/signup?rol=profesional` o desde el dashboard al pulsar "Activar perfil profesional"
+### Access
+- Login required
+- Redirected here from `/signup?rol=profesional` or from the dashboard when pressing "Activate professional profile"
 
 ---
 
-### Estructura — 4 pasos
+### Structure — 4 Steps
 
 ```
-Paso 1 → Especialidad y ciudades
-Paso 2 → Descripción y tarifas
-Paso 3 → Fotos (perfil + portfolio)
-Paso 4 → Confirmación
+Step 1 → Specialty and cities
+Step 2 → Description and rates
+Step 3 → Photos (profile + portfolio)
+Step 4 → Confirmation
 ```
 
 ---
 
-### Header de onboarding
+### Onboarding Header
 
-| Elemento | Detalle |
-|----------|---------|
-| Logo | HandyFEM centrado |
-| Barra de progreso | 4 segmentos · teal el completado · gris el pendiente |
-| Indicador | "Paso 2 de 4" · `font-size: 12px` · color muted |
-| Botón volver | `ti-arrow-left` · ghost · vuelve al paso anterior |
-
----
-
-### Paso 1 — Especialidad y ciudades
-
-| Campo | Tipo | Detalle |
-|-------|------|---------|
-| Especialidad principal | Select | Electricidad · Fontanería · Carpintería · Pintura · Reformas · Instalaciones · Mantenimiento · Otra |
-| Especialidades adicionales | Multi-select chips | Mismas opciones · opcional |
-| Ciudades donde trabajas | Multi-select chips | Ciudades principales de España · mínimo 1 |
-
-**Validación:**
-- Especialidad principal: obligatoria
-- Ciudades: mínimo 1 obligatoria
+| Element | Detail |
+|---------|--------|
+| Logo | HandyFEM centred |
+| Progress bar | 4 segments · teal for completed · grey for pending |
+| Indicator | "Step 2 of 4" · `font-size: 12px` · muted colour |
+| Back button | `ti-arrow-left` · ghost · returns to the previous step |
 
 ---
 
-### Paso 2 — Descripción y tarifas
+### Step 1 — Specialty and Cities
 
-| Campo | Tipo | Detalle |
-|-------|------|---------|
-| Descripción profesional | Textarea | Mínimo 50 · máximo 500 caracteres · contador visible |
-| Tarifa orientativa | Text opcional | "¿Cuál es tu tarifa orientativa? Ej: 40€/hora" · sin validación estricta |
+| Field | Type | Detail |
+|-------|------|--------|
+| Main specialty | Select | Electrical · Plumbing · Carpentry · Painting · Renovations · Installations · Maintenance · Other |
+| Additional specialties | Multi-select chips | Same options · optional |
+| Cities where you work | Multi-select chips | Main Spanish cities · minimum 1 |
 
-**Nota:** La tarifa es opcional y orientativa — no se usa para pagos, solo como información para la clienta.
-
----
-
-### Paso 3 — Fotos
-
-| Campo | Tipo | Detalle |
-|-------|------|---------|
-| Foto de perfil | File upload | Obligatoria · JPG/PNG/WebP · máx 5MB · preview circular |
-| Fotos de portfolio | File upload múltiple | Opcional · hasta 6 fotos · preview en grid |
-
-**Comportamiento:**
-- Foto de perfil: si ya tiene foto de cuenta de Google, se usa como default con opción de cambiar
-- Portfolio: drag & drop o selector · preview inmediata · botón X para eliminar cada foto
+**Validation:**
+- Main specialty: required
+- Cities: minimum 1 required
 
 ---
 
-### Paso 4 — Confirmación
+### Step 2 — Description and Rates
 
-| Elemento | Detalle |
-|----------|---------|
-| Resumen | Especialidad · ciudades · descripción truncada · foto de perfil |
-| CTA | "Publicar perfil" · primario · ancho completo |
-| Subtexto | "Tu perfil será visible en el directorio inmediatamente" |
-| Link | "Volver y editar" · ghost |
+| Field | Type | Detail |
+|-------|------|--------|
+| Professional description | Textarea | Minimum 50 · maximum 500 characters · visible counter |
+| Approximate rate | Optional text | "What is your approximate rate? E.g. €40/hour" · no strict validation |
 
-**Al pulsar "Publicar perfil":**
-- Guarda en Supabase tabla `professionals`
-- Activa el rol profesional en `profiles.roles[]`
-- Redirect a `/dashboard` con toast "¡Tu perfil está activo!"
+**Note:** The rate is optional and indicative — not used for payments, just as information for the client.
 
 ---
 
-### Estados
+### Step 3 — Photos
 
-| Estado | Comportamiento |
-|--------|---------------|
-| Paso incompleto | Botón "Continuar" disabled hasta que los campos obligatorios estén completos |
-| Subiendo fotos | Spinner en el área de upload · botón continuar disabled |
-| Error de subida | Toast "No se pudo subir la foto. Inténtalo de nuevo." |
-| Éxito | Redirect a dashboard + toast de confirmación |
+| Field | Type | Detail |
+|-------|------|--------|
+| Profile photo | File upload | Required · JPG/PNG/WebP · max 5MB · circular preview |
+| Portfolio photos | Multiple file upload | Optional · up to 6 photos · grid preview |
 
----
-
-### Accesibilidad
-
-- Barra de progreso: `role="progressbar"` · `aria-valuenow` · `aria-valuemax="4"`
-- Cada paso: `aria-live="polite"` al cambiar de paso
-- Chips multi-select: `role="checkbox"` · `aria-checked`
-- File upload: `aria-label` descriptivo · `aria-describedby` con hint de formatos
+**Behavior:**
+- Profile photo: if the user already has a Google account photo, it is used as the default with an option to change it
+- Portfolio: drag & drop or selector · immediate preview · X button to remove each photo
 
 ---
 
-### Notas técnicas
+### Step 4 — Confirmation
 
-- Estado del formulario en `useState` — no se pierde al navegar entre pasos
-- Las fotos se suben a Supabase Storage en el paso 3 al seleccionarlas — no al submit final
-- Si la usuaria abandona el onboarding a mitad, los datos se guardan en `localStorage` como borrador
-- Al volver, se recupera el borrador y se pregunta "¿Continuar donde lo dejaste?"
+| Element | Detail |
+|---------|--------|
+| Summary | Specialty · cities · truncated description · profile photo |
+| CTA | "Publish profile" · primary · full width |
+| Subtext | "Your profile will be visible in the directory immediately" |
+| Link | "Go back and edit" · ghost |
+
+**When pressing "Publish profile":**
+- Saves to Supabase `professionals` table
+- Activates the professional role in `profiles.roles[]`
+- Redirect to `/dashboard` with toast "Your profile is now active!"
 
 ---
 
-*Siguiente: Spec 07 — Chat básico*
+### States
+
+| State | Behavior |
+|-------|----------|
+| Incomplete step | "Continue" button disabled until required fields are complete |
+| Uploading photos | Spinner in the upload area · continue button disabled |
+| Upload error | Toast "Could not upload the photo. Please try again." |
+| Success | Redirect to dashboard + confirmation toast |
 
 ---
 
-## Spec 07 — Chat básico
+### Accessibility
 
-### Objetivo
-Permitir la comunicación directa entre clienta y profesional sin intermediarios. Simple, funcional y en tiempo real.
+- Progress bar: `role="progressbar"` · `aria-valuenow` · `aria-valuemax="4"`
+- Each step: `aria-live="polite"` when changing step
+- Multi-select chips: `role="checkbox"` · `aria-checked`
+- File upload: descriptive `aria-label` · `aria-describedby` with format hint
+
+---
+
+### Technical Notes
+
+- Form state in `useState` — not lost when navigating between steps
+- Photos are uploaded to Supabase Storage in step 3 when selected — not on final submit
+- If the user abandons onboarding halfway, data is saved in `localStorage` as a draft
+- On return, the draft is recovered and the user is asked "Continue where you left off?"
+
+---
+
+*Next: Spec 07 — Basic chat*
+
+---
+
+## Spec 07 — Basic Chat
+
+### Objective
+Allow direct communication between client and professional without intermediaries. Simple, functional and real-time.
 
 ---
 
 ### URLs
-- `/chats` — lista de conversaciones
-- `/chats/[id]` — conversación individual
+- `/chats` — conversations list
+- `/chats/[id]` — individual conversation
 
-### Acceso
-- Requiere login en ambas rutas
+### Access
+- Login required on both routes
 
 ---
 
-### Pantalla /chats — lista de conversaciones
+### /chats Screen — Conversations List
 
 #### Layout
-| Elemento | Detalle |
-|----------|---------|
-| Header | "Mis chats" · `font-size: 18px` · `font-weight: 500` |
-| Fondo | `#F5F5F5` |
-| Lista | Cards de conversación ordenadas por última actividad |
+| Element | Detail |
+|---------|--------|
+| Header | "My chats" · `font-size: 18px` · `font-weight: 500` |
+| Background | `#F5F5F5` |
+| List | Conversation cards ordered by latest activity |
 
-#### Card de conversación
-| Elemento | Detalle |
-|----------|---------|
-| Avatar | MD 40px de la otra persona |
-| Nombre | Nombre completo · `font-weight: 500` |
-| Preview | Último mensaje truncado a 1 línea |
-| Timestamp | Hora si es hoy · día si es esta semana · fecha si es más antiguo |
-| Badge estado | Pill — Nuevo · En progreso · Completado |
-| Badge no leído | Punto violeta si hay mensajes sin leer |
+#### Conversation Card
+| Element | Detail |
+|---------|--------|
+| Avatar | MD 40px of the other person |
+| Name | Full name · `font-weight: 500` |
+| Preview | Last message truncated to 1 line |
+| Timestamp | Time if today · day if this week · date if older |
+| Status badge | Pill — New · In progress · Completed |
+| Unread badge | Violet dot if there are unread messages |
 
-#### Estados
-| Estado | Comportamiento |
-|--------|---------------|
-| Sin conversaciones | Icono + "Aún no tienes conversaciones" + botón "Buscar profesional" |
-| Cargando | Skeleton de 3 cards |
-| Con conversaciones | Lista ordenada por última actividad |
+#### States
+| State | Behavior |
+|-------|----------|
+| No conversations | Icon + "No conversations yet" + "Find a professional" button |
+| Loading | Skeleton of 3 cards |
+| With conversations | List ordered by latest activity |
 
 ---
 
-### Pantalla /chats/[id] — conversación
+### /chats/[id] Screen — Conversation
 
-#### Layout mobile
+#### Mobile Layout
 ```
-Header fijo    → avatar + nombre + badge estado + back button
-Mensajes       → scroll vertical · burbujas
-Input fijo     → campo texto + adjuntar foto + enviar
+Fixed header    → avatar + name + status badge + back button
+Messages        → vertical scroll · bubbles
+Fixed input     → text field + attach photo + send
 ```
 
-#### Header de conversación
-| Elemento | Detalle |
-|----------|---------|
-| Botón volver | `ti-arrow-left` → `/chats` |
+#### Conversation Header
+| Element | Detail |
+|---------|--------|
+| Back button | `ti-arrow-left` → `/chats` |
 | Avatar | SM 32px |
-| Nombre | `font-size: 14px` · `font-weight: 500` |
-| Badge estado | Pill — Nuevo · En progreso · Completado · clickable para cambiar |
-| Fondo | `#fff` · `border-bottom: 0.5px solid #E0DDD6` |
+| Name | `font-size: 14px` · `font-weight: 500` |
+| Status badge | Pill — New · In progress · Completed · clickable to change |
+| Background | `#fff` · `border-bottom: 0.5px solid #E0DDD6` |
 
-#### Burbujas de mensaje
-| Elemento | Detalle |
-|----------|---------|
-| Mensaje propio | Derecha · fondo teal `#4A7C7D` · texto cream · `border-radius: 12px 12px 2px 12px` |
-| Mensaje otro | Izquierda · fondo `#F5F5F5` · texto dark · `border-radius: 12px 12px 12px 2px` |
-| Timestamp | Debajo del mensaje · `font-size: 11px` · color muted |
-| Foto adjunta | Thumbnail 200px · click abre lightbox |
-| Agrupación | Mensajes del mismo remitente seguidos sin avatar repetido |
+#### Message Bubbles
+| Element | Detail |
+|---------|--------|
+| Own message | Right · teal background `#4A7C7D` · cream text · `border-radius: 12px 12px 2px 12px` |
+| Other's message | Left · `#F5F5F5` background · dark text · `border-radius: 12px 12px 12px 2px` |
+| Timestamp | Below the message · `font-size: 11px` · muted colour |
+| Attached photo | 200px thumbnail · click opens lightbox |
+| Grouping | Consecutive messages from the same sender without repeated avatar |
 
-#### Input de mensaje
-| Elemento | Detalle |
-|----------|---------|
-| Campo texto | Placeholder "Escribe un mensaje..." · crece con el contenido · máx 4 líneas |
-| Botón adjuntar | `ti-paperclip` · abre selector de fotos |
-| Botón enviar | `ti-send` · teal · disabled si el campo está vacío |
-| Fondo | `#fff` · `border-top: 0.5px solid #E0DDD6` · padding `8px 16px` |
+#### Message Input
+| Element | Detail |
+|---------|--------|
+| Text field | Placeholder "Write a message..." · grows with content · max 4 lines |
+| Attach button | `ti-paperclip` · opens photo selector |
+| Send button | `ti-send` · teal · disabled if the field is empty |
+| Background | `#fff` · `border-top: 0.5px solid #E0DDD6` · padding `8px 16px` |
 
-#### Cambio de estado
-- Click en el badge de estado abre un bottom sheet con las opciones
-- Opciones: Nuevo → En progreso → Completado
-- Solo la profesional puede cambiar el estado
-- Al marcar "Completado" → aparece prompt "¿Dejar una valoración?" → `/valoracion/[id]`
-
----
-
-### Tiempo real
-
-- Implementación: Supabase Realtime subscriptions
-- Al recibir mensaje nuevo: scroll automático al último mensaje
-- Indicador de "escribiendo..." cuando la otra persona escribe
-- Los mensajes nuevos se marcan como leídos al abrir la conversación
+#### Status Change
+- Clicking the status badge opens a bottom sheet with options
+- Options: New → In progress → Completed
+- Only the professional can change the status
+- On marking "Completed" → prompt appears "Leave a review?" → `/valoracion/[id]`
 
 ---
 
-### Estados de mensaje
+### Real Time
 
-| Estado | Icono |
-|--------|-------|
-| Enviando | Reloj `ti-clock` · gris |
-| Enviado | Check simple `ti-check` · gris |
-| Leído | Check doble `ti-checks` · teal |
-| Error | `ti-alert-circle` · rojo · tap para reintentar |
+- Implementation: Supabase Realtime subscriptions
+- On new message: automatic scroll to last message
+- "Typing..." indicator when the other person is typing
+- New messages marked as read when the conversation is opened
 
 ---
 
-### Accesibilidad
+### Message States
 
-- `role="log"` en el contenedor de mensajes · `aria-live="polite"`
-- `aria-label="Mensaje de {nombre}, {timestamp}"` en cada burbuja
-- Input: `aria-label="Escribe un mensaje"` · `aria-multiline="true"`
-- Botón enviar: `aria-label="Enviar mensaje"` · `aria-disabled` cuando vacío
-- Bottom sheet de estado: `role="dialog"` · focus trap · cierre con Escape
-
----
-
-### Notas técnicas
-
-- Tabla Supabase: `messages` — `id, conversation_id, sender_id, content, type, created_at, read_at`
-- Tabla Supabase: `conversations` — `id, client_id, professional_id, status, created_at, updated_at`
-- Fotos adjuntas: subida a Supabase Storage · thumbnail generado automáticamente
-- Paginación de mensajes: carga los últimos 50 · scroll hacia arriba carga más
-- `useEffect` cleanup de la subscription al desmontar el componente
+| State | Icon |
+|-------|------|
+| Sending | Clock `ti-clock` · grey |
+| Sent | Single check `ti-check` · grey |
+| Read | Double check `ti-checks` · teal |
+| Error | `ti-alert-circle` · red · tap to retry |
 
 ---
 
-## Specs MVP — completadas ✓
+### Accessibility
 
-| Pantalla | Estado |
-|----------|--------|
+- `role="log"` on the messages container · `aria-live="polite"`
+- `aria-label="Message from {name}, {timestamp}"` on each bubble
+- Input: `aria-label="Write a message"` · `aria-multiline="true"`
+- Send button: `aria-label="Send message"` · `aria-disabled` when empty
+- Status bottom sheet: `role="dialog"` · focus trap · close with Escape
+
+---
+
+### Technical Notes
+
+- Supabase table: `messages` — `id, conversation_id, sender_id, content, type, created_at, read_at`
+- Supabase table: `conversations` — `id, client_id, professional_id, status, created_at, updated_at`
+- Attached photos: uploaded to Supabase Storage · thumbnail generated automatically
+- Message pagination: loads the last 50 · scroll up loads more
+- `useEffect` cleanup of the subscription on component unmount
+
+---
+
+## MVP Specs — Completed ✓
+
+| Screen | Status |
+|--------|--------|
 | Spec 01 Landing page | ✓ |
 | Spec 02 Sign up / Log in | ✓ |
-| Spec 03 Directorio + filtros | ✓ |
-| Spec 04 Perfil profesional público | ✓ |
-| Spec 05 Dashboard con role toggle | ✓ |
-| Spec 06 Onboarding profesional | ✓ |
-| Spec 07 Chat básico | ✓ |
+| Spec 03 Directory + filters | ✓ |
+| Spec 04 Public professional profile | ✓ |
+| Spec 05 Dashboard with role toggle | ✓ |
+| Spec 06 Professional onboarding | ✓ |
+| Spec 07 Basic chat | ✓ |
 
-
-- [x] Spec 07 Chat básico — visual aprobado ✓
+- [x] Spec 07 Basic chat — visual approved ✓
 
 ---
 
-## Spec DS-07 — Tipografía y layout global
+## Spec DS-07 — Typography & Global Layout
 
-### Tipografía
+### Typography
 
-| Uso | Fuente | Fuente alternativa |
-|-----|--------|--------------------|
-| Titulares (h1, h2, hero) | Plus Jakarta Sans | system-ui |
-| Cuerpo, UI, componentes | DM Sans | system-ui |
+| Use | Font | Fallback |
+|-----|------|----------|
+| Headlines (h1, h2, hero) | Plus Jakarta Sans | system-ui |
+| Body, UI, components | DM Sans | system-ui |
 
-Ambas via `next/font/google` — zero layout shift, carga optimizada.
+Both via `next/font/google` — zero layout shift, optimised loading.
 
 ```ts
 // app/layout.tsx
@@ -2085,14 +2078,14 @@ Tokens:
 
 ---
 
-### Layout global
+### Global Layout
 
-| Token | Valor | Uso |
+| Token | Value | Use |
 |-------|-------|-----|
-| `--max-width` | `1024px` | Contenedor máximo en desktop |
-| `--padding-mobile` | `16px` | Padding lateral mobile |
-| `--padding-desktop` | `24px` | Padding lateral desktop |
-| Densidad visual | Aireada | Mucho espacio entre elementos — transmite calma y confianza |
+| `--max-width` | `1024px` | Maximum container width on desktop |
+| `--padding-mobile` | `16px` | Mobile side padding |
+| `--padding-desktop` | `24px` | Desktop side padding |
+| Visual density | Airy | Generous space between elements — conveys calm and trust |
 
 ```css
 .container {
