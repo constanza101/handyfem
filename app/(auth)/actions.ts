@@ -10,6 +10,7 @@ import {
   resetRequestSchema,
   updatePasswordSchema,
   toFieldErrors,
+  parseForm,
   type FieldErrors,
 } from "@/lib/validations/auth"
 
@@ -27,7 +28,7 @@ async function siteOrigin() {
 }
 
 export async function login(_prev: AuthState, formData: FormData): Promise<AuthState> {
-  const parsed = loginSchema.safeParse(Object.fromEntries(formData))
+  const parsed = parseForm(loginSchema, formData)
   if (!parsed.success) return { fieldErrors: toFieldErrors(parsed.error) }
 
   const supabase = await createClient()
@@ -39,7 +40,7 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
 }
 
 export async function signup(_prev: AuthState, formData: FormData): Promise<AuthState> {
-  const parsed = signupSchema.safeParse(Object.fromEntries(formData))
+  const parsed = parseForm(signupSchema, formData)
   if (!parsed.success) return { fieldErrors: toFieldErrors(parsed.error) }
 
   const { firstName, lastName, email, password } = parsed.data
@@ -71,7 +72,7 @@ export async function requestPasswordReset(
   _prev: AuthState,
   formData: FormData
 ): Promise<AuthState> {
-  const parsed = resetRequestSchema.safeParse(Object.fromEntries(formData))
+  const parsed = parseForm(resetRequestSchema, formData)
   if (!parsed.success) return { fieldErrors: toFieldErrors(parsed.error) }
 
   const supabase = await createClient()
@@ -86,7 +87,7 @@ export async function updatePassword(
   _prev: AuthState,
   formData: FormData
 ): Promise<AuthState> {
-  const parsed = updatePasswordSchema.safeParse(Object.fromEntries(formData))
+  const parsed = parseForm(updatePasswordSchema, formData)
   if (!parsed.success) return { fieldErrors: toFieldErrors(parsed.error) }
 
   const supabase = await createClient()

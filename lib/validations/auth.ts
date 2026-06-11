@@ -45,6 +45,21 @@ export const updatePasswordSchema = z.object({ password }).strict()
 
 export type FieldErrors = Record<string, string>
 
+/**
+ * Parse a server-action FormData against a schema, reading only the
+ * schema's own keys. Next.js injects internal $ACTION_* fields into action
+ * forms; Object.fromEntries(formData) + .strict() would reject them all.
+ */
+export function parseForm<T extends z.ZodObject<z.ZodRawShape>>(
+  schema: T,
+  formData: FormData
+) {
+  const raw = Object.fromEntries(
+    Object.keys(schema.shape).map((k) => [k, formData.get(k) ?? undefined])
+  )
+  return schema.safeParse(raw)
+}
+
 /** Flatten zod issues to one message per field (first wins). */
 export function toFieldErrors(error: z.ZodError): FieldErrors {
   const out: FieldErrors = {}
