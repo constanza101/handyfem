@@ -1,5 +1,16 @@
 import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { extendTailwindMerge } from "tailwind-merge"
+
+// Register the custom font-size tokens from @theme (text-ui, text-md) so
+// tailwind-merge doesn't misclassify them as text colors and silently drop
+// real color classes (e.g. text-primary-foreground) as "duplicates".
+const twMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      "font-size": [{ text: ["ui", "md"] }],
+    },
+  },
+})
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

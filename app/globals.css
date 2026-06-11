@@ -229,6 +229,12 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Tailwind v4 preflight makes buttons cursor-default; HandyFEM wants
+     pointer on every enabled interactive control */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
   h1,
   h2,
   h3,

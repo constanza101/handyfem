@@ -67,7 +67,9 @@ function SelectContent({
   sideOffset = 4,
   align = "center",
   alignOffset = 0,
-  alignItemWithTrigger = true,
+  // false = popup drops below the trigger, keeping the selected value
+  // visible (decision 2026-06-11); true is Base UI's macOS-style overlay
+  alignItemWithTrigger = false,
   ...props
 }: SelectPrimitive.Popup.Props &
   Pick<
