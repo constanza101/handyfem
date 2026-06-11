@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Bricolage_Grotesque, Courier_Prime } from "next/font/google";
+import { Geist, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 
 const fontSans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
 });
 
 const fontSerif = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-serif",
-});
-
-const fontMono = Courier_Prime({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} font-sans antialiased`}
+        className={`${fontSans.variable} ${fontSerif.variable} font-sans antialiased`}
       >
         {children}
       </body>

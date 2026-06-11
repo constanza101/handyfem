@@ -23,6 +23,12 @@
 | Lavender | `#D0C2E5` |
 | Amber | `#FCC970` |
 
+> **Source of truth (decision 2026-06-11):** colors, radius, fonts and shadows
+> live in the tweakcn theme in `app/globals.css`. The DS-01…07 specs below
+> were rewritten on 2026-06-11 to match it (warm neutrals removed, white text
+> on primary, Geist + Bricolage Grotesque, 4px radius base). If doc and code
+> ever drift again, `globals.css` wins.
+
 ---
 
 ## User Roles
@@ -82,7 +88,7 @@ A professional seeking visibility and work.
 | Primary CTA | "Find a professional" → `/directory` |
 | Secondary CTA | "I'm a professional" → `/signup?rol=profesional` |
 | Image | Hero photo of a woman trade professional (mobile: vertical, desktop: horizontal) |
-| Background | Cream `#F4EBD7` |
+| Background | Muted `#FAFAF9` *(was cream — removed in tweakcn pass; use accent `#FFD894` sparingly if a warm band is wanted)* |
 
 **States:**
 - Mobile: large headline, subtitle, CTAs stacked vertically, image below
@@ -113,7 +119,7 @@ A professional seeking visibility and work.
 | Feature 2 | Star icon — "Real reviews" — "Ratings from clients who have hired the service." |
 | Feature 3 | People icon — "Women professionals only" — "A network built by and for women." |
 | Feature 4 | Message icon — "Direct contact" — "No intermediaries. Talk directly to the professional." |
-| Background | Background `#F8F5F0` |
+| Background | Background `#FAFAF9` (muted) |
 
 ---
 
@@ -125,7 +131,7 @@ A professional seeking visibility and work.
 | Count | 3 testimonials |
 | Content | Name, avatar with initials, specialty or city, testimonial text, star rating |
 | Data | Fictitious for MVP |
-| Background | Cream `#F4EBD7` |
+| Background | White `#fff` *(was cream — removed in tweakcn pass)* |
 
 ---
 
@@ -148,7 +154,7 @@ A professional seeking visibility and work.
 | Links | How it works · Directory · About us · Contact |
 | Legal | Privacy policy · Terms of use |
 | Copyright | © 2026 HandyFEM |
-| Background | `#2C2C2A`, text `#D3D1C7` |
+| Background | `#2B2A28`, text `#E5E7EB` |
 
 ---
 
@@ -211,15 +217,15 @@ No separate tablet breakpoint — intentional decision to simplify maintenance.
 #### HandyFEM Tokens
 | Token | Value |
 |-------|-------|
-| `--color-primary` | `#4A7C7D` |
-| `--color-accent` | `#776AAA` |
-| `--color-bg-primary` | `#ffffff` |
+| `--primary` | `#4A7C7D` |
+| `--color-violet` | `#776AAA` |
+| `--background` | `#ffffff` |
 | `--color-lavanda` | `#D0C2E5` |
-| `--color-muted` | `#699794` |
-| `--color-dark` | `#2C2C2A` |
-| `--radius-pill` | `9999px` |
-| `--radius-lg` | `16px` |
-| `--border-default` | `0.5px solid #D0C2E5` |
+| `--color-primary-light` | `#699794` |
+| `--foreground` | `#2B2A28` |
+| `rounded-full` | `9999px` (pill) |
+| `rounded-xl` | `8px` |
+| `border-hairline` + `--border` | `0.5px solid #E5E7EB` |
 | `--t-fast` | `150ms ease` |
 | `--t-normal` | `300ms ease` |
 | `--shadow-nav-scroll` | `0 4px 24px rgba(74,124,125,0.12)` |
@@ -324,7 +330,7 @@ A single primary button visible per screen. All others are secondary, ghost, or 
 
 #### Primary
 - Background: `#4A7C7D` (teal)
-- Text: `#F4EBD7` (cream)
+- Text: `#FFFFFF` (white — tweakcn `--primary-foreground`)
 - Hover: `#3A6B6C` (teal darkened 10%)
 - Active: `scale(0.98)` + darker teal
 - Disabled: `opacity: 0.4`, `cursor: not-allowed`
@@ -365,7 +371,7 @@ A single primary button visible per screen. All others are secondary, ghost, or 
 | Size | Height | Horizontal padding | Font size | Use |
 |------|--------|--------------------|-----------|-----|
 | Large | 48px | 28px | 1rem | Hero CTAs, main sections |
-| Medium | 40px | 20px | 0.9rem | Cards, forms, dashboard |
+| Medium | 44px | 20px | 0.9rem | Cards, forms, dashboard — 44px touch minimum wins over the old 40px |
 | Small | 32px | 14px | 0.8rem | Filters, chips, inline actions |
 
 ---
@@ -374,7 +380,7 @@ A single primary button visible per screen. All others are secondary, ghost, or 
 
 | Property | Value |
 |----------|-------|
-| `border-radius` | `8px` (rounded) |
+| `border-radius` | `4px` (`rounded-lg`, tweakcn base radius) |
 | `font-weight` | `500` |
 | `letter-spacing` | `0.02em` |
 | `white-space` | `nowrap` |
@@ -394,7 +400,7 @@ A single primary button visible per screen. All others are secondary, ghost, or 
 | Default | Base style as described above |
 | Hover | Darker colour / soft background. `@media (hover: hover)` only |
 | Active | `scale(0.98)` — immediate tactile feedback |
-| Focus | `box-shadow: 0 0 0 3px #D0C2E5` — lavender ring for keyboard accessibility |
+| Focus | Teal ring `ring-3 ring-ring/50` + `border-ring` — stock shadcn treatment, consistent across all interactive elements |
 | Disabled | `opacity: 0.4`, `cursor: not-allowed`, non-interactive |
 | Loading | Inline spinner on the left + text changes to "Loading..." + disabled |
 
@@ -424,7 +430,7 @@ A single primary button visible per screen. All others are secondary, ghost, or 
 ### Accessibility
 
 - `min-height: 44px` on Large and Medium — Apple/Material touch standard
-- Visible focus ring: `box-shadow: 0 0 0 3px #D0C2E5`
+- Visible focus ring: teal `ring-3 ring-ring/50` (stock shadcn)
 - Minimum AA contrast: verified on primary (cream on teal) and destructive
 - `aria-disabled="true"` in disabled state (not native `disabled` if a tooltip is needed)
 - `aria-busy="true"` in loading state
@@ -501,7 +507,7 @@ Error message            ← only visible in error state, 12px, red
 
 #### Textarea
 - Use: professional profile description, onboarding message
-- Minimum height: 120px
+- Minimum height: 64px (stock `min-h-16`; grows with content via `field-sizing-content`)
 - Resize: vertical only (`resize: vertical`)
 - Character counter in the bottom-right corner when there is a limit
 
@@ -530,14 +536,17 @@ Error message            ← only visible in error state, 12px, red
 
 ### States
 
+*(Decision 2026-06-11: inputs use **stock shadcn styling** — the design tweakcn
+previews — with 44px touch minimums. The earlier custom 1.5px-border treatment
+is retired.)*
+
 | State | Border | Label colour | Background |
 |-------|--------|--------------|------------|
-| Default | `1.5px solid #D0C2E5` | `#699794` | `#fff` |
-| Focus | `1.5px solid #776AAA` | `#60569C` | `#fff` |
-| Filled | `1.5px solid #D0C2E5` | `#699794` | `#fff` |
-| Error | `1.5px solid #E24B4A` | `#A32D2D` | `#FCEBEB` |
-| Disabled | `1.5px solid #D0C2E5` | `#B4B2A9` | `#F8F5F0` · `cursor: not-allowed` |
-| Success | `1.5px solid #4A7C7D` | `#4A7C7D` | `#fff` · check icon on right |
+| Default | `1px solid #D0C2E5` (`--input`) | `#699794` | transparent |
+| Focus | `1px solid #4A7C7D` (`--ring`) + teal ring `ring-3 ring-ring/50` | `#60569C` | transparent |
+| Error (`aria-invalid`) | `1px solid` destructive + red ring `/20` | `#A32D2D` | transparent |
+| Disabled | `1px solid #D0C2E5` | `#7A736B` | `--input` at 50% + `opacity: 50%` · `cursor: not-allowed` |
+| Success | *(not implemented in MVP — v2)* | | |
 
 ---
 
@@ -545,11 +554,11 @@ Error message            ← only visible in error state, 12px, red
 
 | Property | Value |
 |----------|-------|
-| `border-radius` | `8px` |
+| `border-radius` | `4px` (`rounded-lg`) |
 | `font-size` | `0.9rem` |
 | `font-weight` | `400` |
-| `color` (value) | `#2C2C2A` |
-| `color` (placeholder) | `#B4B2A9` |
+| `color` (value) | `#2B2A28` (foreground) |
+| `color` (placeholder) | `#7A736B` (muted-foreground) |
 | `transition` | `border-color 150ms ease, background 150ms ease` |
 | `width` | `100%` always |
 | `min-height` | `44px` (text, email, password, select) |
@@ -564,10 +573,8 @@ Error message            ← only visible in error state, 12px, red
 
 ### Focus ring
 
-```css
-box-shadow: 0 0 0 3px #D0C2E550;
-```
-Semi-transparent lavender — consistent with the button focus ring.
+Teal `ring-3 ring-ring/50` + `border-ring` (stock shadcn, `--ring: #4A7C7D`) —
+the same treatment on buttons, chips and cards.
 
 ---
 
@@ -682,13 +689,13 @@ The card is the most important element in the directory. It needs to build trust
 
 #### Horizontal card (mobile)
 - Layout: photo on the left · info on the right
-- Photo: 80×80px, `border-radius: 8px`, `object-fit: cover`
+- Photo: 80×80px, `border-radius: 4px`, `object-fit: cover`
 - Width: 100%
 - Height: auto (minimum 96px)
 
 #### Vertical card (desktop grid)
 - Layout: photo on top · info below
-- Photo: full width, height 180px, `border-radius: 8px 8px 0 0`, `object-fit: cover`
+- Photo: full width, height 180px, `border-radius: 4px`, `object-fit: cover`
 - Width: 100% of grid column
 
 ---
@@ -710,7 +717,7 @@ The card is the most important element in the directory. It needs to build trust
 
 | State | Behavior |
 |-------|----------|
-| Default | Lavender border `1.5px solid #D0C2E5` · white background |
+| Default | Hairline border `0.5px solid #E5E7EB` · white background |
 | Hover (desktop) | `translateY(-2px)` · soft teal shadow · `@media (hover: hover)` |
 | No photo | Initials in circle `#D0C2E5` with text `#60569C` |
 | No ratings | "No ratings yet" in muted grey |
@@ -722,13 +729,13 @@ The card is the most important element in the directory. It needs to build trust
 
 | Property | Value |
 |----------|-------|
-| `border-radius` | `12px` |
-| `border` | `1.5px solid #E0DDD6` (neutral grey) |
+| `border-radius` | `8px` (`rounded-xl`) |
+| `border` | `0.5px solid #E5E7EB` (hairline — polish 2026-06-11) |
 | `background` | `#fff` |
 | `padding` | `12px` (horizontal) · `16px` (vertical desktop) |
 | `transition` | `transform 300ms ease, box-shadow 300ms ease` |
 | Hover `transform` | `translateY(-2px)` |
-| Hover `box-shadow` | `0 8px 24px rgba(74,124,125,0.10)` |
+| Hover `box-shadow` | `var(--shadow-lg)` (tweakcn ramp, alias `shadow-card-hover`) |
 | `cursor` | `pointer` |
 
 ---
@@ -750,7 +757,7 @@ The card is the most important element in the directory. It needs to build trust
 - Photo with `alt="{name}, {specialty}"`
 - Verified badge with `aria-label="Verified profile"`
 - Rating with `aria-label="{n} stars, {n} reviews"`
-- Focus ring: `box-shadow: 0 0 0 3px #D0C2E550`
+- Focus ring: teal `ring-3 ring-ring/50` (stock shadcn)
 
 ---
 
@@ -796,16 +803,16 @@ Pill for unique, important states. Rounded for categories and informational labe
 | Pending | `#FAEEDA` | `#854F0B` | Profile submitted, awaiting verification |
 | New | `#EEEDFE` | `#3C3489` | New chat without a reply |
 | In progress | `#E1F5EE` | `#0F6E56` | Service underway |
-| Completed | `#D3D1C7` | `#444441` | Service finished |
+| Completed | `#E5E7EB` | `#525252` | Service finished — cool gray (`inactive` token) |
 
-#### Categories — rounded (border-radius: 6px)
+#### Categories — rounded (border-radius: 4px)
 
 | Badge | Background | Text | Use |
 |-------|-----------|------|-----|
 | Specialty | `#D0C2E530` | `#60569C` | Electrical, Plumbing, Carpentry… |
 | City | `#4A7C7D15` | `#3A5E5F` | Barcelona, Madrid, Valencia… |
-| Active filter | `#4A7C7D` | `#F4EBD7` | Selected filter in the directory |
-| Inactive filter | `#F8F5F0` | `#699794` | Available unselected filter |
+| Active filter | `#4A7C7D` | `#FFFFFF` | Selected filter in the directory |
+| Inactive filter | `#FAFAF9` (muted) | `#699794` | Available unselected filter |
 
 ---
 
@@ -877,7 +884,7 @@ Chip props:
 
 ## Pending Polish — Fine-Tuning Items
 
-- [ ] DS-04 Active filter chip — X icon too small and misaligned. Adjust size (13–14px) and vertical alignment in the code.
+- [x] DS-04 Active filter chip — X icon too small and misaligned. Adjust size (13–14px) and vertical alignment in the code. *(Applied 2026-06-11: 14px icon in `chip.tsx`.)*
 
 ---
 
@@ -918,11 +925,11 @@ The avatar identifies the user throughout the app. Always circular. Photo if ava
 | Lavender | `#D0C2E5` | `#60569C` |
 | Light teal | `#B3D4D6` | `#3A5E5F` |
 | Light amber | `#FCC97040` | `#854F0B` |
-| Dark cream | `#D3D1C7` | `#444441` |
+| Cool gray | `#E5E7EB` | `#525252` |
 
 #### With status indicator
 - Dot in the bottom-right corner
-- Online: `#4A7C7D` · Busy: `#FCC970` · Offline: `#D3D1C7`
+- Online: `#4A7C7D` · Busy: `#FCC970` · Offline: `#E5E7EB`
 - Dot size: 10px (MD+) · 8px (SM)
 - White `2px` border around the dot to separate it from the avatar
 
@@ -982,203 +989,164 @@ const colorIndex = name.charCodeAt(0) % colors.length
 
 *Next: Spec DS-06 — Summary and global tokens*
 
-- [ ] DS-05 Avatar — status indicator does not extend beyond the main circle. Adjust `bottom: -2px; right: -2px` so the dot sits outside the avatar border.
-- [ ] DS-01 Navbar — check background colour in the preview, it should be cream `#F4EBD7` not dull yellow. Verify `--color-cream` token in the code.
-- [ ] DS-03 Cards — border too thick. Reduce from `1.5px` to `0.5px solid #E0DDD6`.
-
-- [ ] Global — background change. Cream (`#F4EBD7`) is removed as a screen background colour. Replace with:
-  - Main background: `#ffffff`
-  - Secondary background (surfaces, navbar, alternate sections): `#F5F5F5`
-  - Cream is reserved only for very occasional accent elements where warmth is needed (e.g. landing final CTA)
+- [x] DS-05 Avatar — status indicator does not extend beyond the main circle. Adjust `bottom: -2px; right: -2px` so the dot sits outside the avatar border. *(Applied 2026-06-11 in `avatar.tsx`.)*
+- [x] ~~DS-01 Navbar — cream background~~ — obsolete: cream was removed from the palette in the tweakcn pass (2026-06-11). The navbar uses white / muted `#FAFAF9`.
+- [x] DS-03 Cards — border too thick. Reduce from `1.5px` to `0.5px` hairline. *(Applied 2026-06-11 with the tweakcn border colour `#E5E7EB`.)*
+- [x] Global — background change. Cream removed as a screen background. *(Superseded by the tweakcn theme: main `#FFFFFF`, secondary surfaces = muted `#FAFAF9`. Cream no longer exists as a light-mode token.)*
 
 ---
 
 ## Spec DS-06 — Global Tokens
 
 ### Philosophy
-A single source of truth for all DS values. Any colour, typography or spacing change is made here and propagates throughout the entire app automatically.
+A single source of truth for all DS values: the tweakcn theme in
+`app/globals.css` (`:root` + `@theme inline`). This section documents it —
+**if this doc and the code ever disagree, the code wins.** Tailwind v4:
+tokens live in CSS; there is no `tailwind.config`.
 
 ---
 
-### Colours
+### Colours — semantic (shadcn convention)
 
-#### Backgrounds
+| Token | Light value | Use |
+|-------|-------------|-----|
+| `--background` | `#FFFFFF` | Page and card background |
+| `--foreground` | `#2B2A28` | Main text, names, titles |
+| `--primary` / `-foreground` | `#4A7C7D` / `#FFFFFF` | Primary button (white text), step numbers, main icons |
+| `--secondary` / `-foreground` | `#D0C2E5` / `#60569C` | Lavender surfaces, badge backgrounds |
+| `--muted` / `-foreground` | `#FAFAF9` / `#7A736B` | Disabled/inactive backgrounds · placeholders, tertiary text |
+| `--accent` / `-foreground` | `#FFD894` / `#2B2A28` | Warm amber accent surfaces |
+| `--destructive` / `-foreground` | `#E7000B` / `#FFFFFF` | Destructive borders/states |
+| `--border` | `#E5E7EB` | Card hairlines, dividers |
+| `--input` | `#D0C2E5` | Default input border |
+| `--ring` | `#4A7C7D` | Outline ring |
+
+A full dark-mode palette exists in `globals.css` (`.dark`) — no toggle in the
+MVP, but don't hardcode light values that would break it.
+
+### Colours — HandyFEM extras (defined in `@theme`)
+
 | Token | Value | Use |
 |-------|-------|-----|
-| `--color-bg-primary` | `#ffffff` | Main background for screens and cards |
-| `--color-bg-secondary` | `#F5F5F5` | Alternate sections, search bar, navbar interior |
-| `--color-bg-cream` | `#F4EBD7` | Very occasional use — landing final CTA, warm accent |
-
-#### Primary — teal
-| Token | Value | Use |
-|-------|-------|-----|
-| `--color-primary` | `#4A7C7D` | Primary button, step numbers, main icons |
-| `--color-primary-light` | `#699794` | Muted text, specialty label |
+| `--color-primary-light` | `#699794` | Muted teal text — specialty, labels |
 | `--color-primary-pale` | `#B3D4D6` | Teal avatar, very soft backgrounds |
+| `--color-primary-deep` | `#3A5E5F` | Text on pale teal (city chip, avatar) |
 | `--color-primary-hover` | `#3A6B6C` | Primary button hover |
-
-#### Accent — violet
-| Token | Value | Use |
-|-------|-------|-----|
-| `--color-accent` | `#776AAA` | Secondary button border, links, FEM in logo |
-| `--color-accent-dark` | `#60569C` | Text on lavender, accent hover |
-| `--color-accent-light` | `#8D7BB8` | Light variant |
-| `--color-lavanda` | `#D0C2E5` | Badge backgrounds, lavender avatar, focus ring |
+| `--color-violet` | `#776AAA` | Secondary button border, links |
+| `--color-violet-dark` | `#60569C` | Text on lavender |
+| `--color-violet-light` | `#8D7BB8` | Light variant |
+| `--color-violet-deep` | `#3C3489` | "New" badge text |
+| `--color-lavanda` | `#D0C2E5` | Lavender fills, focus ring base |
 | `--color-lavanda-pale` | `#EEEDFE` | "New" badge background |
-
-#### Text
-| Token | Value | Use |
-|-------|-------|-----|
-| `--color-text-primary` | `#2C2C2A` | Main text, names, titles |
-| `--color-text-muted` | `#699794` | Subtitles, specialty, labels |
-| `--color-text-subtle` | `#B4B2A9` | Placeholder, location, tertiary text |
-
-#### Borders
-| Token | Value | Use |
-|-------|-------|-----|
-| `--color-border` | `#E0DDD6` | Neutral card and default input border |
-| `--color-border-focus` | `#776AAA` | Input border on focus |
-| `--color-border-error` | `#E24B4A` | Input border on error |
-| `--color-border-success` | `#4A7C7D` | Input border on success |
-
-#### Semantic
-| Token | Value | Use |
-|-------|-------|-----|
-| `--color-success-bg` | `#E1F5EE` | Verified badge, in-progress |
-| `--color-success-text` | `#0F6E56` | Text on success background |
-| `--color-warning-bg` | `#FAEEDA` | Pending badge |
-| `--color-warning-text` | `#854F0B` | Text on warning background |
-| `--color-error-bg` | `#FCEBEB` | Input error background |
-| `--color-error-text` | `#A32D2D` | Error text |
-| `--color-amber` | `#FCC970` | Rating stars only |
+| `--color-success` / `-foreground` | `#E1F5EE` / `#0F6E56` | Verified, in-progress badges |
+| `--color-warning` / `-foreground` | `#FAEEDA` / `#854F0B` | Pending badge |
+| `--color-error` / `-foreground` | `#FCEBEB` / `#A32D2D` | Input error background / error text |
+| `--color-inactive` / `-foreground` | `#E5E7EB` / `#525252` | Completed badge, offline dot, gray avatar |
+| `--color-amber` | `#FCC970` | **Rating stars only** |
 
 ---
 
 ### Typography
 
-| Token | Value |
-|-------|-------|
-| `--font-sans` | `Inter, system-ui, sans-serif` |
-| `--font-size-xs` | `11px` |
-| `--font-size-sm` | `12px` |
-| `--font-size-ui` | `13px` |
-| `--font-size-base` | `14px` |
-| `--font-size-md` | `15px` |
-| `--font-size-lg` | `16px` |
-| `--font-size-xl` | `20px` |
-| `--font-size-2xl` | `24px` |
-| `--font-size-3xl` | `32px` |
-| `--font-weight-regular` | `400` |
-| `--font-weight-medium` | `500` |
-| `--line-height-tight` | `1.3` |
-| `--line-height-base` | `1.6` |
-| `--letter-spacing-btn` | `0.02em` |
-| `--letter-spacing-label` | `0.05em` |
+Fonts: see DS-07 (Geist body · Bricolage Grotesque headings). Type scale
+(11–32px, 14px base, mobile-first):
+
+| Utility | Size | Line height |
+|---------|------|-------------|
+| `text-xs` | 11px | 1.3 |
+| `text-sm` | 12px | 1.3 |
+| `text-ui` | 13px | 1.3 |
+| `text-base` | 14px | 1.6 |
+| `text-md` | 15px | 1.6 |
+| `text-lg` | 16px | 1.6 |
+| `text-xl` | 20px | 1.3 |
+| `text-2xl` | 24px | 1.3 |
+| `text-3xl` | 32px | 1.3 |
+
+Weights: `400` (regular) and `500` (medium) only.
+Tracking: `tracking-btn` `0.02em` (buttons) · `tracking-label` `0.05em` (labels/eyebrows).
 
 ---
 
 ### Spacing
 
-4px base system. All values are multiples of 4.
-
-| Token | Value | Use |
-|-------|-------|-----|
-| `--space-1` | `4px` | Minimum gap between inline elements |
-| `--space-2` | `8px` | Gap between icon and text |
-| `--space-3` | `12px` | Internal padding of mobile cards |
-| `--space-4` | `16px` | Gap between form fields |
-| `--space-5` | `20px` | Horizontal padding of desktop cards |
-| `--space-6` | `24px` | Gap between field groups |
-| `--space-8` | `32px` | Section padding |
-| `--space-12` | `48px` | Separation between large sections |
+Tailwind default 4px base (`--spacing: 0.25rem`). All values are multiples
+of 4 via the standard utilities (`gap-2` = 8px, `p-4` = 16px, …). No custom
+spacing tokens.
 
 ---
 
 ### Border Radius
 
-| Token | Value | Use |
-|-------|-------|-----|
-| `--radius-sm` | `6px` | Category badges, chips |
-| `--radius-md` | `8px` | Buttons, inputs, avatar photos in cards |
-| `--radius-lg` | `12px` | Cards, modals, panels |
-| `--radius-xl` | `16px` | Sections, large containers |
-| `--radius-pill` | `9999px` | Navbar, status badges, active filter chips |
+Base `--radius: 0.25rem` (4px) — sharp, from the tweakcn pass. Derived scale:
+
+| Utility | Value | Use |
+|---------|-------|-----|
+| `rounded-md` | 2px | (rarely used) |
+| `rounded-lg` | 4px | Buttons, inputs, chips, card photos |
+| `rounded-xl` | 8px | Cards, modals, panels |
+| `rounded-full` | pill | Status badges, filter chips, avatars |
+
+### Border widths
+
+No Tailwind theme namespace exists for border-width, so two `@utility`
+classes carry the spec values: `border-emphasis` (1.5px — inputs, secondary
+and destructive buttons) and `border-hairline` (0.5px — cards).
 
 ---
 
 ### Shadows
 
-| Token | Value | Use |
-|-------|-------|-----|
-| `--shadow-card` | `0 2px 12px rgba(0,0,0,0.06)` | Cards at rest |
-| `--shadow-card-hover` | `0 8px 24px rgba(74,124,125,0.08)` | Cards on hover |
-| `--shadow-nav` | `0 2px 12px rgba(0,0,0,0.06)` | Navbar at rest |
-| `--shadow-nav-scroll` | `0 4px 24px rgba(74,124,125,0.12)` | Navbar on scroll |
-| `--shadow-focus` | `0 0 0 3px #D0C2E550` | Input and button focus ring |
+The tweakcn ramp (`--shadow-2xs` … `--shadow-2xl`, warm-tinted) plus
+component aliases:
+
+| Alias | Maps to | Use |
+|-------|---------|-----|
+| `shadow-card` | `--shadow-xs` | Cards at rest |
+| `shadow-card-hover` | `--shadow-lg` | Cards on hover |
+| `shadow-nav` | `--shadow-xs` | Navbar at rest |
+| `shadow-nav-scroll` | `--shadow-md` | Navbar on scroll |
+
+Focus rings are **not** a shadow: all interactive elements use the stock
+shadcn treatment `ring-3 ring-ring/50` (+ `border-ring` where a border
+exists), teal via `--ring`.
 
 ---
 
 ### Transitions
 
-| Token | Value | Use |
-|-------|-------|-----|
-| `--t-fast` | `150ms ease` | Button hover, colour changes |
-| `--t-normal` | `300ms ease` | Card hover, panel transitions |
-| `--t-slow` | `600ms ease-out` | Scroll-triggered entry animations |
+| Duration | Use |
+|----------|-----|
+| `150ms ease` | Button hover, colour changes |
+| `300ms ease` | Card hover, panel transitions |
+| `600ms ease-out` | Scroll-triggered entry animations |
+
+Always paired with `motion-reduce:` variants (`prefers-reduced-motion`
+removes transforms/transitions, keeps colour changes).
 
 ---
 
 ### Breakpoints
 
-| Token | Value | Description |
-|-------|-------|-------------|
-| `--bp-mobile` | `< 768px` | Mobile — single-column layout |
-| `--bp-desktop` | `≥ 768px` | Desktop — grid, full navbar |
+Single breakpoint at **768px** (Tailwind `md:`). Mobile-first, no tablet
+breakpoint — intentional decision, same as Borrissol.
 
-No tablet breakpoint — intentional decision, same as Borrissol.
+### Touch targets
 
----
-
-### Touch Targets
-
-| Token | Value |
-|-------|-------|
-| `--min-touch` | `44px` | Minimum on all interactive elements |
+**44px minimum** on all interactive elements (`min-h-11` / `min-w-11` /
+`size-11`).
 
 ---
 
-### Implementation in Next.js + Tailwind
+### Implementation
 
-```css
-/* globals.css */
-:root {
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #F5F5F5;
-  --color-primary: #4A7C7D;
-  --color-accent: #776AAA;
-  /* ... rest of tokens */
-}
-```
-
-```ts
-/* tailwind.config.ts */
-theme: {
-  extend: {
-    colors: {
-      primary: '#4A7C7D',
-      accent: '#776AAA',
-      lavanda: '#D0C2E5',
-      amber: '#FCC970',
-    },
-    borderRadius: {
-      pill: '9999px',
-    }
-  }
-}
-```
+Everything lives in `app/globals.css`: tweakcn variables in `:root`/`.dark`,
+Tailwind mappings + HandyFEM extras in `@theme inline`, border-width
+`@utility` classes, and heading font assignment in `@layer base`. Fonts load
+via `next/font/google` in `app/layout.tsx` (see DS-07). Never create a
+`tailwind.config` — that's the v3 pattern.
 
 ---
-
 ## Design System — Completed ✓
 
 ### Components defined
@@ -1217,8 +1185,8 @@ Register or authenticate the user with minimum friction. Registration creates an
 
 ### Layout
 
-- Background: `--color-bg-secondary` (`#F5F5F5`)
-- Central card: `--color-bg-primary` (`#ffffff`) · `border-radius: 16px` · `border: 0.5px solid #E0DDD6`
+- Background: muted (`#FAFAF9`)
+- Central card: `--background` (`#ffffff`) · `rounded-xl` (8px) · `border-hairline` `#E5E7EB`
 - Card maximum width: `440px`
 - Horizontally and vertically centred on desktop
 - Mobile: full width with no card — form directly on the background
@@ -1379,8 +1347,8 @@ Allow the client to find the right professional with minimum friction. Filters r
 
 | Zone | Detail |
 |------|--------|
-| Background | `#F5F5F5` |
-| Search bar | White background · sticky on scroll · `border-bottom: 0.5px solid #E0DDD6` |
+| Background | Muted `#FAFAF9` |
+| Search bar | White background · sticky on scroll · `border-bottom: 0.5px solid #E5E7EB` |
 | Filter chips | Below the bar · horizontal scroll on mobile |
 | Results | Vertical list on mobile · 2-column grid on desktop |
 | Side padding | `16px` mobile · `24px` desktop |
@@ -1410,7 +1378,7 @@ Allow the client to find the right professional with minimum friction. Filters r
 **Behavior:**
 - Chips are cumulative — several can be active simultaneously
 - Active chip: teal background · cream text · X icon to remove
-- Inactive chip: `#F5F5F5` background · `#E0DDD6` border
+- Inactive chip: `#FAFAF9` (muted) background · `#E5E7EB` border
 - "Clear filters" — ghost link — visible only when filters are active
 - Mobile: chips in horizontal scroll with no wrap
 
@@ -1444,7 +1412,7 @@ Uses DS-03 with these specifications:
 While results are loading:
 - 3 cards with animated grey blocks (`animation: shimmer`)
 - Same dimensions as real cards
-- `background: linear-gradient(90deg, #F5F5F5 25%, #E8E8E8 50%, #F5F5F5 75%)`
+- `background: linear-gradient(90deg, #FAFAF9 25%, #E5E7EB 50%, #FAFAF9 75%)`
 - Duration: 1.5s loop
 
 ---
@@ -1587,7 +1555,7 @@ Floating CTA "Contact"
 
 | Element | Detail |
 |---------|--------|
-| Position | Fixed bottom · full width · padding 12px 16px · white background · `border-top: 0.5px solid #E0DDD6` |
+| Position | Fixed bottom · full width · padding 12px 16px · white background · `border-top: 0.5px solid #E5E7EB` |
 | Button | "Contact {name}" · primary · full width |
 | If not logged in | Pressing opens login modal / redirect to `/login?redirect=/directorio/[id]` |
 | If logged in | Creates conversation in Supabase + redirect to `/chats/[conversationId]` |
@@ -1658,7 +1626,7 @@ Main entry point after login. Shows relevant content based on the active role. A
 
 ### Layout
 
-- Background: `#F5F5F5`
+- Background: muted `#FAFAF9`
 - Fixed header: avatar + name + notifications
 - Role toggle: tab switcher "Client / Professional"
 - Content: changes based on the active role
@@ -1673,7 +1641,7 @@ Main entry point after login. Shows relevant content based on the active role. A
 | Avatar | SM 32px with initials or photo |
 | Greeting | "Hello, {name}" · `font-size: 16px` · `font-weight: 500` |
 | Notifications icon | `ti-bell` · numeric badge if there are pending items |
-| Background | `#fff` · `border-bottom: 0.5px solid #E0DDD6` |
+| Background | `#fff` · `border-bottom: 0.5px solid #E5E7EB` |
 
 ---
 
@@ -1733,7 +1701,7 @@ When the user is in professional mode but hasn't activated their profile:
 | Chats | `ti-message` · badge for new messages | `/chats` |
 | Profile | `ti-user` | `/perfil` |
 
-- Height: 60px · white background · `border-top: 0.5px solid #E0DDD6`
+- Height: 60px · white background · `border-top: 0.5px solid #E5E7EB`
 - Active tab: teal icon + label · rest in muted grey
 - `min-height: 44px` on each tab
 
@@ -1921,7 +1889,7 @@ Allow direct communication between client and professional without intermediarie
 | Element | Detail |
 |---------|--------|
 | Header | "My chats" · `font-size: 18px` · `font-weight: 500` |
-| Background | `#F5F5F5` |
+| Background | Muted `#FAFAF9` |
 | List | Conversation cards ordered by latest activity |
 
 #### Conversation Card
@@ -1959,13 +1927,13 @@ Fixed input     → text field + attach photo + send
 | Avatar | SM 32px |
 | Name | `font-size: 14px` · `font-weight: 500` |
 | Status badge | Pill — New · In progress · Completed · clickable to change |
-| Background | `#fff` · `border-bottom: 0.5px solid #E0DDD6` |
+| Background | `#fff` · `border-bottom: 0.5px solid #E5E7EB` |
 
 #### Message Bubbles
 | Element | Detail |
 |---------|--------|
-| Own message | Right · teal background `#4A7C7D` · cream text · `border-radius: 12px 12px 2px 12px` |
-| Other's message | Left · `#F5F5F5` background · dark text · `border-radius: 12px 12px 12px 2px` |
+| Own message | Right · teal background `#4A7C7D` · white text · `border-radius: 8px 8px 2px 8px` |
+| Other's message | Left · muted `#FAFAF9` background · dark text · `border-radius: 8px 8px 8px 2px` |
 | Timestamp | Below the message · `font-size: 11px` · muted colour |
 | Attached photo | 200px thumbnail · click opens lightbox |
 | Grouping | Consecutive messages from the same sender without repeated avatar |
@@ -1976,7 +1944,7 @@ Fixed input     → text field + attach photo + send
 | Text field | Placeholder "Write a message..." · grows with content · max 4 lines |
 | Attach button | `ti-paperclip` · opens photo selector |
 | Send button | `ti-send` · teal · disabled if the field is empty |
-| Background | `#fff` · `border-top: 0.5px solid #E0DDD6` · padding `8px 16px` |
+| Background | `#fff` · `border-top: 0.5px solid #E5E7EB` · padding `8px 16px` |
 
 #### Status Change
 - Clicking the status badge opens a bottom sheet with options
@@ -2048,33 +2016,30 @@ Fixed input     → text field + attach photo + send
 
 | Use | Font | Fallback |
 |-----|------|----------|
-| Headlines (h1, h2, hero) | Plus Jakarta Sans | system-ui |
-| Body, UI, components | DM Sans | system-ui |
+| Headlines (h1–h4, hero) | Bricolage Grotesque | ui-sans-serif |
+| Body, UI, components | Geist | ui-sans-serif, system-ui |
+| Mono (rare) | Courier Prime | monospace |
 
-Both via `next/font/google` — zero layout shift, optimised loading.
+*(tweakcn decision 2026-06-11 — replaces the earlier DM Sans / Plus Jakarta
+choice.)* All via `next/font/google` — zero layout shift, optimised loading.
 
 ```ts
 // app/layout.tsx
-import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google'
+import { Geist, Bricolage_Grotesque, Courier_Prime } from "next/font/google"
 
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-})
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-})
+const fontSans = Geist({ subsets: ["latin"], variable: "--font-sans", display: "swap" })
+const fontSerif = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-serif", display: "swap" })
+const fontMono = Courier_Prime({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-mono", display: "swap" })
 ```
 
-Tokens:
+Tokens (`app/globals.css`):
 ```css
---font-sans: 'DM Sans', system-ui, sans-serif;
---font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+--font-sans: Geist, ui-sans-serif, sans-serif, system-ui;
+--font-serif: "Bricolage Grotesque", ui-sans-serif, sans-serif;
+--font-mono: "Courier Prime", monospace;
 ```
+
+`h1`–`h4` get `font-serif` (Bricolage) automatically via `@layer base`.
 
 ---
 

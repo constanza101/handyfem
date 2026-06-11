@@ -107,7 +107,10 @@ After any feature touching the backend, run this checklist before saying "done":
 3. New route/action? → zod `.strict()` + auth + ownership checks present.
 4. Touches auth, payments, or PII? → run `/security-review` before merge.
 
-Run `/code-review` after meaningful changes without being asked; suggest
+Run `/code-review` after meaningful changes without being asked. **High
+effort is the right default while we build the app's foundations** (it spawns
+~7 parallel review agents — thorough but slow and credit-expensive; announce
+that cost when starting). Drop to low effort for small routine diffs. Suggest
 `/security-review` whenever a change qualifies under rule 4.
 
 ## Project context
