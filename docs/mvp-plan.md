@@ -247,7 +247,7 @@ Identified during planning — not in MVP but very close:
 
 - [x] GitHub repo created and pushed, branch protection on `main` active (2026-06-11)
 - [x] `.gitignore` with `.env.local` from day one (+ `.githooks/pre-commit` secret detection)
-- [ ] GitHub Actions: `npm audit` + tests on every PR
+- [x] GitHub Actions CI on every PR: lint + build + `npm audit --audit-level=high` (2026-06-11). Add the test step when the first test suite exists (RLS harness, auth slice)
 - [ ] Dependabot enabled
 - [ ] Sentry configured
 - [ ] Supabase: RLS enabled on all tables from the start

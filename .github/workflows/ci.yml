@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches local dev (Node 25) and @types/node; revisit when the
+          # Vercel runtime gets pinned before first deploy
+          node-version: 25
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run build
+
+      # Moderate findings don't fail the build (Next currently vendors a
+      # moderate-level postcss; upstream's to fix). High/critical do.
+      - run: npm audit --audit-level=high
