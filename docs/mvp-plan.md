@@ -254,6 +254,10 @@ Identified during planning — not in MVP but very close:
 - [ ] Supabase Storage: private buckets by default
 - [ ] Vercel: preview branches enabled
 - [ ] Domain configured with automatic HTTPS
+- [ ] Edge 404 short-circuit for bot scan paths (`/wp-admin/*`, `/wp-login.php`,
+      `/xmlrpc.php`, `/.env`, `/.git/*`, `/phpmyadmin/*`, etc.) via middleware
+      or `vercel.json` — bots probe these 50–200×/day and would otherwise burn
+      serverless invocations rendering 404s (lesson from Borrissol)
 - [ ] PWA setup with Serwist — only if PWA stays in MVP (likely deferred)
 - [ ] Resend configured for transactional emails
 
