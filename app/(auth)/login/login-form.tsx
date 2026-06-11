@@ -1,48 +1,43 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
 
 import { login, type AuthState } from "@/app/(auth)/actions"
 import { AuthDivider } from "@/components/forms/auth-divider"
+import { AuthHeader, FormError, TextLink } from "@/components/forms/auth-chrome"
 import { Field } from "@/components/forms/field"
 import { GoogleButton } from "@/components/forms/google-button"
 import { PasswordInput } from "@/components/forms/password-input"
+import { useBlurValidation } from "@/components/forms/use-blur-validation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { loginSchema, validateField } from "@/lib/validations/auth"
+import { loginSchema } from "@/lib/validations/auth"
 
-export function LoginForm() {
+export function LoginForm({ linkError = false }: { linkError?: boolean }) {
   const [state, formAction, pending] = React.useActionState<AuthState, FormData>(
     login,
     null
   )
-  const [blurErrors, setBlurErrors] = React.useState<Record<string, string | undefined>>({})
-
-  function onBlur(e: React.FocusEvent<HTMLInputElement>) {
-    const { name, value } = e.target
-    setBlurErrors((prev) => ({
-      ...prev,
-      [name]: validateField(loginSchema, name, value),
-    }))
-  }
-
-  const errorFor = (name: string) =>
-    blurErrors[name] ?? state?.fieldErrors?.[name]
+  const { onBlur, errorFor } = useBlurValidation(loginSchema, state)
 
   return (
     <div className="flex flex-col gap-5">
-      <header>
-        <h1 className="text-2xl font-medium">Bienvenida de nuevo</h1>
-        <p className="mt-1 text-base text-muted-foreground">
-          Inicia sesión en tu cuenta de HandyFEM
+      <AuthHeader
+        title="Bienvenida de nuevo"
+        subtitle="Inicia sesión en tu cuenta de HandyFEM"
+      />
+
+      {linkError && (
+        <p role="alert" className="text-sm text-error-foreground">
+          El enlace ha caducado o no es válido. Inicia sesión o solicita uno
+          nuevo desde &ldquo;¿Olvidaste tu contraseña?&rdquo;.
         </p>
-      </header>
+      )}
 
       <GoogleButton />
       <AuthDivider />
 
-      <form action={formAction} className="flex flex-col gap-4">
+      <form action={formAction} noValidate className="flex flex-col gap-4">
         <fieldset disabled={pending} className="flex flex-col gap-4">
           <Field label="Email" required error={errorFor("email")}>
             <Input
@@ -50,6 +45,7 @@ export function LoginForm() {
               type="email"
               autoComplete="email"
               autoFocus
+              defaultValue={state?.values?.email}
               onBlur={onBlur}
             />
           </Field>
@@ -62,32 +58,19 @@ export function LoginForm() {
           </Field>
         </fieldset>
 
-        <Link
-          href="/reset-password"
-          className="self-start text-ui text-violet-dark underline-offset-4 hover:underline"
-        >
+        <TextLink href="/reset-password" className="self-start text-ui">
           ¿Olvidaste tu contraseña?
-        </Link>
+        </TextLink>
 
         <Button type="submit" className="w-full" loading={pending}>
           {pending ? "Iniciando sesión…" : "Iniciar sesión"}
         </Button>
 
-        <div aria-live="polite">
-          {state?.formError && (
-            <p className="text-sm text-error-foreground">{state.formError}</p>
-          )}
-        </div>
+        <FormError>{state?.formError}</FormError>
       </form>
 
       <p className="text-center text-base text-muted-foreground">
-        ¿No tienes cuenta?{" "}
-        <Link
-          href="/signup"
-          className="text-violet-dark underline-offset-4 hover:underline"
-        >
-          Regístrate
-        </Link>
+        ¿No tienes cuenta? <TextLink href="/signup">Regístrate</TextLink>
       </p>
     </div>
   )

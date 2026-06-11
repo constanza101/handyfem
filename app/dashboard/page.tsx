@@ -1,10 +1,9 @@
 import type { Metadata } from "next"
-import { redirect } from "next/navigation"
 
 import { signOut } from "@/app/(auth)/actions"
 import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { createClient } from "@/lib/supabase/server"
+import { requireUser } from "@/lib/supabase/auth"
 
 export const metadata: Metadata = {
   title: "Panel — HandyFEM",
@@ -13,20 +12,21 @@ export const metadata: Metadata = {
 /** Placeholder until Spec 05 (dashboard with role toggle). Proves the auth
  *  loop end to end: session → RLS-protected profile read → sign out. */
 export default async function DashboardPage() {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { supabase, userId, email } = await requireUser()
 
-  if (!user) redirect("/login")
-
-  const { data: profile } = await supabase
+  const { data: profile, error } = await supabase
     .from("profiles")
     .select("display_name")
-    .eq("id", user.id)
+    .eq("id", userId)
     .single()
 
-  const name = profile?.display_name || "—"
+  if (error) {
+    // A missing profile means the signup trigger failed — surface it in
+    // logs instead of silently greeting the user with a placeholder.
+    console.error("profiles row missing for authenticated user:", error.code)
+  }
+
+  const name = profile?.display_name || email || "HandyFEM"
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-6 px-4 py-12 md:px-6">
@@ -35,7 +35,7 @@ export default async function DashboardPage() {
           <Avatar name={name} size="md" />
           <div>
             <h1 className="text-xl font-medium">Hola, {name}</h1>
-            <p className="text-sm text-muted-foreground">{user.email}</p>
+            <p className="text-sm text-muted-foreground">{email}</p>
           </div>
         </div>
         <form action={signOut}>

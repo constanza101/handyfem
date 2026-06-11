@@ -31,8 +31,10 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  // Refreshes the auth token if expired; required for SSR sessions
-  await supabase.auth.getUser()
+  // Refreshes the auth token if expired. getClaims verifies the JWT locally
+  // (cached JWKS) and only hits the network when a refresh is actually
+  // needed — unlike getUser, which is a round-trip on every request.
+  await supabase.auth.getClaims()
 
   return supabaseResponse
 }

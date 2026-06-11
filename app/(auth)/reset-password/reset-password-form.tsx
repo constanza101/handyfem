@@ -1,18 +1,21 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
 
 import { requestPasswordReset, type AuthState } from "@/app/(auth)/actions"
+import { AuthHeader, TextLink } from "@/components/forms/auth-chrome"
 import { Field } from "@/components/forms/field"
+import { useBlurValidation } from "@/components/forms/use-blur-validation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { resetRequestSchema } from "@/lib/validations/auth"
 
 export function ResetPasswordForm() {
   const [state, formAction, pending] = React.useActionState<AuthState, FormData>(
     requestPasswordReset,
     null
   )
+  const { onBlur, errorFor } = useBlurValidation(resetRequestSchema, state)
 
   if (state?.status === "sent") {
     return (
@@ -27,17 +30,22 @@ export function ResetPasswordForm() {
 
   return (
     <div className="flex flex-col gap-5">
-      <header>
-        <h1 className="text-2xl font-medium">Restablece tu contraseña</h1>
-        <p className="mt-1 text-base text-muted-foreground">
-          Te enviaremos un enlace para crear una nueva.
-        </p>
-      </header>
+      <AuthHeader
+        title="Restablece tu contraseña"
+        subtitle="Te enviaremos un enlace para crear una nueva."
+      />
 
-      <form action={formAction} className="flex flex-col gap-4">
+      <form action={formAction} noValidate className="flex flex-col gap-4">
         <fieldset disabled={pending} className="flex flex-col gap-4">
-          <Field label="Email" required error={state?.fieldErrors?.email}>
-            <Input name="email" type="email" autoComplete="email" autoFocus />
+          <Field label="Email" required error={errorFor("email")}>
+            <Input
+              name="email"
+              type="email"
+              autoComplete="email"
+              autoFocus
+              defaultValue={state?.values?.email}
+              onBlur={onBlur}
+            />
           </Field>
         </fieldset>
         <Button type="submit" className="w-full" loading={pending}>
@@ -46,12 +54,7 @@ export function ResetPasswordForm() {
       </form>
 
       <p className="text-center text-base text-muted-foreground">
-        <Link
-          href="/login"
-          className="text-violet-dark underline-offset-4 hover:underline"
-        >
-          Volver a iniciar sesión
-        </Link>
+        <TextLink href="/login">Volver a iniciar sesión</TextLink>
       </p>
     </div>
   )

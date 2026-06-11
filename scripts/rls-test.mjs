@@ -14,9 +14,9 @@ if (!url || !publishableKey || !secretKey) {
   process.exit(1)
 }
 
-const admin = createClient(url, secretKey, {
-  auth: { persistSession: false, autoRefreshToken: false },
-})
+const NO_SESSION = { auth: { persistSession: false, autoRefreshToken: false } }
+
+const admin = createClient(url, secretKey, NO_SESSION)
 
 const results = []
 function check(name, pass, detail = "") {
@@ -37,9 +37,7 @@ async function createUser(label) {
 }
 
 async function signedInClient(user) {
-  const client = createClient(url, publishableKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  })
+  const client = createClient(url, publishableKey, NO_SESSION)
   const { error } = await client.auth.signInWithPassword({
     email: user.email,
     password: user.password,
@@ -61,9 +59,7 @@ try {
   check("trigger creates a profile per signup", created?.length === 2)
 
   // Anonymous (signed-out) client sees nothing
-  const anon = createClient(url, publishableKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  })
+  const anon = createClient(url, publishableKey, NO_SESSION)
   const { data: anonRows } = await anon.from("profiles").select("id")
   check("anon client reads zero profiles", (anonRows ?? []).length === 0)
 
