@@ -43,6 +43,7 @@ erDiagram
     professional_profiles ||--o{ conversations : "as professional"
     conversations ||--o{ messages : "contains"
     conversations ||--o| reviews : "enables (after completion)"
+    conversations ||--o| client_ratings : "enables (after completion)"
     reviews ||--o| review_replies : "right of reply"
     profiles ||--o{ blocks : "blocker"
     profiles ||--o{ reports : "reporter"
@@ -202,6 +203,37 @@ and RLS can't restrict single columns).
 `id`, `review_id` FK UNIQUE, `professional_id` FK, `body`, `created_at`.
 Public SELECT; INSERT only by the reviewed professional; one per review.
 
+### `client_ratings` — professional → client (added to MVP 2026-06-11)
+
+Backs the mvp-plan §11 promise: a professional sees a client's history (number
+of completed services, ratings from previous professionals) before accepting a
+job. **Never public.**
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | uuid PK | |
+| `conversation_id` | uuid FK → conversations, UNIQUE | One rating per completed service |
+| `author_professional_id` | uuid FK → professional_profiles | The rater |
+| `client_id` | uuid FK → profiles | Denormalized for the history lookup |
+| `rating` | smallint CHECK 1–5 | |
+| `created_at` | timestamptz | |
+
+**Deliberately no free-text field.** Written notes about a client are personal
+data the client can demand under GDPR right of access, plus a defamation and
+moderation risk with no admin panel in MVP. The number alone gives the signal.
+
+**Access:** INSERT only when the author is the conversation's professional AND
+the conversation is `completed` (same gate as `reviews`). SELECT only by users
+who own an activated professional profile **and share a conversation with that
+client** — a professional can check a client who contacted her, but cannot
+browse or scrape ratings of arbitrary clients. The rated client cannot read
+these rows in-app; they are still disclosable via a GDPR subject access
+request (handled as a process, not a screen).
+
+The client history shown in chat is a `security_invoker` view:
+`client_history` (`client_id`, `completed_services_count`, `avg_rating`,
+`rating_count`).
+
 ### Ratings aggregate
 
 No stored counters in MVP. A SQL view `professional_ratings`
@@ -224,6 +256,7 @@ correct by construction, no sync bugs. Optimize later if the directory needs it.
 | reports | — | INSERT; R own | — | — | all (moderation) |
 | reviews | R | R | INSERT (completed convo) | — | all |
 | review_replies | R | R | INSERT (own review's professional) | — | all |
+| client_ratings | — | — | INSERT (completed convo, as professional) | R (professionals sharing a conversation with the client) | all |
 
 Every cell marked "—" is a **negative test** in the RLS test script.
 
@@ -239,7 +272,8 @@ Every cell marked "—" is a **negative test** in the RLS test script.
    GIN on `work_cities`, `is_published`).
 4. **Chat & safety slice:** `conversations`, `messages`, `blocks`, `reports`
    (+ moderation email hook). Blocks and reports ship **with** chat, not after.
-5. **Reviews slice:** `reviews`, `review_replies`, `professional_ratings` view.
+5. **Reviews slice:** `reviews`, `review_replies`, `client_ratings`,
+   `professional_ratings` and `client_history` views.
 
 ---
 
@@ -254,19 +288,18 @@ When an account is erased (real deletion script, mvp-plan §3):
 | blocks | DELETE rows in both directions |
 | reports | Keep (legal/safety record) but anonymize `reporter_id` if the reporter is the one deleting |
 | reviews | Decide at implementation: delete vs anonymize author ("former client"). Anonymizing preserves the professional's earned reputation — leaning anonymize, confirm with GDPR guidance |
+| client_ratings | Client deletes → DELETE (the data is about them). Professional deletes → keep but anonymize the author (the signal protects other professionals) |
 
 ---
 
 ## Open questions
 
-1. **Professional → client ratings.** mvp-plan §11 promises the professional
-   can see a client's history "ratings from previous professionals" before
-   accepting a job. That's a second review direction (visible only to
-   professionals, never public) and is **not** covered by the `reviews` table
-   above. Decide: in MVP (extra table + flow) or soften §11 for v1.
-2. **Specialty seed list.** Which trades exactly, and in which form (the list
+1. **Specialty seed list.** Which trades exactly, and in which form (the list
    in mvp-plan line 3 is a start). Needed before the onboarding slice.
-3. **Storage provider** — R2 vs Supabase Storage (tracked in
+2. **Storage provider** — R2 vs Supabase Storage (tracked in
    product-decisions.md). Schema is unaffected thanks to principle 5.
-4. **Moderation email mechanism** for reports: Supabase DB webhook vs doing it
+3. **Moderation email mechanism** for reports: Supabase DB webhook vs doing it
    in the API route that creates the report. Decide in the chat & safety slice.
+
+~~Professional → client ratings~~ — resolved 2026-06-11: in the MVP, see
+`client_ratings` above (rating only, no free text).
