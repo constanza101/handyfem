@@ -3,7 +3,7 @@
 App for tradeswomen (women in the skilled trades — electricians, plumbers, carpenters, welders, mechanics, HVAC technicians, construction, renovations, painting, installations, maintenance).
 
 **Status:** Specs complete — in active development
-**Last updated:** 2026-05-29
+**Last updated:** 2026-06-11
 
 ---
 
@@ -65,7 +65,12 @@ If the architecture doesn't reflect this, the product has no reason to exist.
 - Stack traces never visible to the user — generic error boundaries in the UI
 - Default deny on CORS, on Supabase Storage buckets, on API routes
 - Environment variables NEVER committed — `.env.local` in `.gitignore` from day one
-- Supabase photo buckets: private by default, signed URLs with expiration
+- Storage buckets: private by default, signed URLs with expiration. **Deliberate
+  exception (2026-06-11):** portfolio and profile photos live in a public bucket —
+  they appear on public SSR pages with per-profile Open Graph previews, and
+  expiring URLs would break SEO/OG caching. Server-side MIME/size validation
+  still applies. Provider under discussion (Cloudflare R2 vs Supabase Storage —
+  see product-decisions.md)
 
 ### A06 — Vulnerable Components
 - `npm audit` in CI before every deploy (GitHub Actions)
@@ -74,7 +79,9 @@ If the architecture doesn't reflect this, the product has no reason to exist.
 
 ### A07 — Identification and Authentication Failures
 - **Don't roll your own auth** — Supabase Auth
-- **2FA mandatory for professionals** when activating their profile (not optional)
+- **2FA strongly recommended for professionals** — prompted at profile activation,
+  not mandatory (decision 2026-06-11: mandatory 2FA is too much friction for the
+  first cohort of professionals)
 - Rate limiting on login: 5 attempts, then captcha — Supabase handles it + additional middleware
 - Max sessions 30 days with refresh token
 - Google OAuth to reduce signup friction
@@ -180,14 +187,15 @@ If the architecture doesn't reflect this, the product has no reason to exist.
 | Feature | Notes |
 |---------|-------|
 | Landing page | SSR, SEO, general Open Graph |
-| Sign up / Log in | Email + Google OAuth, email verification, 2FA for professionals |
+| Sign up / Log in | Email + Google OAuth, email verification, 2FA recommended for professionals |
 | Public directory | Search by specialty + city, filters, SSR for SEO |
 | Public professional profile | Friendly URL, custom Open Graph per profile, Schema.org |
 | Unified dashboard | Client/professional role toggle |
 | Professional onboarding | 4 steps, portfolio, cities of work |
 | Basic chat | Realtime with Supabase, service status |
 | Basic Block / Report | One-click, reaches the moderation email |
-| PWA installability | manifest.json, icons, splash screen, `next-pwa` |
+| Reviews (client → professional) | Added 2026-06-11 — public profiles show ratings, so the MVP needs the flow that produces them. Only after both parties confirm "job completed"; right of reply for the professional |
+| PWA installability | 🟡 Likely deferred to v1.5 (decision pending). If kept: Serwist — `next-pwa` is unmaintained |
 | Privacy policy + ToS | In Spanish, GDPR-compliant |
 | Transactional emails | Verification, welcome, new-message notification |
 
@@ -229,14 +237,16 @@ Identified during planning — not in MVP but very close:
 |---------|-----------|
 | `docs/handyfem-specs.md` | Full specs: design system + 7 MVP screens |
 | `docs/mvp-plan.md` | This file — security, privacy, decisions |
+| `docs/data-model.md` | DB tables, RLS access matrix, migration order, deletion map |
+| `docs/product-decisions.md` | Decision log — decided vs under discussion |
 | `docs/handyfem-claude-code-prompt.md` | Prompt for Claude Code |
 
 ---
 
 ## 8. Setup checklist — before writing code
 
-- [ ] Create a GitHub repo with branch protection on `main`
-- [ ] `.gitignore` with `.env.local` from day one
+- [ ] Create a GitHub repo with branch protection on `main` (local repo exists — no remote yet)
+- [x] `.gitignore` with `.env.local` from day one (+ `.githooks/pre-commit` secret detection)
 - [ ] GitHub Actions: `npm audit` + tests on every PR
 - [ ] Dependabot enabled
 - [ ] Sentry configured
@@ -244,7 +254,7 @@ Identified during planning — not in MVP but very close:
 - [ ] Supabase Storage: private buckets by default
 - [ ] Vercel: preview branches enabled
 - [ ] Domain configured with automatic HTTPS
-- [ ] `next-pwa` configured for PWA installability
+- [ ] PWA setup with Serwist — only if PWA stays in MVP (likely deferred)
 - [ ] Resend configured for transactional emails
 
 ---
@@ -255,7 +265,7 @@ Identified during planning — not in MVP but very close:
 - [PortSwigger Web Security Academy](https://portswigger.net/web-security)
 - [GDPR / AEPD resources in Spanish](https://www.aepd.es/)
 - [Supabase RLS docs](https://supabase.com/docs/guides/auth/row-level-security)
-- [next-pwa](https://github.com/shadowwalker/next-pwa)
+- [Serwist](https://serwist.pages.dev/) — PWA tooling, successor to the unmaintained next-pwa
 - [Resend + React Email](https://resend.com/docs/send-with-nextjs)
 - [Sentry Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/)
 - Reference apps: Brigad (France) — KYC and matching, Vinted — messaging + masked number, Wallapop — block + reporting flows

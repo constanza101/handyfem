@@ -3,7 +3,7 @@
 A log of decisions made during the kickoff sessions. Keep what's **decided**
 separate from what's still **under discussion** so we don't lose the thread.
 
-Last updated: 2026-06-01
+Last updated: 2026-06-11
 
 ---
 
@@ -29,9 +29,39 @@ Last updated: 2026-06-01
 - The **IDV provider integration** (see Didit below) comes in v2, when manual no
   longer scales.
 
+### Plan review — 2026-06-11
+- **Reviews are IN the MVP** (client → professional). Public profiles show
+  ratings, so the MVP needs the flow that produces them. Gated on the
+  both-party "job completed" confirmation, with right of reply for the
+  professional.
+- **Image storage: buckets private by default, with one deliberate public
+  bucket** for portfolio/profile photos (public SSR pages + per-profile Open
+  Graph previews need stable URLs; expiring signed URLs would break SEO/OG).
+  Server-side MIME/size validation still applies. Provider under discussion
+  (see Cloudflare R2 below).
+- **2FA for professionals: strongly recommended, not mandatory.** Prompted at
+  profile activation; mandatory 2FA is too much friction for the first cohort.
+- **PWA installability: likely deferred to v1.5.** If/when implemented, use
+  Serwist — `next-pwa` (shadowwalker) is unmaintained and doesn't target
+  Next.js 16.
+
 ---
 
 ## 🟡 Under discussion / likely direction (not final)
+
+### Image storage provider — Cloudflare R2 vs Supabase Storage
+- Candidate: **Cloudflare R2** — ~10 GB storage free and **zero egress fees**,
+  vs Supabase free tier (1 GB storage, metered egress). Attractive for an
+  image-heavy directory.
+- Trade-offs to confirm before deciding: a second vendor and SDK; no RLS
+  integration (access control lives in bucket policy / our API routes — fine
+  for the public portfolio bucket, more work for private files); needs its own
+  GDPR check (DPA, EU data location); uploads go through our API route or
+  presigned URLs instead of supabase-js.
+- **Default if still undecided when we reach the photos slice:** start with
+  Supabase Storage (one vendor, simpler) and migrate to R2 if limits bite.
+  Keep image references provider-agnostic in the DB: store **paths/keys, never
+  full URLs**, so migration is a config change.
 
 ### Monetization model (v2)
 - Main idea: **list for free (unverified) + pay to get verified** (Meta Verified style:
