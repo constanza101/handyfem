@@ -50,6 +50,17 @@ Last updated: 2026-06-11
   right-of-access and defamation risk with no moderation panel in MVP. Never
   public; visible only to professionals who share a conversation with that
   client. See `client_ratings` in data-model.md.
+- **Visual tokens: the tweakcn theme in `app/globals.css` is the source of
+  truth** over the hex values written in the DS specs (which predate it).
+  Consequences: white text on primary buttons (not cream), no warm neutrals
+  (ivory/sand replaced with cool grays), Geist + Bricolage Grotesque fonts,
+  4px radius base. The specs doc carries a note at the top of Visual Identity.
+- **Component styling layer: stock shadcn/ui** (what tweakcn previews — tweakcn
+  exports only tokens, not styles). Inputs/select/checkbox/textarea keep shadcn
+  defaults plus 44px touch minimums; focus rings are the stock teal
+  `ring-ring/50` everywhere. Custom treatments are reserved for what shadcn
+  doesn't define: button variants, badges, chips, the professional card, and
+  the Field wrapper.
 
 ---
 
