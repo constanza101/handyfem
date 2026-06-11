@@ -44,6 +44,12 @@ Last updated: 2026-06-11
 - **PWA installability: likely deferred to v1.5.** If/when implemented, use
   Serwist — `next-pwa` (shadowwalker) is unmaintained and doesn't target
   Next.js 16.
+- **Professional → client ratings are IN the MVP** (backs the "client history
+  visible before accepting a job" promise in mvp-plan §11). Numeric rating
+  only, **no free text** — written notes about a client are a GDPR
+  right-of-access and defamation risk with no moderation panel in MVP. Never
+  public; visible only to professionals who share a conversation with that
+  client. See `client_ratings` in data-model.md.
 
 ---
 
