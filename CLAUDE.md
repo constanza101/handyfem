@@ -28,6 +28,13 @@ copy-paste command I run in my own terminal costs nothing.
 Tasks that require judgment (reviewing code, debugging, architectural decisions)
 are different — there the value is in the reasoning, so just do them directly.
 
+## Git workflow
+
+- **Branch protection is active on `main`** (since 2026-06-11). Never commit or
+  push directly to `main`: create a feature branch, push it, open a PR with
+  `gh`, and I merge it on GitHub. Run `/code-review` on the branch before
+  opening the PR.
+
 ## Secrets
 - The Jira scripts (`docs/handyfem-jira-*.js`) read credentials from environment
   variables (`JIRA_EMAIL`, `JIRA_API_TOKEN`) — the token is never written in the code.

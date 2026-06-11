@@ -245,7 +245,7 @@ Identified during planning — not in MVP but very close:
 
 ## 8. Setup checklist — before writing code
 
-- [ ] Create a GitHub repo with branch protection on `main` (local repo exists — no remote yet)
+- [x] GitHub repo created and pushed, branch protection on `main` active (2026-06-11)
 - [x] `.gitignore` with `.env.local` from day one (+ `.githooks/pre-commit` secret detection)
 - [ ] GitHub Actions: `npm audit` + tests on every PR
 - [ ] Dependabot enabled
