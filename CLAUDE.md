@@ -136,7 +136,65 @@ Tailwind v4: config lives in CSS (`@theme` in app/globals.css), not in tailwind.
   (colors, etc.) live in `@theme` inside `app/globals.css`.
 - Mobile first — single breakpoint at 768px.
 - Color tokens in globals.css — never hardcode hex values in components.
+- **No arbitrary-value utilities** (`p-[13px]`, `text-[#4A7C7D]`, `w-[37px]`).
+  They are the Tailwind equivalent of hardcoding. If a value isn't in the
+  theme, add it to `@theme` in `app/globals.css` first, then use the generated
+  utility. One-off layout measurements with no reusable meaning are the only
+  exception — and deserve a comment.
+- **Route paths and anchor IDs in English, lowercase** (`/login`, `/dashboard`,
+  `#services`) even though the UI is Spanish — matches the specs and keeps one
+  canonical slug per resource. Professional profile slugs are **user data**,
+  not routes: Spanish is correct there and SEO-positive for the Spanish market
+  (`/maria-lopez-electricista-barcelona`).
 - Validate with zod in every API route.
 - Accessibility: 44px min-height on interactive elements, aria-labels, focus rings.
 - Always `@media (hover: hover)` for hover effects.
 - Always respect `prefers-reduced-motion` in animations.
+
+## Reuse-first — never copy structure into a third place
+
+Lesson imported from Borrissol: utility-class styling makes duplication
+invisible. Two JSX blocks that both use theme utilities pass every "no
+hardcoding" rule and still drift apart (one card keeps an old radius after the
+others change). Tokens prevent **value** drift; this rule prevents
+**structure** drift.
+
+- **Triggers — stop and extract, don't wait for a third copy:**
+  - (a) the same section/card/list JSX appears in **2+ files** → extract a
+    component now;
+  - (b) building several similar screens in one session → build the first,
+    extract the shared skeleton, compose the rest from it — never generate
+    screen 2 by copy-pasting screen 1;
+  - (c) two copies differ only incidentally → assume the differences are
+    accidental, verify with the spec before preserving any "variant" (most
+    collapse into one).
+- Pass per-instance values as **props**; use `children` / composition for the
+  one-off exception instead of a pile of boolean flags. If unsure whether two
+  things are "identical enough," propose the extraction and its prop shape
+  before writing it.
+- **Repeated Tailwind class strings are the drift vector.** If the same string
+  of utilities expressing one visual pattern shows up in 2+ places, extract a
+  component or a `cva` variant (the shadcn/ui pattern). Never rebuild what a
+  shadcn/ui component already provides — extend it with variants.
+
+## Verification workflow
+
+- **UI work: guided manual verification.** After a significant UI change,
+  don't run test suites on your own — give me the dev server command/URL and
+  tell me exactly what to look at and what "correct" looks like. Visual
+  accuracy in the browser beats terminal output during the UI build phase.
+- **Backend & security: automated tests, always.** RLS negative tests and
+  validation tests run without being asked — never "guided manual" for
+  security (see Backend & Security). This is the deliberate opposite of the
+  UI rule.
+
+## Assets
+
+- Always `next/image` — never a raw `<img>`. Hero/LCP image gets `priority`;
+  everything else stays lazy (the default).
+- Nothing in `/public/` over 500 KB without written justification. OG images:
+  JPG (not PNG), 1200×630, under 300 KB — a Figma PNG export silently eating
+  bandwidth is how Borrissol shipped a 4 MB OG image.
+- Fonts via `next/font` (self-hosted, WOFF2), only the weights actually used.
+- Pre-deploy audit for offenders:
+  `find public -type f -exec ls -laS {} + | sort -k5 -n -r | head -10`
