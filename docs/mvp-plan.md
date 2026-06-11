@@ -259,7 +259,11 @@ Identified during planning — not in MVP but very close:
       or `vercel.json` — bots probe these 50–200×/day and would otherwise burn
       serverless invocations rendering 404s (lesson from Borrissol)
 - [ ] PWA setup with Serwist — only if PWA stays in MVP (likely deferred)
-- [ ] Resend configured for transactional emails
+- [ ] Resend configured for transactional emails — **also unlocks editing the
+      Supabase auth email templates** (locked behind custom SMTP), which is
+      required to switch links to `/auth/confirm?token_hash=…` so
+      verification/reset emails work cross-device (route is already built;
+      snippets in the auth-slice PR description). Blocker for launch.
 
 ---
 
