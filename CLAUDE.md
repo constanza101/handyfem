@@ -92,6 +92,9 @@ proactively — flag violations even when I don't ask.
   details server-side.
 - **Rate-limit auth and write endpoints** (login, signup, listing creation)
   before launch — track this as a pre-launch blocker.
+- **Validate redirect targets.** Any `redirectTo`/`next` param (auth callbacks,
+  post-login redirects) is user input: accept only same-origin relative paths —
+  never redirect to a client-supplied absolute URL (open-redirect → phishing).
 
 ### Workflow
 
@@ -106,6 +109,19 @@ After any feature touching the backend, run this checklist before saying "done":
 2. New data exposed? → confirm the anon client can't read it without auth.
 3. New route/action? → zod `.strict()` + auth + ownership checks present.
 4. Touches auth, payments, or PII? → run `/security-review` before merge.
+
+### Pre-launch blockers — the single tracked list
+
+Must land before the first public deploy; when feature work creates a new
+"do this before launch" item, add it here instead of leaving it in a chat log:
+
+1. Rate limiting on auth and write endpoints (see above).
+2. Secret scanning in CI (see Secrets).
+3. Security headers in `next.config`: Content-Security-Policy,
+   Strict-Transport-Security, X-Content-Type-Options, Referrer-Policy,
+   Permissions-Policy.
+4. Dependency hygiene: lockfile committed, CI installs with `npm ci`,
+   `npm audit` with no high/critical findings.
 
 Run `/code-review` after meaningful changes without being asked. **High
 effort is the right default while we build the app's foundations** (it spawns
@@ -150,7 +166,12 @@ Tailwind v4: config lives in CSS (`@theme` in app/globals.css), not in tailwind.
   not routes: Spanish is correct there and SEO-positive for the Spanish market
   (`/maria-lopez-electricista-barcelona`).
 - Validate with zod in every API route.
-- Accessibility: 44px min-height on interactive elements, aria-labels, focus rings.
+- Accessibility: 44px min-height on interactive elements, aria-labels, focus
+  rings, text contrast ≥ 4.5:1 (WCAG AA), and never color as the only indicator
+  of state — pair it with text or an icon.
+- **Every screen that fetches data ships its loading, empty, and error states
+  in the same PR.** A blank screen is a missing state, not a default; empty
+  states tell the user what to do next.
 - Always `@media (hover: hover)` for hover effects.
 - Always respect `prefers-reduced-motion` in animations.
 
