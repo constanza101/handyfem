@@ -151,6 +151,13 @@ try {
     .eq("id", ppA.id)
   check("anon cannot read unpublished professional_profile", (anonDraft ?? []).length === 0)
 
+  // NEGATIVE: a logged-in non-owner also cannot read the draft
+  const { data: bDraft } = await asB
+    .from("professional_profiles")
+    .select("id")
+    .eq("id", ppA.id)
+  check("user B cannot read user A's draft profile", (bDraft ?? []).length === 0)
+
   // Owner can see her own draft
   const { data: ownDraft } = await asA
     .from("professional_profiles")
@@ -179,6 +186,14 @@ try {
     .eq("id", ppA.id)
     .select("id")
   check("owner cannot self-set verified", verifyErr !== null)
+
+  // ...and the stored value is unchanged (not merely an error returned)
+  const { data: aVerified } = await admin
+    .from("professional_profiles")
+    .select("verified")
+    .eq("id", ppA.id)
+    .single()
+  check("user A's profile is still unverified", aVerified?.verified === false)
 
   // Owner publishes her own profile
   const { data: published } = await asA
@@ -232,6 +247,21 @@ try {
     .select("id")
     .eq("id", photo.id)
   check("anon reads photo of published profile", anonPhoto?.length === 1)
+
+  // Unpublishing hides the profile's photos from the public again
+  const { data: unpublished } = await asA
+    .from("professional_profiles")
+    .update({ is_published: false })
+    .eq("id", ppA.id)
+    .select("id")
+  check("owner can unpublish own profile", unpublished?.length === 1)
+
+  // NEGATIVE: photos of an unpublished profile are not publicly readable
+  const { data: anonPhotoHidden } = await anon
+    .from("portfolio_photos")
+    .select("id")
+    .eq("id", photo.id)
+  check("anon cannot read photo of unpublished profile", (anonPhotoHidden ?? []).length === 0)
 } catch (err) {
   console.error("Harness error:", err.message)
   process.exitCode = 1
