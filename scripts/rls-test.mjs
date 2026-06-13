@@ -114,6 +114,124 @@ try {
     .eq("id", userA.id)
     .select("id")
   check("owner cannot delete own profile via API", (deleted ?? []).length === 0)
+
+  // ── specialties (public lookup) ──────────────────────────────────────────
+  const { data: specs } = await anon.from("specialties").select("id, slug")
+  check("anon reads specialties (public lookup)", (specs ?? []).length > 0)
+
+  const { error: specWriteErr } = await asA
+    .from("specialties")
+    .insert({ name: "Rogue", slug: `rogue-${Date.now()}` })
+  check("authenticated user cannot insert specialties", specWriteErr !== null)
+
+  const specialtyId = specs?.find((s) => s.slug === "electricidad")?.id ?? specs?.[0]?.id
+
+  // ── professional_profiles (public storefront) ────────────────────────────
+  const asB = await signedInClient(userB)
+
+  // Owner creates her own profile, as a draft (is_published defaults false)
+  const { data: ppA } = await asA
+    .from("professional_profiles")
+    .insert({
+      profile_id: userA.id,
+      slug: `rls-a-${Date.now()}`,
+      specialty_id: specialtyId,
+      professional_name: "Pro A",
+      bio: "x".repeat(60),
+      work_cities: ["Barcelona"],
+    })
+    .select("id")
+    .single()
+  check("owner creates own professional_profile (draft)", !!ppA?.id)
+
+  // NEGATIVE: anon cannot see a draft
+  const { data: anonDraft } = await anon
+    .from("professional_profiles")
+    .select("id")
+    .eq("id", ppA.id)
+  check("anon cannot read unpublished professional_profile", (anonDraft ?? []).length === 0)
+
+  // Owner can see her own draft
+  const { data: ownDraft } = await asA
+    .from("professional_profiles")
+    .select("id")
+    .eq("id", ppA.id)
+  check("owner reads own draft profile", ownDraft?.length === 1)
+
+  // NEGATIVE: A cannot create a profile owned by B
+  const { error: forgeErr } = await asA
+    .from("professional_profiles")
+    .insert({
+      profile_id: userB.id,
+      slug: `rls-forge-${Date.now()}`,
+      specialty_id: specialtyId,
+      professional_name: "Forged",
+      bio: "y".repeat(60),
+      work_cities: ["Barcelona"],
+    })
+    .select("id")
+  check("user A cannot create a profile owned by user B", forgeErr !== null)
+
+  // NEGATIVE: owner cannot self-grant verified (column privilege, not RLS)
+  const { error: verifyErr } = await asA
+    .from("professional_profiles")
+    .update({ verified: true })
+    .eq("id", ppA.id)
+    .select("id")
+  check("owner cannot self-set verified", verifyErr !== null)
+
+  // Owner publishes her own profile
+  const { data: published } = await asA
+    .from("professional_profiles")
+    .update({ is_published: true })
+    .eq("id", ppA.id)
+    .select("id")
+  check("owner can publish own profile", published?.length === 1)
+
+  // Anon now reads the published profile
+  const { data: anonPub } = await anon
+    .from("professional_profiles")
+    .select("id")
+    .eq("id", ppA.id)
+  check("anon reads published professional_profile", anonPub?.length === 1)
+
+  // NEGATIVE: B cannot update A's profile
+  const { data: bUpdate } = await asB
+    .from("professional_profiles")
+    .update({ bio: "hacked" })
+    .eq("id", ppA.id)
+    .select("id")
+  check("user B cannot update user A's profile", (bUpdate ?? []).length === 0)
+
+  // NEGATIVE: owner cannot delete her profile via the API (GDPR script only)
+  const { data: ppDeleted } = await asA
+    .from("professional_profiles")
+    .delete()
+    .eq("id", ppA.id)
+    .select("id")
+  check("owner cannot delete professional_profile via API", (ppDeleted ?? []).length === 0)
+
+  // ── portfolio_photos ─────────────────────────────────────────────────────
+  const { data: photo } = await asA
+    .from("portfolio_photos")
+    .insert({ professional_id: ppA.id, storage_path: `a/${crypto.randomUUID()}.jpg`, position: 0 })
+    .select("id")
+    .single()
+  check("owner adds portfolio photo to own profile", !!photo?.id)
+
+  // NEGATIVE: B cannot add a photo to A's profile
+  const { error: photoForgeErr } = await asB
+    .from("portfolio_photos")
+    .insert({ professional_id: ppA.id, storage_path: `b/${crypto.randomUUID()}.jpg`, position: 0 })
+    .select("id")
+  check("user B cannot add a photo to user A's profile", photoForgeErr !== null)
+
+  // Anon reads a photo of a published profile
+  const { data: anonPhoto } = await anon
+    .from("portfolio_photos")
+    .select("id")
+    .eq("id", photo.id)
+  check("anon reads photo of published profile", anonPhoto?.length === 1)
 } catch (err) {
   console.error("Harness error:", err.message)
   process.exitCode = 1
