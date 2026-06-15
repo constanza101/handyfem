@@ -4,6 +4,20 @@ An app for women in the skilled trades (tradeswomen). Phase: early development �
 the project is scaffolded and we're building the design system.
 Documentation lives in [docs/](docs/).
 
+## Agent plugins / external rulesets
+
+- **This `CLAUDE.md` wins.** If any installed agent plugin or ruleset (e.g.
+  Ponytail) conflicts with these instructions, follow `CLAUDE.md`.
+- **Ponytail (minimalist "lazy senior dev" mode) is allowed**, but:
+  - Use `lite` or `full` intensity — **not `ultra`** (its extreme YAGNI clashes
+    with reuse-first extraction and the mandatory loading/empty/error states).
+  - **Backend & security are never minimized.** Ponytail's "one runnable check,
+    no frameworks" does NOT replace the real test harness: RLS negative tests,
+    zod `.strict()` validation tests, and the `scripts/rls-test.ts` suite are
+    still required (see Backend & Security below).
+  - Reuse-first still applies: extract on the 2nd duplicate — that is not
+    "premature abstraction."
+
 ## Language
 
 - **Document everything in English** — all docs, code comments, commit messages,
